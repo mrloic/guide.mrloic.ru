@@ -1,0 +1,26 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>{% block title %}{{ page_title|default(site_name|default('Halcyonic')) }}{% endblock %}</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="/assets/css/main.css">
+		{% block head %}{% endblock %}
+	</head>
+	<body class="{{ body_class|default('') }}">
+		<div id="page-wrapper">
+
+			{% block header %}
+				{% include 'partials/header.twig' %}
+			{% endblock %}
+
+			{% block content %}{% endblock %}
+
+			{% include 'partials/copyright.twig' %}
+
+		</div>
+
+		{% include 'partials/scripts.twig' %}
+		{% block javascripts %}{% endblock %}
+	</body>
+</html>

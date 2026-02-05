@@ -1,0 +1,28 @@
+{# 
+  Expected variables:
+  - site_name: string
+  - logo_href: string (optional)
+  - nav: [{ key: 'home', label: 'Homepage', href: '/...' }, ...]
+  - active: string key of active nav item (optional)
+#}
+<section id="header">
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+
+				<!-- Logo -->
+					<h1><a href="{{ logo_href|default(nav[0].href|default('/')) }}" id="logo">{{ site_name|default('Halcyonic') }}</a></h1>
+
+				<!-- Nav -->
+					<nav id="nav">
+						{% for item in nav|default([]) %}
+							<a href="{{ item.href }}">{{ item.label }}</a>
+						{% endfor %}
+					</nav>
+
+			</div>
+		</div>
+	</div>
+
+	{% block header_bottom %}{% endblock %}
+</section>
