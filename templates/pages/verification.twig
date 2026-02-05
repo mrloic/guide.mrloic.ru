@@ -1,0 +1,70 @@
+{% extends 'layouts/base.twig' %}
+
+{% set page_title = 'Проверка' %}
+{% set body_class = 'subpage' %}
+
+{% block content %}
+<section id="content">
+	<div class="container">
+		<div class="row">
+			<div class="col-9 col-12-medium">
+
+				<section>
+					<header>
+						<h2>Проверка</h2>
+						<p>Подтверждаем, что архитектура реально переживает отказы и соответствует целям SLO/RTO/RPO.</p>
+					</header>
+
+					<h3>1) Проверка доступности</h3>
+					<ul class="check-list">
+						<li>Health-checks на балансировщике корректно “выключают” проблемные узлы.</li>
+						<li>При остановке одного узла приложение остаётся доступным.</li>
+						<li>Ошибки 5xx/таймауты не выходят за допустимые пределы.</li>
+					</ul>
+
+					<h3>2) Проверка отказов (failure testing)</h3>
+					<ul class="check-list">
+						<li>Останови один узел приложения: нет простоя, запросы перераспределяются.</li>
+						<li>Сымитируй отказ БД-узла: переключение на реплику/лидера выполняется по сценарию.</li>
+						<li>Проверь деградацию: при частичном отказе сервис работает в “урезанном”, но контролируемом режиме.</li>
+					</ul>
+
+					<h3>3) Проверка производительности</h3>
+					<ul class="check-list">
+						<li>Нагрузочный тест ключевых API/страниц.</li>
+						<li>Проверка “узких мест”: БД, кэш, очередь, диски, сеть.</li>
+					</ul>
+
+					<h3>4) Проверка восстановления</h3>
+					<ul class="check-list">
+						<li>Восстанови БД из бэкапа в отдельное окружение.</li>
+						<li>Зафиксируй фактические RTO и RPO (время и потеря данных).</li>
+					</ul>
+				</section>
+
+			</div>
+
+			<div class="col-3 col-12-medium">
+				<section>
+					<header><h2>Метрики</h2></header>
+					<ul class="link-list">
+						<li>Доступность (SLO)</li>
+						<li>Латентность p95/p99</li>
+						<li>Ошибки 4xx/5xx</li>
+						<li>RTO / RPO</li>
+					</ul>
+				</section>
+
+				<section>
+					<header><h2>Навигация</h2></header>
+					<ul class="link-list">
+						<li><a href="/configuration">Настройка</a></li>
+						<li><a href="/installation">Установка</a></li>
+					</ul>
+				</section>
+			</div>
+
+		</div>
+	</div>
+</section>
+{% endblock %}

@@ -10,29 +10,52 @@ final class PageController
     private function baseData(string $active): array
     {
         return [
-            'site_name' => 'Halcyonic',
+            'site_name' => 'Отказоустойчивая архитектура для SaaS',
             'active' => $active,
             'nav' => [
-                ['title' => 'Home', 'href' => '/'],
-                ['title' => 'Left Sidebar', 'href' => '/left-sidebar'],
-                ['title' => 'Right Sidebar', 'href' => '/right-sidebar'],
-                ['title' => 'No Sidebar', 'href' => '/no-sidebar'],
+                ['title' => 'О руководстве', 'href' => '/'],
+                ['title' => 'Требования', 'href' => '/requirements'],
+                ['title' => 'Обзор серверного оборудования', 'href' => '/hardware'],
+                ['title' => 'Установка', 'href' => '/installation'],
+                ['title' => 'Проверка', 'href' => '/verification'],
+                ['title' => 'Настройка', 'href' => '/configuration'],
+                ['title' => 'Дополнительно', 'href' => '/additional'],
             ],
         ];
     }
 
-    public function leftSidebar(Environment $twig): void
+    public function about(Environment $twig): void
     {
-        echo $twig->render('pages/left-sidebar.twig', $this->baseData('/left-sidebar'));
+        echo $twig->render('pages/index.twig', $this->baseData('/'));
     }
 
-    public function rightSidebar(Environment $twig): void
+    public function requirements(Environment $twig): void
     {
-        echo $twig->render('pages/right-sidebar.twig', $this->baseData('/right-sidebar'));
+        echo $twig->render('pages/requirements.twig', $this->baseData('/requirements'));
     }
 
-    public function noSidebar(Environment $twig): void
+    public function hardware(Environment $twig): void
     {
-        echo $twig->render('pages/no-sidebar.twig', $this->baseData('/no-sidebar'));
+        echo $twig->render('pages/hardware.twig', $this->baseData('/hardware'));
+    }
+
+    public function installation(Environment $twig): void
+    {
+        echo $twig->render('pages/installation.twig', $this->baseData('/installation'));
+    }
+
+    public function verification(Environment $twig): void
+    {
+        echo $twig->render('pages/verification.twig', $this->baseData('/verification'));
+    }
+
+    public function configuration(Environment $twig): void
+    {
+        echo $twig->render('pages/configuration.twig', $this->baseData('/configuration'));
+    }
+
+    public function additional(Environment $twig): void
+    {
+        echo $twig->render('pages/additional.twig', $this->baseData('/additional'));
     }
 }

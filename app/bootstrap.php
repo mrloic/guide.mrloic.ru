@@ -18,7 +18,8 @@ if (!is_dir($cacheDir)) {
 $loader = new FilesystemLoader($templatesDir);
 
 $twig = new Environment($loader, [
-    'cache' => $cacheDir,      // в разработке можно false
+    'cache' => false,
+    // 'cache' => $cacheDir,      // в разработке можно false
     'auto_reload' => true,
 ]);
 

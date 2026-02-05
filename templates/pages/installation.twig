@@ -1,0 +1,78 @@
+{% extends 'layouts/base.twig' %}
+
+{% set page_title = 'Установка' %}
+{% set body_class = 'subpage' %}
+
+{% block content %}
+<section id="content">
+	<div class="container">
+		<div class="row">
+			<div class="col-9 col-12-medium">
+
+				<section>
+					<header>
+						<h2>Установка</h2>
+						<p>Собираем базовую платформу: ОС, сеть, приложение, данные, бэкапы.</p>
+					</header>
+
+					<h3>Шаг 1. Базовая подготовка ОС</h3>
+					<ul class="check-list">
+						<li>Обнови систему и включи авто-обновления безопасности (где применимо).</li>
+						<li>Настрой пользователей/SSH-ключи, отключи парольный вход.</li>
+						<li>Синхронизация времени (NTP/chrony) — критично для кластеров.</li>
+					</ul>
+
+					<h3>Шаг 2. Сетевая схема</h3>
+					<ul class="check-list">
+						<li>Раздели публичный и внутренний трафик (VLAN/подсети).</li>
+						<li>Задай правила firewall: наружу только нужные порты (HTTP/HTTPS), внутрь — по принципу наименьших привилегий.</li>
+					</ul>
+
+					<h3>Шаг 3. Балансировщик и TLS</h3>
+					<ul class="check-list">
+						<li>Подними L7-балансировку и терминацию TLS.</li>
+						<li>Настрой health-checks и graceful-drain (чтобы узлы выводились без потери запросов).</li>
+					</ul>
+
+					<h3>Шаг 4. Данные и хранилище</h3>
+					<ul class="check-list">
+						<li>Разверни СУБД и включи репликацию/кластер по выбранной модели.</li>
+						<li>Вынеси конфигурации/секреты из кода (env/файлы/хранилище секретов).</li>
+						<li>Определи политику миграций схемы (версирование).</li>
+					</ul>
+
+					<h3>Шаг 5. Бэкапы</h3>
+					<ul class="check-list">
+						<li>Снимай бэкапы БД + конфигов + критичных артефактов.</li>
+						<li>Храни копии отдельно от прод-сервера (другой узел/бакет).</li>
+						<li>Сразу запланируй тест восстановления (restore-drill).</li>
+					</ul>
+				</section>
+
+			</div>
+
+			<div class="col-3 col-12-medium">
+				<section>
+					<header><h2>Чек-лист</h2></header>
+					<ul class="link-list">
+						<li>SSH-ключи, firewall</li>
+						<li>NTP включён</li>
+						<li>TLS и health-checks</li>
+						<li>Репликация данных</li>
+						<li>Бэкапы + restore-drill</li>
+					</ul>
+				</section>
+
+				<section>
+					<header><h2>Навигация</h2></header>
+					<ul class="link-list">
+						<li><a href="/verification">Проверка</a></li>
+						<li><a href="/hardware">Оборудование</a></li>
+					</ul>
+				</section>
+			</div>
+
+		</div>
+	</div>
+</section>
+{% endblock %}

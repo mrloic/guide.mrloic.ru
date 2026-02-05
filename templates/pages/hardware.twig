@@ -1,0 +1,72 @@
+{% extends 'layouts/base.twig' %}
+
+{% set page_title = 'Обзор серверного оборудования' %}
+{% set body_class = 'subpage' %}
+
+{% block content %}
+<section id="content">
+	<div class="container">
+		<div class="row">
+			<div class="col-9 col-12-medium">
+
+				<section>
+					<header>
+						<h2>Обзор серверного оборудования</h2>
+						<p>Подбираем железо под цели доступности, масштабирования и стоимости владения SaaS.</p>
+					</header>
+
+					<h3>1) Узлы (compute)</h3>
+					<ul class="check-list">
+						<li><strong>CPU:</strong> упор на стабильную производительность и достаточный запас по ядрам.</li>
+						<li><strong>RAM:</strong> ключевой ресурс для БД/кэшей/очередей.</li>
+						<li><strong>Диски:</strong> NVMe для БД и журналов; отдельные тома под логи.</li>
+						<li><strong>Сеть:</strong> минимум 1–10 Gbit (в зависимости от профиля нагрузки).</li>
+					</ul>
+
+					<h3>2) Хранилище и данные</h3>
+					<ul class="check-list">
+						<li><strong>RAID:</strong> не “бэкап”, а средство пережить отказ диска.</li>
+						<li><strong>Резервные копии:</strong> отдельное хранилище/бакет, политика версий, проверка восстановления.</li>
+						<li><strong>Репликация:</strong> минимум 2–3 узла для критичных данных (в зависимости от СУБД).</li>
+					</ul>
+
+					<h3>3) Сетевая инфраструктура</h3>
+					<ul class="check-list">
+						<li><strong>Балансировщик:</strong> L7 (HTTP) и/или L4 (TCP) в зависимости от сервисов.</li>
+						<li><strong>Сегментация:</strong> публичная зона, внутренняя зона, зона данных.</li>
+						<li><strong>Резервирование:</strong> два аплинка/два коммутатора, где это оправдано.</li>
+					</ul>
+
+					<h3>4) Минимальные “профили” под старт</h3>
+					<ul>
+						<li><strong>Dev/PoC:</strong> 1–2 VM, бэкапы, базовый мониторинг.</li>
+						<li><strong>Small prod:</strong> 2 узла приложения + реплика БД + бэкапы + LB.</li>
+						<li><strong>Prod HA:</strong> 3+ узла приложения, кластер данных, кворум, раздельные зоны/хосты.</li>
+					</ul>
+				</section>
+
+			</div>
+
+			<div class="col-3 col-12-medium">
+				<section>
+					<header><h2>Памятка</h2></header>
+					<ul class="link-list">
+						<li>Запас по ресурсам 30–50%.</li>
+						<li>Диски/сеть часто “узкое место”.</li>
+						<li>Сначала SLA/RTO/RPO — потом железо.</li>
+					</ul>
+				</section>
+
+				<section>
+					<header><h2>Навигация</h2></header>
+					<ul class="link-list">
+						<li><a href="/installation">Установка</a></li>
+						<li><a href="/requirements">Требования</a></li>
+					</ul>
+				</section>
+			</div>
+
+		</div>
+	</div>
+</section>
+{% endblock %}

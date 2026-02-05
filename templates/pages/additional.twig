@@ -1,0 +1,68 @@
+{% extends 'layouts/base.twig' %}
+
+{% set page_title = 'Дополнительно' %}
+{% set body_class = 'subpage' %}
+
+{% block content %}
+<section id="content">
+	<div class="container">
+		<div class="row">
+			<div class="col-9 col-12-medium">
+
+				<section>
+					<header>
+						<h2>Дополнительно</h2>
+						<p>Материалы и практики, которые усиливают отказоустойчивость и упрощают сопровождение SaaS.</p>
+					</header>
+
+					<h3>1) Документация и регламенты</h3>
+					<ul class="check-list">
+						<li>Runbook: что делать при типовых инцидентах.</li>
+						<li>Playbook: пошаговые процедуры (фейловер, восстановление, релиз).</li>
+						<li>Postmortem: разбор инцидентов без поиска виноватых, но с мерами.</li>
+					</ul>
+
+					<h3>2) DR и резервные площадки</h3>
+					<ul class="check-list">
+						<li>Стратегии: cold/warm/hot standby.</li>
+						<li>План переключения и регулярные учения.</li>
+						<li>Разделение рисков: разные зоны/хосты/провайдеры (если нужно).</li>
+					</ul>
+
+					<h3>3) Практики надёжности</h3>
+					<ul class="check-list">
+						<li>Chaos-подход (в разумных пределах): тестируем отказы до того, как они случатся сами.</li>
+						<li>Лимиты и timeouts везде, где возможна “цепная реакция”.</li>
+						<li>Rate limiting и защита от перегрузки.</li>
+					</ul>
+
+					<h3>4) Что делать дальше</h3>
+					<ul>
+						<li>Фиксировать SLO, измерять фактические показатели.</li>
+						<li>Автоматизировать релизы и проверки.</li>
+						<li>Регулярно прогонять сценарии восстановления.</li>
+					</ul>
+				</section>
+
+			</div>
+
+			<div class="col-3 col-12-medium">
+				<section>
+					<header><h2>Навигация</h2></header>
+					<ul class="link-list">
+						<li><a href="/configuration">Настройка</a></li>
+						<li><a href="/verification">Проверка</a></li>
+						<li><a href="/installation">Установка</a></li>
+					</ul>
+				</section>
+
+				<section>
+					<header><h2>Итог</h2></header>
+					<p>Цель — предсказуемое поведение системы при сбоях и быстрый возврат в норму.</p>
+				</section>
+			</div>
+
+		</div>
+	</div>
+</section>
+{% endblock %}

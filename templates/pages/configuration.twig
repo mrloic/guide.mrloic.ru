@@ -1,0 +1,71 @@
+{% extends 'layouts/base.twig' %}
+
+{% set page_title = 'Настройка' %}
+{% set body_class = 'subpage' %}
+
+{% block content %}
+<section id="content">
+	<div class="container">
+		<div class="row">
+			<div class="col-9 col-12-medium">
+
+				<section>
+					<header>
+						<h2>Настройка</h2>
+						<p>Доводим платформу до эксплуатационного состояния: мониторинг, логирование, алерты, процессы.</p>
+					</header>
+
+					<h3>1) Мониторинг и алертинг</h3>
+					<ul class="check-list">
+						<li>Системные метрики: CPU/RAM/Disk/IO/Network.</li>
+						<li>Метрики приложения: RPS, латентность, ошибки, очереди.</li>
+						<li>Алерты по SLO: не “шум”, а сигнал о деградации сервиса.</li>
+					</ul>
+
+					<h3>2) Логи и трассировка</h3>
+					<ul class="check-list">
+						<li>Единый формат логов, корреляция по request_id/trace_id.</li>
+						<li>Централизация логов и ретеншн (срок хранения).</li>
+						<li>Трассировка для поиска проблем в цепочках сервисов (если архитектура микросервисная).</li>
+					</ul>
+
+					<h3>3) Обновления и релизы</h3>
+					<ul class="check-list">
+						<li>Стратегия деплоя: rolling / blue-green / canary.</li>
+						<li>План отката (rollback) и миграции БД без простоя.</li>
+						<li>Проверки перед релизом: smoke-тесты, health-checks.</li>
+					</ul>
+
+					<h3>4) Безопасность</h3>
+					<ul class="check-list">
+						<li>Принцип наименьших привилегий, отдельные роли для сервисов.</li>
+						<li>Секреты вне репозитория, ротация ключей.</li>
+						<li>Регулярные обновления и контроль уязвимостей.</li>
+					</ul>
+				</section>
+
+			</div>
+
+			<div class="col-3 col-12-medium">
+				<section>
+					<header><h2>Фокус</h2></header>
+					<ul class="link-list">
+						<li>Наблюдаемость (observability)</li>
+						<li>Управляемые релизы</li>
+						<li>Аварийные сценарии</li>
+					</ul>
+				</section>
+
+				<section>
+					<header><h2>Навигация</h2></header>
+					<ul class="link-list">
+						<li><a href="/additional">Доп. материалы</a></li>
+						<li><a href="/verification">Проверке</a></li>
+					</ul>
+				</section>
+			</div>
+
+		</div>
+	</div>
+</section>
+{% endblock %}
