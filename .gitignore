@@ -3,3 +3,6 @@
 /vendor
 /var/cache/twig
 /Дополнительные файлы
+/replace.js
+/replace.php
+/replace.ps1
