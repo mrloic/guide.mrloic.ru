@@ -1,10 +1,7 @@
-/vendor/*
 /.osp
-/vendor
 /var/cache/twig
 /Дополнительные файлы
 /replace.js
 /replace.php
 /replace.ps1
 /guide.rar
-/.github
