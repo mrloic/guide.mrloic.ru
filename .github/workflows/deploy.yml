@@ -1,0 +1,38 @@
+name: Deploy to Beget
+
+on:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Prepare SSH
+        shell: bash
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.BEGET_SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -p "${{ secrets.BEGET_PORT }}" "${{ secrets.BEGET_HOST }}" >> ~/.ssh/known_hosts
+
+      - name: Deploy with rsync
+        shell: bash
+        run: |
+          rsync -avz --delete \
+            --exclude ".git/" \
+            --exclude ".github/" \
+            --exclude ".gitignore" \
+            --exclude "README.md" \
+            -e "ssh -i ~/.ssh/id_rsa -p ${{ secrets.BEGET_PORT }}" \
+            ./ \
+            "${{ secrets.BEGET_USER }}@${{ secrets.BEGET_HOST }}:${{ secrets.BEGET_TARGET_DIR }}/"
