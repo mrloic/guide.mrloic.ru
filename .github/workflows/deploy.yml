@@ -26,10 +26,22 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -p "${{ secrets.BEGET_PORT }}" "${{ secrets.BEGET_HOST }}" >> ~/.ssh/known_hosts
 
+      - name: Check remote directory
+        shell: bash
+        run: |
+          ssh -i ~/.ssh/id_rsa -p ${{ secrets.BEGET_PORT }} \
+            "${{ secrets.BEGET_USER }}@${{ secrets.BEGET_HOST }}" \
+            "pwd && ls -la '${{ secrets.BEGET_TARGET_DIR }}'"
+
       - name: Deploy with rsync
         shell: bash
         run: |
-          rsync -avz --delete \
+          rsync -rzv \
+            --delete \
+            --omit-dir-times \
+            --no-perms \
+            --no-owner \
+            --no-group \
             --exclude ".git/" \
             --exclude ".github/" \
             --exclude ".gitignore" \
