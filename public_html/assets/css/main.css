@@ -1509,6 +1509,10 @@ input, select, textarea {
 
 /* Header */
 
+	#logo > span {
+		margin-left: 50px;
+	}
+
 	#header {
 		position: relative;
 		background: #3B4346 url("images/bg01.jpg");
@@ -1546,7 +1550,7 @@ input, select, textarea {
 				color: #c6c8c8;
 				text-decoration: none;
 				font-size: 1.4em;
-				margin-left: 60px;
+				margin-left: 35px;
 				outline: 0;
 			}
 

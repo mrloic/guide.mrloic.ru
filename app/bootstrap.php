@@ -5,15 +5,14 @@ use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 use Twig\TwigFunction;
 
-require __DIR__ . '/../vendor/autoload.php';
-
 $projectRoot  = dirname(__DIR__);
 $templatesDir = $projectRoot . '/templates';
 $cacheDir     = $projectRoot . '/var/cache/twig';
 
-if (!is_dir($cacheDir)) {
-    mkdir($cacheDir, 0777, true);
+if (!is_dir($cacheDir) && !@mkdir($cacheDir, 0777, true) && !is_dir($cacheDir)) {
+    throw new \RuntimeException(sprintf('Directory "%s" was not created', $cacheDir));
 }
+
 
 $loader = new FilesystemLoader($templatesDir);
 
@@ -24,15 +23,21 @@ $twig = new Environment($loader, [
 ]);
 
 // Если сайт не в корне домена, basePath будет вида "/something"
-$basePath = rtrim(dirname($_SERVER['SCRIPT_NAME'] ?? '/'), '/');
-if ($basePath === '') $basePath = '';
+$basePath = rtrim(str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'] ?? '/')), '/');
+define('BASE_PATH', $basePath);
 
-$twig->addFunction(new TwigFunction('asset', function (string $path) use ($basePath): string {
-    return $basePath . '/' . ltrim($path, '/');
+$twig->addFunction(new TwigFunction('asset', function (string $path): string {
+    if (preg_match('#^https?://#', $path)) {
+        return $path;
+    }
+    return BASE_PATH . '/' . ltrim($path, '/');
 }));
 
-$twig->addFunction(new TwigFunction('url', function (string $path = '') use ($basePath): string {
-    return $basePath . '/' . ltrim($path, '/');
+$twig->addFunction(new TwigFunction('url', function (string $path = ''): string {
+    if (preg_match('#^https?://#', $path)) {
+        return $path;
+    }
+    return BASE_PATH . '/' . ltrim($path, '/');
 }));
 
 return $twig;

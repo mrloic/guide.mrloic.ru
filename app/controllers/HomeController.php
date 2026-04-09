@@ -10,7 +10,7 @@ final class HomeController
     public function index(Environment $twig): void
     {
         echo $twig->render('pages/index.twig', [
-            'site_name' => 'Halcyonic',
+            'site_name' => 'ReMarked',
             'active' => '/',
             'nav' => [
                 ['title' => 'Home', 'href' => '/'],
