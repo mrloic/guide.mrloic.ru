@@ -1,0 +1,57 @@
+<h2 data-heading="Этап 9. Создание административного пользователя" dir="auto">
+  Этап 9. Создание административного пользователя
+</h2>
+<p dir="auto">
+  Для безопасной работы не рекомендуется постоянно использовать пользователя <code>root</code>. Необходимо создать
+  отдельного администратора и выдать ему права <code>sudo</code>.
+</p>
+<p dir="auto">
+  Создать пользователя:
+</p>
+<pre class="language-bash">
+  <code class="language-bash is-loaded"><span class="token function">sudo</span> adduser sysadmin</code>
+</pre>
+<p dir="auto">
+  Добавить пользователя в группу <code>sudo</code>:
+</p>
+<pre class="language-bash">
+  <code class="language-bash is-loaded">
+    <span class="token function">sudo</span> <span class="token function">usermod</span>
+    <span class="token parameter variable">-aG</span> <span class="token function">sudo</span> sysadmin
+  </code>
+</pre>
+<p dir="auto">
+  Проверить группы пользователя:
+</p>
+<pre class="language-bash">
+  <code class="language-bash is-loaded"><span class="token function">groups</span> sysadmin</code>
+</pre>
+<p dir="auto">
+  Ожидаемый результат должен содержать группу:
+</p>
+<pre class="language-bash">
+  <code class="language-bash is-loaded"><span class="token function">sudo</span></code>
+</pre>
+<p dir="auto">
+  Переключиться на нового пользователя:
+</p>
+<pre class="language-bash">
+  <code class="language-bash is-loaded"><span class="token function">su</span> - sysadmin</code>
+</pre>
+<p dir="auto">
+  Проверить права sudo:
+</p>
+<pre class="language-bash">
+  <code class="language-bash is-loaded">
+    <span class="token function">sudo</span> <span class="token function">whoami</span>
+  </code>
+</pre>
+<p dir="auto">
+  Ожидаемый результат:
+</p>
+<pre class="language-bash">
+  <code class="language-bash is-loaded">root</code>
+</pre>
+<p dir="auto">
+  Если команда возвращает <code>root</code>, значит пользователь <code>sysadmin</code> может выполнять административные действия.
+</p>

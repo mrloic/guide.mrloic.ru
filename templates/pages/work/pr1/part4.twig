@@ -1,0 +1,70 @@
+<h2 data-heading="Технические требования к виртуальной машине" dir="auto">
+  Технические требования к виртуальной машине
+</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Параметр</th>
+      <th align="right">Минимальное значение</th>
+      <th align="right">Рекомендуемое значение</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>CPU</td>
+      <td align="right">2 vCPU</td>
+      <td align="right">4 vCPU</td>
+    </tr>
+    <tr>
+      <td>RAM</td>
+      <td align="right">2 GB</td>
+      <td align="right">4 GB или больше</td>
+    </tr>
+    <tr>
+      <td>Диск</td>
+      <td align="right">20 GB</td>
+      <td align="right">40 GB SSD/NVMe</td>
+    </tr>
+    <tr>
+      <td>Архитектура</td>
+      <td align="right">x86_64 / amd64</td>
+      <td align="right">x86_64 / amd64</td>
+    </tr>
+    <tr>
+      <td>Сетевой адаптер</td>
+      <td align="right">1 адаптер</td>
+      <td align="right">1 адаптер в режиме bridge</td>
+    </tr>
+    <tr>
+      <td>Доступ в Интернет</td>
+      <td align="right">обязателен</td>
+      <td align="right">обязателен</td>
+    </tr>
+    <tr>
+      <td>Тип ОС</td>
+      <td align="right">Linux Server</td>
+      <td align="right">Debian 12 или Ubuntu Server LTS</td>
+    </tr>
+    <tr>
+      <td>Доступ к серверу</td>
+      <td align="right">консоль ВМ</td>
+      <td align="right">консоль ВМ и SSH</td>
+    </tr>
+  </tbody>
+</table>
+<p dir="auto">
+  Для Ubuntu Server официальная документация указывает минимальные рекомендуемые требования для базовой установки: не
+  менее <strong>2 GB RAM</strong> и <strong>5 GB дискового пространства</strong>. Для учебной SaaS-инфраструктуры
+  рекомендуется выделять больше ресурсов, так как далее на сервер будут установлены веб-сервер, PHP, Redis и
+  дополнительные служебные компоненты. (<a
+    data-tooltip-position="top"
+    aria-label="https://ubuntu.com/server/docs/tutorial/basic-installation/?utm_source=chatgpt.com"
+    rel="noopener nofollow"
+    class="external-link"
+    title="Basic installation - Ubuntu Server documentation"
+    href="https://ubuntu.com/server/docs/tutorial/basic-installation/?utm_source=chatgpt.com"
+    target="_blank"
+  >
+    Ubuntu
+  </a>)
+</p>

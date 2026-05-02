@@ -1,0 +1,42 @@
+<h2 data-heading="Этап 8. Настройка часового пояса" dir="auto">Этап 8. Настройка часового пояса</h2>
+<p dir="auto">
+  Корректный часовой пояс важен для журналов, резервного копирования, расписаний cron/systemd timer и анализа
+  инцидентов.
+</p>
+<p dir="auto">
+  Проверить текущий часовой пояс:
+</p>
+<pre class="language-bash">
+  <code class="language-bash is-loaded">timedatectl</code>
+</pre>
+<p dir="auto">
+  Посмотреть список доступных часовых поясов:
+</p>
+<pre class="language-bash">
+  <code class="language-bash is-loaded">timedatectl list-timezones</code>
+</pre>
+<p dir="auto">
+  Для Екатеринбурга можно установить:
+</p>
+<pre class="language-bash">
+  <code class="language-bash is-loaded">
+    <span class="token function">sudo</span> timedatectl set-timezone Asia/Yekaterinburg
+  </code>
+</pre>
+<p dir="auto">
+  Для Москвы:
+</p>
+<pre class="language-bash">
+  <code class="language-bash is-loaded">
+    <span class="token function">sudo</span> timedatectl set-timezone Europe/Moscow
+  </code>
+</pre>
+<p dir="auto">
+  Проверить результат:
+</p>
+<pre class="language-bash">
+  <code class="language-bash is-loaded">timedatectl</code>
+</pre>
+<p dir="auto">
+  Ожидаемый результат должен содержать выбранный часовой пояс.
+</p>

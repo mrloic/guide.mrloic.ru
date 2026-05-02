@@ -1,0 +1,79 @@
+<h2 data-heading="Этап 5. Обновление списка пакетов и системы" dir="auto">
+  Этап 5. Обновление списка пакетов и системы
+</h2>
+<p dir="auto">
+  После проверки сети необходимо обновить список пакетов и установить актуальные обновления.
+</p>
+<p dir="auto">
+  Для Debian и Ubuntu используется пакетный менеджер <code>apt</code>. Debian Reference описывает Debian как систему,
+  администрирование которой выполняется через стандартные shell-команды и системные инструменты; обновление пакетов
+  через <code>apt</code> является базовой операцией сопровождения Debian/Ubuntu-сервера. (<a
+    data-tooltip-position="top"
+    aria-label="https://www.debian.org/doc/manuals/debian-reference/debian-reference.en.pdf"
+    rel="noopener nofollow"
+    class="external-link"
+    title="Debian Reference"
+    href="https://www.debian.org/doc/manuals/debian-reference/debian-reference.en.pdf"
+    target="_blank"
+  >
+    Debian
+  </a>)
+</p>
+<p dir="auto">
+  Выполнить обновление списка пакетов:
+</p>
+<pre class="language-bash">
+  <code class="language-bash is-loaded">
+    <span class="token function">sudo</span> <span class="token function">apt</span> update
+  </code>
+</pre>
+<p dir="auto">
+  Выполнить обновление установленных пакетов:
+</p>
+<pre class="language-bash">
+  <code class="language-bash is-loaded">
+    <span class="token function">sudo</span> <span class="token function">apt</span> upgrade <span
+      class="token parameter variable"
+    >
+      -y
+    </span>
+  </code>
+</pre>
+<p dir="auto">
+  После обновления рекомендуется выполнить перезагрузку, особенно если обновлялось ядро или системные библиотеки:
+</p>
+<pre class="language-bash">
+  <code class="language-bash is-loaded">
+    <span class="token function">sudo</span> <span class="token function">reboot</span>
+  </code>
+</pre>
+<p dir="auto">
+  После перезагрузки снова войти в систему и проверить версию ОС:
+</p>
+<pre class="language-bash">
+  <code class="language-bash is-loaded"><span class="token function">cat</span> /etc/os-release</code>
+</pre>
+<p dir="auto">
+  Пример результата для Debian:
+</p>
+<pre class="language-bash">
+  <code class="language-bash is-loaded">
+    <span class="token assign-left variable">PRETTY_NAME</span><span class="token operator">=</span><span
+      class="token string"
+    >
+      "Debian GNU/Linux 12 (bookworm)"
+    </span>
+  </code>
+</pre>
+<p dir="auto">
+  Пример результата для Ubuntu:
+</p>
+<pre class="language-bash">
+  <code class="language-bash is-loaded">
+    <span class="token assign-left variable">PRETTY_NAME</span><span class="token operator">=</span><span
+      class="token string"
+    >
+      "Ubuntu 24.04 LTS"
+    </span>
+  </code>
+</pre>

@@ -24,12 +24,12 @@ if ($uri !== '/' && str_ends_with($uri, '/')) {
 
 if (!isset($routes[$uri])) {
     http_response_code(404);
-    echo $twig->render('pages/no-sidebar.twig', [
-        'site_name' => 'ReMarked',
+    echo $twig->render('pages/error.twig', [
+        'site_name' => '',
         'active' => '',
-        'nav' => [],
+        'nav' => [['title' => 'Главная страница', 'href' => '/']],
         'title' => '404',
-        'message' => 'Page not found',
+        'message' => 'Страница не найдена',
     ]);
     exit;
 }
@@ -41,12 +41,12 @@ try {
     $controller->$method($twig);
 } catch (\Throwable $e) {
     http_response_code(500);
-    echo $twig->render('pages/no-sidebar.twig', [
-        'site_name' => 'ReMarked',
+    echo $twig->render('pages/error.twig', [
+        'site_name' => '',
         'active' => '',
-        'nav' => [],
+        'nav' => [['title' => 'Главная страница', 'href' => '/']],
         'title' => '500',
-        'message' => 'Internal Server Error',
+        'message' => 'Внутренняя ошибка сервера',
     ]);
     // Optionally: error_log((string)$e);
 }

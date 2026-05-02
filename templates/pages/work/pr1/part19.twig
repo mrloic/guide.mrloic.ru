@@ -1,0 +1,74 @@
+<h2 data-heading="Этап 14. Создание каталога для будущего SaaS-приложения" dir="auto">
+  Этап 14. Создание каталога для будущего SaaS-приложения
+</h2>
+<p dir="auto">
+  Для дальнейших лабораторных работ можно заранее создать каталог, в котором будут размещаться конфигурационные файлы,
+  скрипты и материалы проекта.
+</p>
+<p dir="auto">
+  Создать структуру каталогов:
+</p>
+<pre class="language-bash">
+  <code class="language-bash is-loaded">
+    <span class="token function">sudo</span> <span class="token function">mkdir</span>
+    <span class="token parameter variable">-p</span> /opt/saas
+    <span class="token function">sudo</span> <span class="token function">mkdir</span>
+    <span class="token parameter variable">-p</span> /opt/saas/app
+    <span class="token function">sudo</span> <span class="token function">mkdir</span>
+    <span class="token parameter variable">-p</span> /opt/saas/config
+    <span class="token function">sudo</span> <span class="token function">mkdir</span>
+    <span class="token parameter variable">-p</span> /opt/saas/backups
+    <span class="token function">sudo</span> <span class="token function">mkdir</span>
+    <span class="token parameter variable">-p</span> /opt/saas/logs
+  </code>
+</pre>
+<p dir="auto">
+  Назначить владельцем административного пользователя:
+</p>
+<pre class="language-bash">
+  <code class="language-bash is-loaded">
+    <span class="token function">sudo</span> <span class="token function">chown</span>
+    <span class="token parameter variable">-R</span> sysadmin:sysadmin /opt/saas
+  </code>
+</pre>
+<p dir="auto">
+  Проверить структуру:
+</p>
+<pre class="language-bash">
+  <code class="language-bash is-loaded">
+    <span class="token function">ls</span> <span class="token parameter variable">-la</span> /opt/saas
+  </code>
+</pre>
+<p dir="auto">
+  Назначение каталогов:
+</p>
+<table>
+  <thead>
+    <tr>
+      <th>Каталог</th>
+      <th>Назначение</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>/opt/saas/app</code></td>
+      <td>файлы будущего приложения</td>
+    </tr>
+    <tr>
+      <td><code>/opt/saas/config</code></td>
+      <td>конфигурационные файлы</td>
+    </tr>
+    <tr>
+      <td><code>/opt/saas/backups</code></td>
+      <td>резервные копии</td>
+    </tr>
+    <tr>
+      <td><code>/opt/saas/logs</code></td>
+      <td>журналы и диагностические файлы</td>
+    </tr>
+  </tbody>
+</table>
+<p dir="auto">
+  Эта структура будет использоваться в следующих практических работах при настройке веб-сервера, PHP, Redis и резервного
+  копирования.
+</p>

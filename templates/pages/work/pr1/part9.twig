@@ -1,0 +1,77 @@
+<h2 data-heading="Этап 4. Проверка сетевого подключения" dir="auto">Этап 4. Проверка сетевого подключения</h2>
+<p dir="auto">
+  Перед обновлением системы необходимо убедиться, что виртуальная машина имеет доступ к сети.
+</p>
+<p dir="auto">
+  Проверить IP-адрес сервера:
+</p>
+<pre class="language-bash">
+  <code class="language-bash is-loaded"><span class="token function">ip</span> a</code>
+</pre>
+<p dir="auto">
+  или:
+</p>
+<pre class="language-bash">
+  <code class="language-bash is-loaded">
+    <span class="token function">hostname</span> <span class="token parameter variable">-I</span>
+  </code>
+</pre>
+<p dir="auto">
+  Проверить доступность внешнего ресурса:
+</p>
+<pre class="language-bash">
+  <code class="language-bash is-loaded">
+    <span class="token function">ping</span> <span class="token parameter variable">-c</span>
+    <span class="token number">4</span> <span class="token number">8.8</span>.8.8
+  </code>
+</pre>
+<p dir="auto">
+  Проверить работу DNS:
+</p>
+<pre class="language-bash">
+  <code class="language-bash is-loaded">
+    <span class="token function">ping</span> <span class="token parameter variable">-c</span>
+    <span class="token number">4</span> debian.org
+  </code>
+</pre>
+<p dir="auto">
+  или:
+</p>
+<pre class="language-bash">
+  <code class="language-bash is-loaded">
+    <span class="token function">ping</span> <span class="token parameter variable">-c</span>
+    <span class="token number">4</span> ubuntu.com
+  </code>
+</pre>
+<p dir="auto">
+  Если ping по IP-адресу работает, а ping по доменному имени не работает, проблема может быть связана с DNS-настройками.
+  В этом случае необходимо проверить файл <code>/etc/resolv.conf</code>:
+</p>
+<pre class="language-bash">
+  <code class="language-bash is-loaded"><span class="token function">cat</span> /etc/resolv.conf</code>
+</pre>
+<p dir="auto">
+  Для учебной виртуальной машины допустимо временно указать DNS-сервер вручную:
+</p>
+<pre class="language-bash">
+  <code class="language-bash is-loaded">
+    <span class="token function">sudo</span> <span class="token function">nano</span> /etc/resolv.conf
+  </code>
+</pre>
+<p dir="auto">
+  Пример содержимого:
+</p>
+<pre class="language-bash">
+  <code class="language-bash is-loaded">
+    nameserver <span class="token number">8.8</span>.8.8 nameserver <span class="token number">1.1</span>.1.1
+  </code>
+</pre>
+<p dir="auto">
+  После исправления DNS необходимо повторить проверку:
+</p>
+<pre class="language-bash">
+  <code class="language-bash is-loaded">
+    <span class="token function">ping</span> <span class="token parameter variable">-c</span>
+    <span class="token number">4</span> debian.org
+  </code>
+</pre>

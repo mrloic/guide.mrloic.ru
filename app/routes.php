@@ -11,4 +11,6 @@ return [
     '/verification' => [PageController::class, 'verification'],
     '/configuration' => [PageController::class, 'configuration'],
     '/additional' => [PageController::class, 'additional'],
+    '/distributions' => [PageController::class, 'distributions'],
+    '/work/1' => [PageController::class, 'work1'],
 ];

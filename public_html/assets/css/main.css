@@ -1529,6 +1529,7 @@ input, select, textarea {
 		#header > .container {
 			position: relative;
 			min-height: 155px;
+			margin: 10px auto;
 		}
 
 		#header h1 {

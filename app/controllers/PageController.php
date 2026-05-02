@@ -20,6 +20,7 @@ final class PageController
                 ['title' => 'Проверка', 'href' => '/verification'],
                 ['title' => 'Настройка', 'href' => '/configuration'],
                 ['title' => 'Дополнительно', 'href' => '/additional'],
+                ['title' => 'Практическая работа №1', 'href' => '/work/1'],
             ],
         ];
     }
@@ -57,5 +58,13 @@ final class PageController
     public function additional(Environment $twig): void
     {
         echo $twig->render('pages/additional.twig', $this->baseData('/additional'));
+    }
+
+    public function distributions(Environment $twig) : void {
+        echo $twig->render('pages/distributions.twig', $this->baseData('/distributions'));
+    }
+
+    public function work1(Environment $twig) : void {
+        echo $twig->render('pages/work/pr1.twig', $this->baseData('/work/1'));
     }
 }
