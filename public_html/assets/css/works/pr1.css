@@ -1,6 +1,9 @@
 :root {
-	--default-font: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Microsoft YaHei Light", sans-serif;
-	--font-monospace: 'Source Code Pro', monospace;
+	--default-font:
+		ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+		Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+		"Segoe UI Symbol", "Microsoft YaHei Light", sans-serif;
+	--font-monospace: "Source Code Pro", monospace;
 	--background-primary: #ffffff;
 	--background-modifier-border: #ddd;
 	--text-accent: #705dcf;
@@ -9,21 +12,27 @@
 	--background-secondary: #f2f3f5;
 	--background-secondary-alt: #fcfcfc;
 	--text-muted: #888888;
-	--font-mermaid: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Microsoft YaHei Light", sans-serif;
-	--text-error: #E4374B;
-	--background-primary-alt: '#fafafa';
-	--background-accent: '';
-	--interactive-accent: hsl( 254,  80%, calc( 68% + 2.5%));
-	--background-modifier-error: #E4374B;
+	--font-mermaid:
+		ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+		"Inter", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+		"Microsoft YaHei Light", sans-serif;
+	--text-error: #e4374b;
+	--background-primary-alt: "#fafafa";
+	--background-accent: "";
+	--interactive-accent: hsl(254, 80%, calc(68% + 2.5%));
+	--background-modifier-error: #e4374b;
 	--background-primary-alt: #fafafa;
 	--background-modifier-border: #e0e0e0;
 }
 
-body,input {
-	font-family: "Roboto","Helvetica Neue",Helvetica,Arial,sans-serif
+body,
+input {
+	font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-code, kbd, pre {
+code,
+kbd,
+pre {
 	font-family: "Roboto Mono", "Courier New", Courier, monospace;
 	background-color: #f5f5f5;
 }
@@ -46,7 +55,8 @@ table tfoot th {
 	color: black;
 }
 
-table th, table td {
+table th,
+table td {
 	border: 1px solid #ddd;
 	padding: 0.5em;
 }
@@ -57,7 +67,7 @@ table td {
 
 .callout[data-callout="abstract"] .callout-title,
 .callout[data-callout="summary"] .callout-title,
-.callout[data-callout="tldr"]  .callout-title,
+.callout[data-callout="tldr"] .callout-title,
 .callout[data-callout="faq"] .callout-title,
 .callout[data-callout="info"] .callout-title,
 .callout[data-callout="help"] .callout-title {
@@ -123,12 +133,15 @@ svg.svg-icon {
 .callout {
 	overflow: hidden;
 	margin: 1em 0;
-	box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+	box-shadow:
+		0 2px 2px 0 rgba(0, 0, 0, 0.14),
+		0 1px 5px 0 rgba(0, 0, 0, 0.12),
+		0 3px 1px -2px rgba(0, 0, 0, 0.2);
 	border-radius: 4px;
 }
 
 .callout-title {
-	padding: .5em;
+	padding: 0.5em;
 	display: flex;
 	gap: 8px;
 	font-size: inherit;
@@ -143,7 +156,7 @@ svg.svg-icon {
 
 .callout-content {
 	overflow-x: auto;
-	padding: 0.25em .5em;
+	padding: 0.25em 0.5em;
 	color: #222222;
 	background-color: white !important;
 }
@@ -158,7 +171,7 @@ ul.contains-task-list ul.contains-task-list {
 }
 
 ul.contains-task-list li input[type="checkbox"] {
-	margin-right: .5em;
+	margin-right: 0.5em;
 }
 
 .callout-table,
