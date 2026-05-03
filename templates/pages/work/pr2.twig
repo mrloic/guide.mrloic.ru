@@ -1,0 +1,37 @@
+{% extends 'layouts/base.twig' %}
+
+{% set page_title = 'Практическая работа №2' %}
+{% set body_class = 'subpage' %}
+
+{% block head %}
+	<link rel="stylesheet" href="/assets/css/works/pr2.css" />
+{% endblock %}
+
+{% block content %}
+	<section id="content">
+		<div class="container">
+			<div class="row">
+				<div class="col-9 col-12-medium">
+					<section>
+						{% include 'pages/work/pr2/part1.twig' %}
+						{% include 'pages/work/pr2/part2.twig' %}
+						{% include 'pages/work/pr2/part3.twig' %}
+						{% include 'pages/work/pr2/part4.twig' %}
+						{% include 'pages/work/pr2/part5.twig' %}
+					</section>
+				</div>
+				<div class="col-3 col-12-medium">
+					<section>
+						<header>
+							<h2>Навигация</h2>
+						</header>
+						<ul class="link-list">
+							<li><a href="/installation">Назад к установке</a></li>
+							{# <li><a href="/verification">Перейти к проверке</a></li> #}
+						</ul>
+					</section>
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}
