@@ -35,10 +35,15 @@ if (!isset($routes[$uri])) {
 }
 
 try {
-    [$class, $method] = $routes[$uri];
+    $handler = $routes[$uri];
 
-    $controller = new $class();
-    $controller->$method($twig);
+    if ($handler instanceof \Closure) {
+        $handler($twig);
+    } else {
+        [$class, $method] = $handler;
+        $controller = new $class();
+        $controller->$method($twig);
+    }
 } catch (\Throwable $e) {
     http_response_code(500);
     echo $twig->render('pages/error.twig', [

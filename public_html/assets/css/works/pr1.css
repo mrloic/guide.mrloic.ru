@@ -25,11 +25,6 @@
 	--background-modifier-border: #e0e0e0;
 }
 
-body,
-input {
-	font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
-}
-
 code,
 kbd,
 pre {

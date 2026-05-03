@@ -21,7 +21,6 @@ final class PageController
 				['title' => 'Проверка', 'href' => '/verification'],
 				['title' => 'Настройка', 'href' => '/configuration'],
 				['title' => 'Дополнительно', 'href' => '/additional'],
-				['title' => 'Практическая работа №1', 'href' => '/work/1'],
 			],
 		];
 	}
@@ -66,8 +65,8 @@ final class PageController
 		echo $twig->render('pages/distributions.twig', $this->baseData('/distributions'));
 	}
 
-	public function work1(Environment $twig): void
+	public function renderDynamic(Environment $twig, string $template, string $active): void
 	{
-		echo $twig->render('pages/work/pr1.twig', $this->baseData('/work/1'));
+		echo $twig->render($template, $this->baseData($active));
 	}
 }
