@@ -1,42 +1,42 @@
 <h2 data-heading="Этап 11. Базовая настройка SSH" dir="auto">Этап 11. Базовая настройка SSH</h2>
 <p dir="auto">
-  Открыть конфигурационный файл SSH:
+	Открыть конфигурационный файл SSH:
 </p>
 <pre class="language-bash">
-  <code class="language-bash is-loaded">
-    <span class="token function">sudo</span> <span class="token function">nano</span> /etc/ssh/sshd_config
-  </code>
+	<code class="language-bash is-loaded">
+		<span class="token function">sudo</span> <span class="token function">nano</span> /etc/ssh/sshd_config
+	</code>
 </pre>
 <p dir="auto">
-  Рекомендуемые параметры для учебного сервера:
+	Рекомендуемые параметры для учебного сервера:
 </p>
 <pre class="language-bash">
-  <code class="language-bash is-loaded">
-    PermitRootLogin no PasswordAuthentication <span class="token function">yes</span>
-    PubkeyAuthentication <span class="token function">yes</span>
-  </code>
+	<code class="language-bash is-loaded">
+		PermitRootLogin no PasswordAuthentication <span class="token function">yes</span>
+		PubkeyAuthentication <span class="token function">yes</span>
+	</code>
 </pre>
 <p dir="auto">
-  Параметр <code>PermitRootLogin no</code> запрещает прямой вход под пользователем <code>root</code>. Администратор
-  должен входить под обычным пользователем и повышать права через <code>sudo</code>.
+	Параметр <code>PermitRootLogin no</code> запрещает прямой вход под пользователем <code>root</code>. Администратор
+	должен входить под обычным пользователем и повышать права через <code>sudo</code>.
 </p>
 <p dir="auto">
-  После изменения конфигурации необходимо проверить синтаксис:
-</p>
-<pre class="language-bash">
-  <code class="language-bash is-loaded">
-    <span class="token function">sudo</span> sshd <span class="token parameter variable">-t</span>
-  </code>
-</pre>
-<p dir="auto">
-  Если команда не выводит ошибок, перезапустить SSH:
+	После изменения конфигурации необходимо проверить синтаксис:
 </p>
 <pre class="language-bash">
-  <code class="language-bash is-loaded">
-    <span class="token function">sudo</span> systemctl restart <span class="token function">ssh</span>
-  </code>
+	<code class="language-bash is-loaded">
+		<span class="token function">sudo</span> sshd <span class="token parameter variable">-t</span>
+	</code>
 </pre>
 <p dir="auto">
-  Важно: перед закрытием текущей консоли необходимо открыть новое SSH-подключение и убедиться, что вход работает. Это
-  позволит избежать ситуации, когда администратор потеряет доступ к серверу из-за ошибки в конфигурации SSH.
+	Если команда не выводит ошибок, перезапустить SSH:
+</p>
+<pre class="language-bash">
+	<code class="language-bash is-loaded">
+		<span class="token function">sudo</span> systemctl restart <span class="token function">ssh</span>
+	</code>
+</pre>
+<p dir="auto">
+	Важно: перед закрытием текущей консоли необходимо открыть новое SSH-подключение и убедиться, что вход работает. Это
+	позволит избежать ситуации, когда администратор потеряет доступ к серверу из-за ошибки в конфигурации SSH.
 </p>

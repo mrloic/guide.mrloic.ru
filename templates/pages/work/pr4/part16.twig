@@ -1,0 +1,52 @@
+<h2 data-heading="Этап 11. Проверка Redis через redis-cli" dir="auto">Этап 11. Проверка Redis через redis-cli</h2>
+<p dir="auto">
+	Выполнить команду:
+</p>
+<pre class="language-bash">
+	<code class="language-bash is-loaded">redis-cli <span class="token function">ping</span></code>
+</pre>
+<p dir="auto">
+	Ожидаемый результат:
+</p>
+<pre class="language-text">
+	<code class="language-text is-loaded">PONG</code>
+</pre>
+<p dir="auto">
+	Записать тестовое значение:
+</p>
+<pre class="language-bash">
+	<code class="language-bash is-loaded">
+		redis-cli <span class="token builtin class-name">set</span> test_key <span class="token string">"Redis is
+			working"</span>
+	</code>
+</pre>
+<p dir="auto">
+	Прочитать значение:
+</p>
+<pre class="language-bash">
+	<code class="language-bash is-loaded">redis-cli get test_key</code>
+</pre>
+<p dir="auto">
+	Ожидаемый результат:
+</p>
+<pre class="language-text">
+	<code class="language-text is-loaded">"Redis is working"</code>
+</pre>
+<p dir="auto">
+	Удалить тестовый ключ:
+</p>
+<pre class="language-bash">
+	<code class="language-bash is-loaded">redis-cli del test_key</code>
+</pre>
+<p dir="auto">
+	Проверить удаление:
+</p>
+<pre class="language-bash">
+	<code class="language-bash is-loaded">redis-cli get test_key</code>
+</pre>
+<p dir="auto">
+	Ожидаемый результат:
+</p>
+<pre class="language-text">
+	<code class="language-text is-loaded">(nil)</code>
+</pre>

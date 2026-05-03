@@ -1,0 +1,60 @@
+<h2 data-heading="Этап 10. Настройка Redis для локального доступа" dir="auto">
+	Этап 10. Настройка Redis для локального доступа
+</h2>
+<p dir="auto">
+	Открыть конфигурационный файл Redis:
+</p>
+<pre class="language-bash">
+	<code class="language-bash is-loaded">
+		<span class="token function">sudo</span> <span class="token function">nano</span> /etc/redis/redis.conf
+	</code>
+</pre>
+<p dir="auto">
+	Найти параметр:
+</p>
+<pre class="language-text">
+	<code class="language-text is-loaded">bind</code>
+</pre>
+<p dir="auto">
+	Установить значение:
+</p>
+<pre class="language-text">
+	<code class="language-text is-loaded">bind 127.0.0.1 ::1</code>
+</pre>
+<p dir="auto">
+	Проверить параметр protected mode:
+</p>
+<pre class="language-text">
+	<code class="language-text is-loaded">protected-mode yes</code>
+</pre>
+<p dir="auto">
+	Так Redis будет доступен только локально с самого сервера. Это безопаснее для учебной и базовой серверной среды.
+</p>
+<p dir="auto">
+	Перезапустить Redis:
+</p>
+<pre class="language-bash">
+	<code class="language-bash is-loaded"><span class="token function">sudo</span> systemctl restart redis-server</code>
+</pre>
+<p dir="auto">
+	Проверить статус:
+</p>
+<pre class="language-bash">
+	<code class="language-bash is-loaded"><span class="token function">sudo</span> systemctl status redis-server</code>
+</pre>
+<p dir="auto">
+	Проверить порт:
+</p>
+<pre class="language-bash">
+	<code class="language-bash is-loaded">
+		<span class="token function">sudo</span> ss <span class="token parameter variable">-tulpn</span>
+		<span class="token operator">|</span> <span class="token function">grep</span>
+		<span class="token number">6379</span>
+	</code>
+</pre>
+<p dir="auto">
+	Ожидаемый результат:
+</p>
+<pre class="language-text">
+	<code class="language-text is-loaded">127.0.0.1:6379</code>
+</pre>

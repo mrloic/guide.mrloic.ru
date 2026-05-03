@@ -1,0 +1,75 @@
+<h2 data-heading="Этап 17. Настройка прав доступа" dir="auto">Этап 17. Настройка прав доступа</h2>
+<p dir="auto">
+	Проверить владельца каталога приложения:
+</p>
+<pre class="language-bash">
+	<code class="language-bash is-loaded">
+		<span class="token function">ls</span> <span class="token parameter variable">-la</span> /var/www/saas-app
+	</code>
+</pre>
+<p dir="auto">
+	Рекомендуемая схема:
+</p>
+<pre class="language-text">
+	<code class="language-text is-loaded">sysadmin:www-data</code>
+</pre>
+<p dir="auto">
+	Если владелец отличается, выполнить:
+</p>
+<pre class="language-bash">
+	<code class="language-bash is-loaded">
+		<span class="token function">sudo</span> <span class="token function">chown</span>
+		<span class="token parameter variable">-R</span> sysadmin:www-data /var/www/saas-app
+	</code>
+</pre>
+<p dir="auto">
+	Права для каталогов:
+</p>
+<pre class="language-bash">
+	<code class="language-bash is-loaded">
+		<span class="token function">find</span> /var/www/saas-app <span class="token parameter variable">-type</span> d <span
+			class="token parameter variable"
+		>
+			-exec
+		</span>
+		<span class="token function">chmod</span> <span class="token number">755</span>
+		<span class="token punctuation">{</span><span class="token punctuation">}</span> <span
+			class="token punctuation"
+		>
+			\
+		</span><span class="token punctuation">;</span>
+	</code>
+</pre>
+<p dir="auto">
+	Права для файлов:
+</p>
+<pre class="language-bash">
+	<code class="language-bash is-loaded">
+		<span class="token function">find</span> /var/www/saas-app <span class="token parameter variable">-type</span> f <span
+			class="token parameter variable"
+		>
+			-exec
+		</span>
+		<span class="token function">chmod</span> <span class="token number">644</span>
+		<span class="token punctuation">{</span><span class="token punctuation">}</span> <span
+			class="token punctuation"
+		>
+			\
+		</span><span class="token punctuation">;</span>
+	</code>
+</pre>
+<p dir="auto">
+	Если приложению потребуется каталог для записи, например <code>storage</code>, создать его отдельно:
+</p>
+<pre class="language-bash">
+	<code class="language-bash is-loaded">
+		<span class="token function">mkdir</span> <span class="token parameter variable">-p</span> /var/www/saas-app/storage
+		<span class="token function">sudo</span> <span class="token function">chown</span>
+		<span class="token parameter variable">-R</span> www-data:www-data /var/www/saas-app/storage
+		<span class="token function">sudo</span> <span class="token function">chmod</span>
+		<span class="token parameter variable">-R</span> <span class="token number">775</span> /var/www/saas-app/storage
+	</code>
+</pre>
+<p dir="auto">
+	Не рекомендуется выдавать права <code>777</code>, так как это создаёт риск несанкционированного изменения файлов.
+</p>

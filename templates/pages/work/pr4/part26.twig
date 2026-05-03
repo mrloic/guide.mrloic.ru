@@ -1,0 +1,57 @@
+<h2 data-heading="Возможные ошибки и способы устранения" dir="auto">Возможные ошибки и способы устранения</h2>
+<table>
+	<thead>
+		<tr>
+			<th>Ошибка</th>
+			<th>Возможная причина</th>
+			<th>Способ устранения</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>Apache не запускается</td>
+			<td>порт <code>80</code> занят Nginx</td>
+			<td>изменить <code>Listen 80</code> на <code>Listen 127.0.0.1:8080</code></td>
+		</tr>
+		<tr>
+			<td><code>curl http://127.0.0.1:8080</code> не работает</td>
+			<td>Apache не слушает порт <code>8080</code></td>
+			<td>проверить <code>/etc/apache2/ports.conf</code> и <code>ss -tulpn</code></td>
+		</tr>
+		<tr>
+			<td>Nginx показывает <code>502 Bad Gateway</code></td>
+			<td>Apache не запущен или недоступен</td>
+			<td>проверить <code>systemctl status apache2</code></td>
+		</tr>
+		<tr>
+			<td>PHP-файл скачивается или показывается как текст</td>
+			<td>PHP не обрабатывается Apache</td>
+			<td>проверить установку PHP и модулей Apache/PHP-FPM</td>
+		</tr>
+		<tr>
+			<td><code>redis-cli ping</code> не возвращает <code>PONG</code></td>
+			<td>Redis не запущен</td>
+			<td>выполнить <code>systemctl status redis-server</code></td>
+		</tr>
+		<tr>
+			<td>PHP не видит Redis</td>
+			<td>не установлен <code>php-redis</code></td>
+			<td>выполнить <code>sudo apt install php-redis</code></td>
+		</tr>
+		<tr>
+			<td>Redis слушает внешний адрес</td>
+			<td>неверный <code>bind</code> в <code>redis.conf</code></td>
+			<td>указать <code>bind 127.0.0.1 ::1</code></td>
+		</tr>
+		<tr>
+			<td>Сайт не открывается по HTTPS</td>
+			<td>проблема в Nginx или сертификате</td>
+			<td>проверить <code>nginx -t</code>, порт <code>443</code>, пути к сертификату</td>
+		</tr>
+		<tr>
+			<td>Ошибка прав доступа</td>
+			<td>неверный владелец каталога</td>
+			<td>выполнить <code>chown -R sysadmin:www-data /var/www/saas-app</code></td>
+		</tr>
+	</tbody>
+</table>

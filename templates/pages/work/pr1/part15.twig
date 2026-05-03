@@ -1,68 +1,68 @@
 <h2 data-heading="Этап 10. Настройка SSH-доступа" dir="auto">Этап 10. Настройка SSH-доступа</h2>
 <p dir="auto">
-  SSH используется для безопасного удалённого администрирования Linux-сервера. Debian Wiki определяет SSH как протокол
-  для безопасного удалённого входа и других сетевых сервисов поверх небезопасной сети.
+	SSH используется для безопасного удалённого администрирования Linux-сервера. Debian Wiki определяет SSH как протокол
+	для безопасного удалённого входа и других сетевых сервисов поверх небезопасной сети.
 </p>
 <p dir="auto">
-  Проверить, установлен ли SSH-сервер:
+	Проверить, установлен ли SSH-сервер:
 </p>
 <pre class="language-bash">
-  <code class="language-bash is-loaded">systemctl status <span class="token function">ssh</span></code>
+	<code class="language-bash is-loaded">systemctl status <span class="token function">ssh</span></code>
 </pre>
 <p dir="auto">
-  Если служба не найдена, установить OpenSSH Server:
+	Если служба не найдена, установить OpenSSH Server:
 </p>
 <pre class="language-bash">
-  <code class="language-bash is-loaded">
-	<span class="token function">sudo</span> <span class="token function">apt</span>
-	<span class="token function">install</span> <span class="token parameter variable">-y</span> openssh-server
-  </code>
+	<code class="language-bash is-loaded">
+		<span class="token function">sudo</span> <span class="token function">apt</span>
+		<span class="token function">install</span> <span class="token parameter variable">-y</span> openssh-server
+	</code>
 </pre>
 <p dir="auto">
-  Включить автозапуск SSH:
+	Включить автозапуск SSH:
 </p>
 <pre class="language-bash">
-  <code class="language-bash is-loaded">
-	<span class="token function">sudo</span> systemctl <span class="token builtin class-name">enable</span>
-	<span class="token function">ssh</span>
-  </code>
+	<code class="language-bash is-loaded">
+		<span class="token function">sudo</span> systemctl <span class="token builtin class-name">enable</span>
+		<span class="token function">ssh</span>
+	</code>
 </pre>
 <p dir="auto">
-  Запустить SSH:
+	Запустить SSH:
 </p>
 <pre class="language-bash">
-  <code class="language-bash is-loaded">
-	<span class="token function">sudo</span> systemctl start <span class="token function">ssh</span>
-  </code>
+	<code class="language-bash is-loaded">
+		<span class="token function">sudo</span> systemctl start <span class="token function">ssh</span>
+	</code>
 </pre>
 <p dir="auto">
-  Проверить статус:
+	Проверить статус:
 </p>
 <pre class="language-bash">
-  <code class="language-bash is-loaded">
-	<span class="token function">sudo</span> systemctl status <span class="token function">ssh</span>
-  </code>
+	<code class="language-bash is-loaded">
+		<span class="token function">sudo</span> systemctl status <span class="token function">ssh</span>
+	</code>
 </pre>
 <p dir="auto">
 	Узнать IP-адрес сервера:
 </p>
 <pre class="language-bash">
-  <code class="language-bash is-loaded">
-	<span class="token function">hostname</span> <span class="token parameter variable">-I</span>
-  </code>
+	<code class="language-bash is-loaded">
+		<span class="token function">hostname</span> <span class="token parameter variable">-I</span>
+	</code>
 </pre>
 <p dir="auto">
-  Подключиться к серверу с рабочей машины:
+	Подключиться к серверу с рабочей машины:
 </p>
 <pre class="language-bash">
-  <code class="language-bash is-loaded"><span class="token function">ssh</span> sysadmin@IP_АДРЕС_СЕРВЕРА</code>
+	<code class="language-bash is-loaded"><span class="token function">ssh</span> sysadmin@IP_АДРЕС_СЕРВЕРА</code>
 </pre>
 <p dir="auto">
-  Пример:
+	Пример:
 </p>
 <pre class="language-bash">
-  <code class="language-bash is-loaded"><span class="token function">ssh</span> sysadmin@192.168.1.50</code>
+	<code class="language-bash is-loaded"><span class="token function">ssh</span> sysadmin@192.168.1.50</code>
 </pre>
 <p dir="auto">
-  Если подключение успешно, сервер готов к удалённому администрированию.
+	Если подключение успешно, сервер готов к удалённому администрированию.
 </p>

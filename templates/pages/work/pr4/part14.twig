@@ -1,0 +1,49 @@
+<h2 data-heading="Этап 9. Установка Redis" dir="auto">Этап 9. Установка Redis</h2>
+<p dir="auto">
+	Установить Redis из репозитория дистрибутива:
+</p>
+<pre class="language-bash">
+	<code class="language-bash is-loaded">
+		<span class="token function">sudo</span> <span class="token function">apt</span>
+		<span class="token function">install</span> <span class="token parameter variable">-y</span> redis-server redis-tools
+	</code>
+</pre>
+<p dir="auto">
+	Проверить статус службы:
+</p>
+<pre class="language-bash">
+	<code class="language-bash is-loaded"><span class="token function">sudo</span> systemctl status redis-server</code>
+</pre>
+<p dir="auto">
+	Если служба не запущена:
+</p>
+<pre class="language-bash">
+	<code class="language-bash is-loaded"><span class="token function">sudo</span> systemctl start redis-server</code>
+</pre>
+<p dir="auto">
+	Включить автозапуск:
+</p>
+<pre class="language-bash">
+	<code class="language-bash is-loaded">
+		<span class="token function">sudo</span> systemctl <span class="token builtin class-name">enable</span> redis-server
+	</code>
+</pre>
+<p dir="auto">
+	Проверить, какой порт слушает Redis:
+</p>
+<pre class="language-bash">
+	<code class="language-bash is-loaded">
+		<span class="token function">sudo</span> ss <span class="token parameter variable">-tulpn</span>
+		<span class="token operator">|</span> <span class="token function">grep</span>
+		<span class="token number">6379</span>
+	</code>
+</pre>
+<p dir="auto">
+	Ожидаемый результат должен показывать локальный адрес:
+</p>
+<pre class="language-text">
+	<code class="language-text is-loaded">127.0.0.1:6379</code>
+</pre>
+<p dir="auto">
+	Если Redis слушает внешний адрес <code>0.0.0.0:6379</code>, необходимо ограничить его локальным интерфейсом.
+</p>

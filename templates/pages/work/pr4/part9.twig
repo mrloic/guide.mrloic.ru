@@ -1,0 +1,37 @@
+<h2 data-heading="Этап 4. Перенастройка Apache на порт 8080" dir="auto">Этап 4. Перенастройка Apache на порт 8080</h2>
+<p dir="auto">
+	Открыть файл портов Apache:
+</p>
+<pre class="language-bash">
+	<code class="language-bash is-loaded">
+		<span class="token function">sudo</span> <span class="token function">nano</span> /etc/apache2/ports.conf
+	</code>
+</pre>
+<p dir="auto">
+	Найти строку:
+</p>
+<pre class="language-apache">
+	<code class="language-apache is-loaded">Listen 80</code>
+</pre>
+<p dir="auto">
+	Заменить её на:
+</p>
+<pre class="language-apache">
+	<code class="language-apache is-loaded">Listen 127.0.0.1:8080</code>
+</pre>
+<p dir="auto">
+	Так Apache будет принимать запросы только с локального адреса сервера. Это важно, потому что внешний доступ
+	пользователей должен идти через Nginx, а не напрямую в Apache.
+</p>
+<p dir="auto">
+	Проверить файл:
+</p>
+<pre class="language-bash">
+	<code class="language-bash is-loaded"><span class="token function">cat</span> /etc/apache2/ports.conf</code>
+</pre>
+<p dir="auto">
+	Ожидаемый фрагмент:
+</p>
+<pre class="language-apache">
+	<code class="language-apache is-loaded">Listen 127.0.0.1:8080</code>
+</pre>

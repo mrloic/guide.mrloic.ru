@@ -1,95 +1,95 @@
 <h2 data-heading="Этап 13. Проверка состояния системы" dir="auto">Этап 13. Проверка состояния системы</h2>
 <p dir="auto">
-  После первичной настройки необходимо проверить основные параметры сервера.
+	После первичной настройки необходимо проверить основные параметры сервера.
 </p>
 <p dir="auto">
-  Проверить версию ОС:
+	Проверить версию ОС:
 </p>
 <pre class="language-bash">
-  <code class="language-bash is-loaded"><span class="token function">cat</span> /etc/os-release</code>
+	<code class="language-bash is-loaded"><span class="token function">cat</span> /etc/os-release</code>
 </pre>
 <p dir="auto">
-  Проверить имя сервера:
+	Проверить имя сервера:
 </p>
 <pre class="language-bash">
-  <code class="language-bash is-loaded">hostnamectl</code>
+	<code class="language-bash is-loaded">hostnamectl</code>
 </pre>
 <p dir="auto">
-  Проверить IP-адрес:
+	Проверить IP-адрес:
 </p>
 <pre class="language-bash">
-  <code class="language-bash is-loaded">
-    <span class="token function">hostname</span> <span class="token parameter variable">-I</span>
-  </code>
+	<code class="language-bash is-loaded">
+		<span class="token function">hostname</span> <span class="token parameter variable">-I</span>
+	</code>
 </pre>
 <p dir="auto">
-  Проверить свободное место на диске:
+	Проверить свободное место на диске:
 </p>
 <pre class="language-bash">
-  <code class="language-bash is-loaded">
-    <span class="token function">df</span> <span class="token parameter variable">-h</span>
-  </code>
+	<code class="language-bash is-loaded">
+		<span class="token function">df</span> <span class="token parameter variable">-h</span>
+	</code>
 </pre>
 <p dir="auto">
-  Проверить оперативную память:
+	Проверить оперативную память:
 </p>
 <pre class="language-bash">
-  <code class="language-bash is-loaded">
-    <span class="token function">free</span> <span class="token parameter variable">-h</span>
-  </code>
+	<code class="language-bash is-loaded">
+		<span class="token function">free</span> <span class="token parameter variable">-h</span>
+	</code>
 </pre>
 <p dir="auto">
-  Проверить нагрузку:
+	Проверить нагрузку:
 </p>
 <pre class="language-bash">
-  <code class="language-bash is-loaded"><span class="token function">uptime</span></code>
+	<code class="language-bash is-loaded"><span class="token function">uptime</span></code>
 </pre>
 <p dir="auto">
-  Проверить активные службы:
+	Проверить активные службы:
 </p>
 <pre class="language-bash">
-  <code class="language-bash is-loaded">
-    systemctl <span class="token parameter variable">--type</span><span class="token operator">=</span>service
-    <span class="token parameter variable">--state</span><span class="token operator">=</span>running
-  </code>
+	<code class="language-bash is-loaded">
+		systemctl <span class="token parameter variable">--type</span><span class="token operator">=</span>service
+		<span class="token parameter variable">--state</span><span class="token operator">=</span>running
+	</code>
 </pre>
 <p dir="auto">
-  Проверить SSH:
+	Проверить SSH:
 </p>
 <pre class="language-bash">
-  <code class="language-bash is-loaded">systemctl status <span class="token function">ssh</span></code>
+	<code class="language-bash is-loaded">systemctl status <span class="token function">ssh</span></code>
 </pre>
 <p dir="auto">
-  Проверить firewall:
+	Проверить firewall:
 </p>
 <pre class="language-bash">
-  <code class="language-bash is-loaded"><span class="token function">sudo</span> ufw status verbose</code>
+	<code class="language-bash is-loaded"><span class="token function">sudo</span> ufw status verbose</code>
 </pre>
 <p dir="auto">
-  Проверить доступность Интернета:
+	Проверить доступность Интернета:
 </p>
 <pre class="language-bash">
-  <code class="language-bash is-loaded">
-    <span class="token function">curl</span> <span class="token parameter variable">-I</span> https://debian.org
-  </code>
+	<code class="language-bash is-loaded">
+		<span class="token function">curl</span> <span class="token parameter variable">-I</span> https://debian.org
+	</code>
 </pre>
 <p dir="auto">
-  или:
+	или:
 </p>
 <pre class="language-bash">
-  <code class="language-bash is-loaded">
-    <span class="token function">curl</span> <span class="token parameter variable">-I</span> https://ubuntu.com
-  </code>
+	<code class="language-bash is-loaded">
+		<span class="token function">curl</span> <span class="token parameter variable">-I</span> https://ubuntu.com
+	</code>
 </pre>
 <p dir="auto">
-  Ожидаемый результат должен содержать HTTP-ответ, например:
+	Ожидаемый результат должен содержать HTTP-ответ, например:
 </p>
 <pre class="language-bash">
-  <code class="language-bash is-loaded">HTTP/2 <span class="token number">200</span></code>
+	<code class="language-bash is-loaded">HTTP/2 <span class="token number">200</span></code>
 </pre>
 <p dir="auto">
-  или:
+	или:
 </p>
 <pre class="language-bash">
-  <code class="language-bash is-loaded">HTTP/1.1 <span class="token number">200</span> OK</code>
+	<code class="language-bash is-loaded">HTTP/1.1 <span class="token number">200</span> OK</code>
 </pre>

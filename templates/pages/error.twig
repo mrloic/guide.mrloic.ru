@@ -4,24 +4,22 @@
 {% set body_class = 'subpage' %}
 
 {% block content %}
-<!-- Content -->
-<section id="content">
-	<div class="container">
-		<div class="row">
-			<div class="col-12">
-
-				<!-- Main Content -->
+	<!-- Content -->
+	<section id="content">
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<!-- Main Content -->
 					<section>
 						<header>
 							<h2>{{ title }}</h2>
-							<p>{{ message }}</p>
+							<p>
+								{{ message }}
+							</p>
 						</header>
-
 					</section>
-
+				</div>
 			</div>
 		</div>
-	</div>
-</section>
-
+	</section>
 {% endblock %}

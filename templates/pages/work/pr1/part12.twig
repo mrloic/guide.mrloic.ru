@@ -1,55 +1,55 @@
 <h2 data-heading="Этап 7. Настройка имени сервера" dir="auto">Этап 7. Настройка имени сервера</h2>
 <p dir="auto">
-  Имя сервера должно отражать его назначение в инфраструктуре. В данной лабораторной работе используется имя:
+	Имя сервера должно отражать его назначение в инфраструктуре. В данной лабораторной работе используется имя:
 </p>
 <pre class="language-bash">
-  <code class="language-bash is-loaded">saas-node-01</code>
+	<code class="language-bash is-loaded">saas-node-01</code>
 </pre>
 <p dir="auto">
-  Проверить текущее имя:
+	Проверить текущее имя:
 </p>
 <pre class="language-bash">
-  <code class="language-bash is-loaded">hostnamectl</code>
+	<code class="language-bash is-loaded">hostnamectl</code>
 </pre>
 <p dir="auto">
-  Установить новое имя:
+	Установить новое имя:
 </p>
 <pre class="language-bash">
-  <code class="language-bash is-loaded">
-    <span class="token function">sudo</span> hostnamectl set-hostname saas-node-01
-  </code>
+	<code class="language-bash is-loaded">
+		<span class="token function">sudo</span> hostnamectl set-hostname saas-node-01
+	</code>
 </pre>
 <p dir="auto">
-  Открыть файл <code>/etc/hosts</code>:
+	Открыть файл <code>/etc/hosts</code>:
 </p>
 <pre class="language-bash">
-  <code class="language-bash is-loaded">
-    <span class="token function">sudo</span> <span class="token function">nano</span> /etc/hosts
-  </code>
+	<code class="language-bash is-loaded">
+		<span class="token function">sudo</span> <span class="token function">nano</span> /etc/hosts
+	</code>
 </pre>
 <p dir="auto">
-  Добавить или исправить строку:
+	Добавить или исправить строку:
 </p>
 <pre class="language-bash">
-  <code class="language-bash is-loaded"><span class="token number">127.0</span>.1.1 saas-node-01</code>
+	<code class="language-bash is-loaded"><span class="token number">127.0</span>.1.1 saas-node-01</code>
 </pre>
 <p dir="auto">
-  Пример итогового файла:
+	Пример итогового файла:
 </p>
 <pre class="language-bash">
-  <code class="language-bash is-loaded">
-    <span class="token number">127.0</span>.0.1 localhost
-    <span class="token number">127.0</span>.1.1 saas-node-01
-    <span class="token comment"># IPv6</span>
-    ::1 localhost ip6-localhost ip6-loopback ff02::1 ip6-allnodes ff02::2 ip6-allrouters
-  </code>
+	<code class="language-bash is-loaded">
+		<span class="token number">127.0</span>.0.1 localhost
+		<span class="token number">127.0</span>.1.1 saas-node-01
+		<span class="token comment"># IPv6</span>
+		::1 localhost ip6-localhost ip6-loopback ff02::1 ip6-allnodes ff02::2 ip6-allrouters
+	</code>
 </pre>
 <p dir="auto">
-  Проверить результат:
+	Проверить результат:
 </p>
 <pre class="language-bash">
-  <code class="language-bash is-loaded">
-    <span class="token function">hostname</span>
-    hostnamectl
-  </code>
+	<code class="language-bash is-loaded">
+		<span class="token function">hostname</span>
+		hostnamectl
+	</code>
 </pre>

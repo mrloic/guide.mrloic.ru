@@ -24,8 +24,8 @@ if ($workDir && is_dir($workDir)) {
 			$filename = $file->getFilename();
 			$routePath = '/work/' . preg_replace('/\.twig$/', '', $filename);
 			$templatePath = 'pages/work/' . $filename;
-			
-			$routes[$routePath] = function(\Twig\Environment $twig) use ($templatePath, $routePath) {
+
+			$routes[$routePath] = function (\Twig\Environment $twig) use ($templatePath, $routePath) {
 				$controller = new PageController();
 				$controller->renderDynamic($twig, $templatePath, $routePath);
 			};

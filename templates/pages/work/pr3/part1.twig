@@ -24,17 +24,7 @@
 	Nginx часто используется как входной веб-сервер, reverse proxy и балансировщик нагрузки. В такой схеме он принимает
 	запросы от пользователей, а затем передаёт их внутреннему приложению или другому веб-серверу. Официальная
 	документация Nginx описывает reverse proxy как конфигурацию, при которой Nginx передаёт запросы proxied-серверам по
-	различным протоколам и может изменять заголовки клиентского запроса перед передачей backend-серверу. (<a
-		data-tooltip-position="top"
-		aria-label="https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/?utm_source=chatgpt.com"
-		rel="noopener nofollow"
-		class="external-link"
-		title="NGINX Reverse Proxy | NGINX Documentation"
-		href="https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/?utm_source=chatgpt.com"
-		target="_blank"
-	>
-		docs.nginx.com
-	</a>)
+	различным протоколам и может изменять заголовки клиентского запроса перед передачей backend-серверу.
 </p>
 <p dir="auto">
 	Для SaaS-инфраструктуры reverse proxy особенно важен, потому что он позволяет отделить внешний доступ пользователей
@@ -48,31 +38,11 @@
 		ngx_http_proxy_module
 	</code> указывает, что этот модуль позволяет передавать запросы другому серверу, например на <code>
 		localhost:8000
-	</code>, а также задавать заголовки <code>Host</code> и <code>X-Real-IP</code>. (<a
-		data-tooltip-position="top"
-		aria-label="https://nginx.org/en/docs/http/ngx_http_proxy_module.html?utm_source=chatgpt.com"
-		rel="noopener nofollow"
-		class="external-link"
-		title="Module ngx_http_proxy_module"
-		href="https://nginx.org/en/docs/http/ngx_http_proxy_module.html?utm_source=chatgpt.com"
-		target="_blank"
-	>
-		nginx.org
-	</a>)
+	</code>, а также задавать заголовки <code>Host</code> и <code>X-Real-IP</code>.
 </p>
 <p dir="auto">
 	TLS используется для защищённого обмена данными между пользователем и сервером. Официальная документация Nginx
 	указывает, что для настройки HTTPS-сервера необходимо включить параметр <code>ssl</code> в директиве <code>
 		listen
-	</code>, а также указать путь к SSL-сертификату и приватному ключу. (<a
-		data-tooltip-position="top"
-		aria-label="https://nginx.org/en/docs/http/configuring_https_servers.html?utm_source=chatgpt.com"
-		rel="noopener nofollow"
-		class="external-link"
-		title="Configuring HTTPS servers"
-		href="https://nginx.org/en/docs/http/configuring_https_servers.html?utm_source=chatgpt.com"
-		target="_blank"
-	>
-		nginx.org
-	</a>)
+	</code>, а также указать путь к SSL-сертификату и приватному ключу. 
 </p>

@@ -1,0 +1,59 @@
+<h2 data-heading="Технические требования" dir="auto">Технические требования</h2>
+<table>
+	<thead>
+		<tr>
+			<th>Параметр</th>
+			<th>Минимальное значение</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>CPU</td>
+			<td>2 vCPU</td>
+		</tr>
+		<tr>
+			<td>RAM</td>
+			<td>2 GB</td>
+		</tr>
+		<tr>
+			<td>Диск</td>
+			<td>20 GB</td>
+		</tr>
+		<tr>
+			<td>ОС</td>
+			<td>Debian 12 / Ubuntu Server LTS</td>
+		</tr>
+		<tr>
+			<td>Веб-сервер внешний</td>
+			<td>Nginx</td>
+		</tr>
+		<tr>
+			<td>Веб-сервер внутренний</td>
+			<td>Apache2</td>
+		</tr>
+		<tr>
+			<td>Язык backend</td>
+			<td>PHP</td>
+		</tr>
+		<tr>
+			<td>Служба кэша</td>
+			<td>Redis</td>
+		</tr>
+		<tr>
+			<td>PHP-модули</td>
+			<td>
+				<code>php</code>, <code>php-fpm</code>, <code>php-redis</code>, <code>php-cli</code>, <code>
+					php-curl
+				</code>, <code>php-mbstring</code>, <code>php-xml</code>, <code>php-zip</code>
+			</td>
+		</tr>
+		<tr>
+			<td>Проверка</td>
+			<td><code>curl</code>, браузер, <code>systemctl</code>, <code>ss</code>, <code>redis-cli</code></td>
+		</tr>
+	</tbody>
+</table>
+<p dir="auto">
+	На данном этапе Redis должен быть доступен только локально. Не рекомендуется открывать Redis в публичную сеть, так
+	как это может создать угрозу безопасности серверной инфраструктуры.
+</p>

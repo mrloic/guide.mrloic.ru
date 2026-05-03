@@ -1,0 +1,86 @@
+<h2 data-heading="Этап 16. Проверка журналов" dir="auto">Этап 16. Проверка журналов</h2>
+<p dir="auto">
+	Проверить журналы Nginx:
+</p>
+<pre class="language-bash">
+	<code class="language-bash is-loaded">
+		<span class="token function">sudo</span> <span class="token function">tail</span>
+		<span class="token parameter variable">-n</span> <span class="token number">50</span> /var/log/nginx/saas-app.access.log
+	</code>
+</pre>
+<pre class="language-bash">
+	<code class="language-bash is-loaded">
+		<span class="token function">sudo</span> <span class="token function">tail</span>
+		<span class="token parameter variable">-n</span> <span class="token number">50</span> /var/log/nginx/saas-app.error.log
+	</code>
+</pre>
+<p dir="auto">
+	Проверить журналы Apache:
+</p>
+<pre class="language-bash">
+	<code class="language-bash is-loaded">
+		<span class="token function">sudo</span> <span class="token function">tail</span>
+		<span class="token parameter variable">-n</span> <span class="token number">50</span> /var/log/apache2/saas-app.access.log
+	</code>
+</pre>
+<pre class="language-bash">
+	<code class="language-bash is-loaded">
+		<span class="token function">sudo</span> <span class="token function">tail</span>
+		<span class="token parameter variable">-n</span> <span class="token number">50</span> /var/log/apache2/saas-app.error.log
+	</code>
+</pre>
+<p dir="auto">
+	Проверить системный журнал Redis:
+</p>
+<pre class="language-bash">
+	<code class="language-bash is-loaded">
+		<span class="token function">sudo</span> journalctl <span class="token parameter variable">-u</span> redis-server
+		<span class="token parameter variable">-n</span> <span class="token number">50</span>
+	</code>
+</pre>
+<p dir="auto">
+	Проверить системный журнал PHP-FPM:
+</p>
+<pre class="language-bash">
+	<code class="language-bash is-loaded">
+		<span class="token function">sudo</span> journalctl <span class="token parameter variable">-u</span> php*-fpm <span
+			class="token parameter variable"
+		>
+			-n
+		</span>
+		<span class="token number">50</span>
+	</code>
+</pre>
+<p dir="auto">
+	Если страница не открывается или возникает ошибка, журналы позволяют определить, на каком уровне произошёл сбой:
+</p>
+<table>
+	<thead>
+		<tr>
+			<th>Уровень</th>
+			<th>Где смотреть</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>Nginx</td>
+			<td><code>/var/log/nginx/saas-app.error.log</code></td>
+		</tr>
+		<tr>
+			<td>Apache</td>
+			<td><code>/var/log/apache2/saas-app.error.log</code></td>
+		</tr>
+		<tr>
+			<td>PHP-FPM</td>
+			<td><code>journalctl -u php*-fpm</code></td>
+		</tr>
+		<tr>
+			<td>Redis</td>
+			<td><code>journalctl -u redis-server</code></td>
+		</tr>
+		<tr>
+			<td>Сеть и порты</td>
+			<td><code>ss -tulpn</code>, <code>ufw status</code></td>
+		</tr>
+	</tbody>
+</table>

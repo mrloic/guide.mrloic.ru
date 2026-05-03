@@ -1,0 +1,82 @@
+<h2 data-heading="Этап 14. Проверка всей цепочки Nginx → Apache → PHP → Redis" dir="auto">
+	Этап 14. Проверка всей цепочки Nginx → Apache → PHP → Redis
+</h2>
+<p dir="auto">
+	Проверить Apache напрямую с сервера:
+</p>
+<pre class="language-bash">
+	<code class="language-bash is-loaded"><span class="token function">curl</span> http://127.0.0.1:8080</code>
+</pre>
+<p dir="auto">
+	Проверить Nginx по HTTPS:
+</p>
+<pre class="language-bash">
+	<code class="language-bash is-loaded">
+		<span class="token function">curl</span> <span class="token parameter variable">-k</span> https://localhost
+	</code>
+</pre>
+<p dir="auto">
+	Проверить по IP-адресу:
+</p>
+<pre class="language-bash">
+	<code class="language-bash is-loaded">
+		<span class="token function">curl</span> <span class="token parameter variable">-k</span> https://192.168.1.50
+	</code>
+</pre>
+<p dir="auto">
+	Ожидаемый результат должен содержать:
+</p>
+<pre class="language-text">
+	<code class="language-text is-loaded">SaaS application runtime is ready</code>
+</pre>
+<p dir="auto">
+	Проверить, увеличивается ли счётчик Redis:
+</p>
+<pre class="language-bash">
+	<code class="language-bash is-loaded">
+		<span class="token function">curl</span> <span class="token parameter variable">-k</span> https://192.168.1.50 <span
+			class="token operator"
+		>
+			|
+		</span>
+		<span class="token function">grep</span> <span class="token string">"Visit counter"</span>
+		<span class="token function">curl</span> <span class="token parameter variable">-k</span> https://192.168.1.50 <span
+			class="token operator"
+		>
+			|
+		</span>
+		<span class="token function">grep</span> <span class="token string">"Visit counter"</span>
+		<span class="token function">curl</span> <span class="token parameter variable">-k</span> https://192.168.1.50 <span
+			class="token operator"
+		>
+			|
+		</span>
+		<span class="token function">grep</span> <span class="token string">"Visit counter"</span>
+	</code>
+</pre>
+<p dir="auto">
+	Если счётчик увеличивается, значит:
+</p>
+<ul>
+	<li dir="auto">Nginx принимает запрос;<br /></li>
+	<li dir="auto">Nginx передаёт запрос в Apache;<br /></li>
+	<li dir="auto">Apache отдаёт PHP-приложение;<br /></li>
+	<li dir="auto">PHP выполняется на сервере;<br /></li>
+	<li dir="auto">PHP подключается к Redis;<br /></li>
+	<li dir="auto">Redis сохраняет значение счётчика.<br /></li>
+</ul>
+<p dir="auto">
+	Открыть в браузере:
+</p>
+<pre class="language-text">
+	<code class="language-text is-loaded">https://192.168.1.50</code>
+</pre>
+<p dir="auto">
+	или:
+</p>
+<pre class="language-text">
+	<code class="language-text is-loaded">https://saas-node-01.local</code>
+</pre>
+<p dir="auto">
+	Браузер может показать предупреждение о самоподписанном сертификате. Для учебной среды это допустимо.
+</p>

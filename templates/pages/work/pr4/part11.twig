@@ -1,0 +1,134 @@
+<h2 data-heading="Этап 6. Создание виртуального хоста Apache" dir="auto">Этап 6. Создание виртуального хоста Apache</h2>
+<p dir="auto">
+	Создать конфигурационный файл Apache:
+</p>
+<pre class="language-bash">
+	<code class="language-bash is-loaded">
+		<span class="token function">sudo</span> <span class="token function">nano</span> /etc/apache2/sites-available/saas-app.conf
+	</code>
+</pre>
+<p dir="auto">
+	Добавить конфигурацию:
+</p>
+<pre class="language-apache">
+	<code class="language-apache is-loaded">
+		&lt;VirtualHost 127.0.0.1:8080&gt; ServerName saas-node-01.local ServerAdmin admin@example.local
+
+		DocumentRoot /var/www/saas-app/public
+
+		&lt;Directory /var/www/saas-app/public&gt; Options -Indexes +FollowSymLinks AllowOverride All Require all
+		granted &lt;/Directory&gt;
+
+		ErrorLog ${APACHE_LOG_DIR}/saas-app.error.log CustomLog ${APACHE_LOG_DIR}/saas-app.access.log combined
+		&lt;/VirtualHost&gt;
+	</code>
+</pre>
+<p dir="auto">
+	Назначение основных параметров:
+</p>
+<table>
+	<thead>
+		<tr>
+			<th>Параметр</th>
+			<th>Назначение</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td><code>&lt;VirtualHost 127.0.0.1:8080&gt;</code></td>
+			<td>Apache принимает запросы только локально на порту <code>8080</code></td>
+		</tr>
+		<tr>
+			<td><code>ServerName</code></td>
+			<td>имя сайта</td>
+		</tr>
+		<tr>
+			<td><code>DocumentRoot</code></td>
+			<td>каталог публичных файлов приложения</td>
+		</tr>
+		<tr>
+			<td><code>&lt;Directory&gt;</code></td>
+			<td>правила доступа к каталогу приложения</td>
+		</tr>
+		<tr>
+			<td><code>Options -Indexes</code></td>
+			<td>запрещает просмотр списка файлов каталога</td>
+		</tr>
+		<tr>
+			<td><code>AllowOverride All</code></td>
+			<td>разрешает использование <code>.htaccess</code>, если потребуется</td>
+		</tr>
+		<tr>
+			<td><code>Require all granted</code></td>
+			<td>разрешает доступ к каталогу</td>
+		</tr>
+		<tr>
+			<td><code>ErrorLog</code></td>
+			<td>отдельный журнал ошибок</td>
+		</tr>
+		<tr>
+			<td><code>CustomLog</code></td>
+			<td>отдельный журнал запросов</td>
+		</tr>
+	</tbody>
+</table>
+<p dir="auto">
+	Отключить стандартный сайт Apache:
+</p>
+<pre class="language-bash">
+	<code class="language-bash is-loaded"><span class="token function">sudo</span> a2dissite 000-default.conf</code>
+</pre>
+<p dir="auto">
+	Включить сайт SaaS-приложения:
+</p>
+<pre class="language-bash">
+	<code class="language-bash is-loaded"><span class="token function">sudo</span> a2ensite saas-app.conf</code>
+</pre>
+<p dir="auto">
+	Включить модуль <code>rewrite</code>, который часто требуется веб-приложениям:
+</p>
+<pre class="language-bash">
+	<code class="language-bash is-loaded"><span class="token function">sudo</span> a2enmod rewrite</code>
+</pre>
+<p dir="auto">
+	Проверить конфигурацию Apache:
+</p>
+<pre class="language-bash">
+	<code class="language-bash is-loaded"><span class="token function">sudo</span> apache2ctl configtest</code>
+</pre>
+<p dir="auto">
+	Ожидаемый результат:
+</p>
+<pre class="language-text">
+	<code class="language-text is-loaded">Syntax OK</code>
+</pre>
+<p dir="auto">
+	Перезапустить Apache:
+</p>
+<pre class="language-bash">
+	<code class="language-bash is-loaded"><span class="token function">sudo</span> systemctl restart apache2</code>
+</pre>
+<p dir="auto">
+	Проверить порт:
+</p>
+<pre class="language-bash">
+	<code class="language-bash is-loaded">
+		<span class="token function">sudo</span> ss <span class="token parameter variable">-tulpn</span>
+		<span class="token operator">|</span> <span class="token function">grep</span> :8080
+	</code>
+</pre>
+<p dir="auto">
+	Ожидаемый результат должен показывать, что Apache слушает <code>127.0.0.1:8080</code>.
+</p>
+<p dir="auto">
+	Проверить backend локально:
+</p>
+<pre class="language-bash">
+	<code class="language-bash is-loaded"><span class="token function">curl</span> http://127.0.0.1:8080</code>
+</pre>
+<p dir="auto">
+	Ожидаемый результат должен содержать:
+</p>
+<pre class="language-text">
+	<code class="language-text is-loaded">SaaS application backend is ready</code>
+</pre>

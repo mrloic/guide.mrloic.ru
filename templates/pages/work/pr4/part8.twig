@@ -1,0 +1,55 @@
+<h2 data-heading="Этап 3. Установка Apache" dir="auto">Этап 3. Установка Apache</h2>
+<p dir="auto">
+	Установить Apache:
+</p>
+<pre class="language-bash">
+	<code class="language-bash is-loaded">
+		<span class="token function">sudo</span> <span class="token function">apt</span>
+		<span class="token function">install</span> <span class="token parameter variable">-y</span> apache2
+	</code>
+</pre>
+<p dir="auto">
+	Проверить версию Apache:
+</p>
+<pre class="language-bash">
+	<code class="language-bash is-loaded">apache2 <span class="token parameter variable">-v</span></code>
+</pre>
+<p dir="auto">
+	Проверить состояние службы:
+</p>
+<pre class="language-bash">
+	<code class="language-bash is-loaded"><span class="token function">sudo</span> systemctl status apache2</code>
+</pre>
+<p dir="auto">
+	Ожидаемый результат:
+</p>
+<pre class="language-text">
+	<code class="language-text is-loaded">active (running)</code>
+</pre>
+<p dir="auto">
+	Если служба не запущена, выполнить:
+</p>
+<pre class="language-bash">
+	<code class="language-bash is-loaded"><span class="token function">sudo</span> systemctl start apache2</code>
+</pre>
+<p dir="auto">
+	Включить автозапуск:
+</p>
+<pre class="language-bash">
+	<code class="language-bash is-loaded">
+		<span class="token function">sudo</span> systemctl <span class="token builtin class-name">enable</span> apache2
+	</code>
+</pre>
+<p dir="auto">
+	Проверить, какие порты слушает Apache:
+</p>
+<pre class="language-bash">
+	<code class="language-bash is-loaded">
+		<span class="token function">sudo</span> ss <span class="token parameter variable">-tulpn</span>
+		<span class="token operator">|</span> <span class="token function">grep</span> apache
+	</code>
+</pre>
+<p dir="auto">
+	По умолчанию Apache может занять порт <code>80</code>, но в данной инфраструктуре внешний порт <code>80</code> уже должен
+	использовать Nginx. Поэтому Apache необходимо перевести на внутренний порт <code>8080</code>.
+</p>

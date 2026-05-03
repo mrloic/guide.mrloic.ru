@@ -1,0 +1,59 @@
+{% extends 'layouts/base.twig' %}
+
+{% set page_title = 'Практическая работа №4' %}
+{% set body_class = 'subpage' %}
+
+{% block head %}
+	<link rel="stylesheet" href="/assets/css/works/pr4.css" />
+{% endblock %}
+
+{% block content %}
+	<section id="content">
+		<div class="container">
+			<div class="row">
+				<div class="col-9 col-12-medium">
+					<section>
+						{% include 'pages/work/pr4/part1.twig' %}
+						{% include 'pages/work/pr4/part2.twig' %}
+						{% include 'pages/work/pr4/part3.twig' %}
+						{% include 'pages/work/pr4/part4.twig' %}
+						{% include 'pages/work/pr4/part5.twig' %}
+						{% include 'pages/work/pr4/part6.twig' %}
+						{% include 'pages/work/pr4/part7.twig' %}
+						{% include 'pages/work/pr4/part8.twig' %}
+						{% include 'pages/work/pr4/part9.twig' %}
+						{% include 'pages/work/pr4/part10.twig' %}
+						{% include 'pages/work/pr4/part11.twig' %}
+						{% include 'pages/work/pr4/part12.twig' %}
+						{% include 'pages/work/pr4/part13.twig' %}
+						{% include 'pages/work/pr4/part14.twig' %}
+						{% include 'pages/work/pr4/part15.twig' %}
+						{% include 'pages/work/pr4/part16.twig' %}
+						{% include 'pages/work/pr4/part17.twig' %}
+						{% include 'pages/work/pr4/part18.twig' %}
+						{% include 'pages/work/pr4/part19.twig' %}
+						{% include 'pages/work/pr4/part20.twig' %}
+						{% include 'pages/work/pr4/part21.twig' %}
+						{% include 'pages/work/pr4/part22.twig' %}
+						{% include 'pages/work/pr4/part23.twig' %}
+						{% include 'pages/work/pr4/part24.twig' %}
+						{% include 'pages/work/pr4/part25.twig' %}
+						{% include 'pages/work/pr4/part26.twig' %}
+						{% include 'pages/work/pr4/part27.twig' %}
+					</section>
+				</div>
+				<div class="col-3 col-12-medium">
+					<section>
+						<header>
+							<h2>Навигация</h2>
+						</header>
+						<ul class="link-list">
+							<li><a href="/installation">Назад к установке</a></li>
+							{# <li><a href="/verification">Перейти к проверке</a></li> #}
+						</ul>
+					</section>
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}

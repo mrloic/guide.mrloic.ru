@@ -1,65 +1,66 @@
 <h2 data-heading="Этап 12. Настройка базового firewall" dir="auto">Этап 12. Настройка базового firewall</h2>
 <p dir="auto">
-  Для ограничения сетевого доступа используется firewall. В Debian и Ubuntu часто применяется <code>ufw</code> — простой интерфейс
-  для управления правилами фильтрации трафика. Ubuntu Community Help Wiki указывает, что актуальную справку по синтаксису
-  <code>ufw</code> можно получить через <code>man ufw</code>, а сам инструмент используется как упрощённый интерфейс
-  управления firewall.
+	Для ограничения сетевого доступа используется firewall. В Debian и Ubuntu часто применяется <code>ufw</code> — простой
+	интерфейс для управления правилами фильтрации трафика. Ubuntu Community Help Wiki указывает, что актуальную справку по
+	синтаксису
+	<code>ufw</code> можно получить через <code>man ufw</code>, а сам инструмент используется как упрощённый интерфейс
+	управления firewall.
 </p>
 <p dir="auto">
-  Установить UFW:
-</p>
-<pre class="language-bash">
-  <code class="language-bash is-loaded">
-    <span class="token function">sudo</span> <span class="token function">apt</span>
-    <span class="token function">install</span> <span class="token parameter variable">-y</span> ufw
-  </code>
-</pre>
-<p dir="auto">
-  Разрешить SSH:
+	Установить UFW:
 </p>
 <pre class="language-bash">
-  <code class="language-bash is-loaded"><span class="token function">sudo</span> ufw allow OpenSSH</code>
+	<code class="language-bash is-loaded">
+		<span class="token function">sudo</span> <span class="token function">apt</span>
+		<span class="token function">install</span> <span class="token parameter variable">-y</span> ufw
+	</code>
 </pre>
 <p dir="auto">
-  или:
+	Разрешить SSH:
 </p>
 <pre class="language-bash">
-  <code class="language-bash is-loaded">
-    <span class="token function">sudo</span> ufw allow <span class="token number">22</span>/tcp
-  </code>
+	<code class="language-bash is-loaded"><span class="token function">sudo</span> ufw allow OpenSSH</code>
 </pre>
 <p dir="auto">
-  Включить firewall:
+	или:
 </p>
 <pre class="language-bash">
-  <code class="language-bash is-loaded">
-    <span class="token function">sudo</span> ufw <span class="token builtin class-name">enable</span>
-  </code>
+	<code class="language-bash is-loaded">
+		<span class="token function">sudo</span> ufw allow <span class="token number">22</span>/tcp
+	</code>
 </pre>
 <p dir="auto">
-  Проверить состояние:
+	Включить firewall:
 </p>
 <pre class="language-bash">
-  <code class="language-bash is-loaded"><span class="token function">sudo</span> ufw status verbose</code>
+	<code class="language-bash is-loaded">
+		<span class="token function">sudo</span> ufw <span class="token builtin class-name">enable</span>
+	</code>
 </pre>
 <p dir="auto">
-  Ожидаемый результат:
+	Проверить состояние:
 </p>
 <pre class="language-bash">
-  <code class="language-bash is-loaded">Status: active</code>
+	<code class="language-bash is-loaded"><span class="token function">sudo</span> ufw status verbose</code>
 </pre>
 <p dir="auto">
-  В списке правил должно быть разрешение для SSH.
-</p>
-<p dir="auto">
-  На следующих этапах, после установки Apache и Nginx, будут добавлены правила для HTTP и HTTPS:
+	Ожидаемый результат:
 </p>
 <pre class="language-bash">
-  <code class="language-bash is-loaded">
-    <span class="token function">sudo</span> ufw allow <span class="token number">80</span>/tcp
-    <span class="token function">sudo</span> ufw allow <span class="token number">443</span>/tcp
-  </code>
+	<code class="language-bash is-loaded">Status: active</code>
 </pre>
 <p dir="auto">
-  На этапе базовой подготовки ОС открывать порты 80 и 443 необязательно, так как веб-сервер ещё не установлен.
+	В списке правил должно быть разрешение для SSH.
+</p>
+<p dir="auto">
+	На следующих этапах, после установки Apache и Nginx, будут добавлены правила для HTTP и HTTPS:
+</p>
+<pre class="language-bash">
+	<code class="language-bash is-loaded">
+		<span class="token function">sudo</span> ufw allow <span class="token number">80</span>/tcp
+		<span class="token function">sudo</span> ufw allow <span class="token number">443</span>/tcp
+	</code>
+</pre>
+<p dir="auto">
+	На этапе базовой подготовки ОС открывать порты 80 и 443 необязательно, так как веб-сервер ещё не установлен.
 </p>
