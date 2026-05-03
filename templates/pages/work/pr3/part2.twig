@@ -1,0 +1,144 @@
+<h2 data-heading="Исходные условия" dir="auto">Исходные условия</h2>
+<p dir="auto">
+	Перед началом работы должны быть выполнены:
+</p>
+<ul>
+	<li dir="auto"><strong>Практическая работа № 1</strong> — подготовлена виртуальная машина с Linux;<br /></li>
+	<li dir="auto"><strong>Практическая работа № 2</strong> — настроена сеть и проверен SSH-доступ.<br /></li>
+</ul>
+<p dir="auto">
+	Сервер должен иметь следующие параметры:
+</p>
+<table>
+	<thead>
+		<tr>
+			<th>Компонент</th>
+			<th>Требование</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>Операционная система</td>
+			<td>Debian 12 или Ubuntu Server LTS</td>
+		</tr>
+		<tr>
+			<td>Пользователь</td>
+			<td><code>sysadmin</code> или другой пользователь с правами <code>sudo</code></td>
+		</tr>
+		<tr>
+			<td>Сетевой доступ</td>
+			<td>настроен</td>
+		</tr>
+		<tr>
+			<td>SSH</td>
+			<td>работает</td>
+		</tr>
+		<tr>
+			<td>Firewall</td>
+			<td>включён</td>
+		</tr>
+		<tr>
+			<td>Доступ в Интернет</td>
+			<td>есть</td>
+		</tr>
+		<tr>
+			<td>IP-адрес сервера</td>
+			<td>известен</td>
+		</tr>
+		<tr>
+			<td>Hostname</td>
+			<td><code>saas-node-01</code> или аналогичное имя</td>
+		</tr>
+	</tbody>
+</table>
+<p dir="auto">
+	В примерах используется сервер:
+</p>
+<table>
+	<thead>
+		<tr>
+			<th>Параметр</th>
+			<th>Значение</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>Hostname</td>
+			<td><code>saas-node-01</code></td>
+		</tr>
+		<tr>
+			<td>IP-адрес</td>
+			<td><code>192.168.1.50</code></td>
+		</tr>
+		<tr>
+			<td>Локальное имя</td>
+			<td><code>saas-node-01.local</code></td>
+		</tr>
+		<tr>
+			<td>Пользователь</td>
+			<td><code>sysadmin</code></td>
+		</tr>
+		<tr>
+			<td>Backend-порт</td>
+			<td><code>8080</code></td>
+		</tr>
+		<tr>
+			<td>HTTP-порт</td>
+			<td><code>80</code></td>
+		</tr>
+		<tr>
+			<td>HTTPS-порт</td>
+			<td><code>443</code></td>
+		</tr>
+	</tbody>
+</table>
+<p dir="auto">
+	Значения IP-адреса, имени сервера и пользователя необходимо заменить на параметры своей виртуальной машины.
+</p>
+<h2 data-heading="Технические требования" dir="auto">Технические требования</h2>
+<table>
+	<thead>
+		<tr>
+			<th>Параметр</th>
+			<th>Минимальное значение</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>CPU</td>
+			<td>2 vCPU</td>
+		</tr>
+		<tr>
+			<td>RAM</td>
+			<td>2 GB</td>
+		</tr>
+		<tr>
+			<td>Диск</td>
+			<td>20 GB</td>
+		</tr>
+		<tr>
+			<td>ОС</td>
+			<td>Debian 12 / Ubuntu Server LTS</td>
+		</tr>
+		<tr>
+			<td>Веб-сервер</td>
+			<td>Nginx</td>
+		</tr>
+		<tr>
+			<td>Firewall</td>
+			<td>UFW</td>
+		</tr>
+		<tr>
+			<td>Открытые порты</td>
+			<td><code>22/tcp</code>, <code>80/tcp</code>, <code>443/tcp</code></td>
+		</tr>
+		<tr>
+			<td>Проверка</td>
+			<td><code>curl</code>, браузер, <code>systemctl</code>, <code>ss</code></td>
+		</tr>
+	</tbody>
+</table>
+<p dir="auto">
+	На данном этапе SaaS-приложение может быть заменено тестовым backend-сервером. Это нужно для проверки схемы reverse
+	proxy до установки полноценного приложения.
+</p>

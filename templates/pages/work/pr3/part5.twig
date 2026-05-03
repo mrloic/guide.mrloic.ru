@@ -1,0 +1,143 @@
+<h2 data-heading="Этап 6. Создание каталога для тестового backend-приложения" dir="auto">
+	Этап 6. Создание каталога для тестового backend-приложения
+</h2>
+<p dir="auto">
+	До установки реального SaaS-приложения необходимо проверить, что reverse proxy работает. Для этого создаётся простой
+	тестовый backend.
+</p>
+<p dir="auto">
+	Создать каталог:
+</p>
+<pre class="language-bash">
+	<code class="language-bash is-loaded">
+		<span class="token function">mkdir</span> <span class="token parameter variable">-p</span> /opt/saas/app/test-backend
+	</code>
+</pre>
+<p dir="auto">
+	Перейти в каталог:
+</p>
+<pre class="language-bash">
+	<code class="language-bash is-loaded">
+		<span class="token builtin class-name">cd</span> /opt/saas/app/test-backend
+	</code>
+</pre>
+<p dir="auto">
+	Создать тестовый HTML-файл:
+</p>
+<pre class="language-bash">
+	<code class="language-bash is-loaded"><span class="token function">nano</span> index.html</code>
+</pre>
+<p dir="auto">
+	Добавить содержимое:
+</p>
+<pre class="language-html">
+	<code class="language-html is-loaded">
+		<span class="token doctype">
+			<span class="token punctuation">&lt;!</span><span class="token doctype-tag">DOCTYPE</span> <span
+				class="token name"
+			>
+				html
+			</span><span class="token punctuation">&gt;</span>
+		</span>
+		<span class="token tag">
+			<span class="token tag"><span class="token punctuation">&lt;</span>html</span>
+			<span class="token attr-name">lang</span><span class="token attr-value">
+				<span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>ru<span class="token punctuation">"</span>
+			</span><span class="token punctuation">&gt;</span>
+		</span>
+		<span class="token tag">
+			<span class="token tag"><span class="token punctuation">&lt;</span>head</span><span class="token punctuation">&gt;</span>
+		</span>
+		<span class="token tag">
+			<span class="token tag"><span class="token punctuation">&lt;</span>meta</span>
+			<span class="token attr-name">charset</span><span class="token attr-value">
+				<span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>UTF-8<span class="token punctuation">"</span>
+			</span><span class="token punctuation">&gt;</span>
+		</span>
+		<span class="token tag">
+			<span class="token tag"><span class="token punctuation">&lt;</span>title</span><span class="token punctuation">&gt;</span>
+		</span>SaaS Backend Test<span class="token tag">
+			<span class="token tag"><span class="token punctuation">&lt;/</span>title</span><span class="token punctuation">&gt;</span>
+		</span>
+		<span class="token tag">
+			<span class="token tag"><span class="token punctuation">&lt;/</span>head</span><span class="token punctuation">&gt;</span>
+		</span>
+		<span class="token tag">
+			<span class="token tag"><span class="token punctuation">&lt;</span>body</span><span class="token punctuation">&gt;</span>
+		</span>
+		<span class="token tag">
+			<span class="token tag"><span class="token punctuation">&lt;</span>h1</span><span class="token punctuation">&gt;</span>
+		</span>SaaS backend is running<span class="token tag">
+			<span class="token tag"><span class="token punctuation">&lt;/</span>h1</span><span class="token punctuation">&gt;</span>
+		</span>
+		<span class="token tag">
+			<span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">&gt;</span>
+		</span>Тестовый backend-сервер доступен через Nginx reverse proxy.<span class="token tag">
+			<span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">&gt;</span>
+		</span>
+		<span class="token tag">
+			<span class="token tag"><span class="token punctuation">&lt;/</span>body</span><span class="token punctuation">&gt;</span>
+		</span>
+		<span class="token tag">
+			<span class="token tag"><span class="token punctuation">&lt;/</span>html</span><span class="token punctuation">&gt;</span>
+		</span>
+	</code>
+</pre>
+<p dir="auto">
+	Сохранить файл.
+</p>
+<h2 data-heading="Этап 7. Запуск тестового backend-сервера" dir="auto">Этап 7. Запуск тестового backend-сервера</h2>
+<p dir="auto">
+	Для временной проверки можно использовать встроенный HTTP-сервер Python.
+</p>
+<p dir="auto">
+	Проверить наличие Python:
+</p>
+<pre class="language-bash">
+	<code class="language-bash is-loaded">python3 <span class="token parameter variable">--version</span></code>
+</pre>
+<p dir="auto">
+	Запустить тестовый backend на порту <code>8080</code>:
+</p>
+<pre class="language-bash">
+	<code class="language-bash is-loaded">
+		<span class="token builtin class-name">cd</span> /opt/saas/app/test-backend python3 <span
+			class="token parameter variable"
+		>
+			-m
+		</span> http.server <span class="token number">8080</span>
+	</code>
+</pre>
+<p dir="auto">
+	В текущем терминале появится сообщение о запуске сервера.
+</p>
+<p dir="auto">
+	Открыть второй SSH-сеанс и проверить backend локально:
+</p>
+<pre class="language-bash">
+	<code class="language-bash is-loaded">
+		<span class="token function">curl</span> <span class="token parameter variable">-I</span> http://127.0.0.1:8080
+	</code>
+</pre>
+<p dir="auto">
+	Ожидаемый результат:
+</p>
+<pre class="language-bash">
+	<code class="language-bash is-loaded">HTTP/1.0 <span class="token number">200</span> OK</code>
+</pre>
+<p dir="auto">
+	Проверить содержимое:
+</p>
+<pre class="language-bash">
+	<code class="language-bash is-loaded"><span class="token function">curl</span> http://127.0.0.1:8080</code>
+</pre>
+<p dir="auto">
+	Ожидаемый результат должен содержать:
+</p>
+<pre class="language-html">
+	<code class="language-html is-loaded">SaaS backend is running</code>
+</pre>
+<p dir="auto">
+	Важно: этот backend используется только для лабораторной проверки. В дальнейшем его заменит реальное SaaS-приложение
+	или связка Apache/PHP-FPM.
+</p>

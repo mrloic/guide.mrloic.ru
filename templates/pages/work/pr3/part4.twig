@@ -1,0 +1,115 @@
+<h2 data-heading="Этап 4. Открытие HTTP- и HTTPS-портов" dir="auto">Этап 4. Открытие HTTP- и HTTPS-портов</h2>
+<p dir="auto">
+	На предыдущих этапах был открыт только SSH-порт <code>22/tcp</code>. Теперь необходимо разрешить HTTP и HTTPS.
+</p>
+<p dir="auto">
+	Разрешить HTTP:
+</p>
+<pre class="language-bash">
+	<code class="language-bash is-loaded">
+		<span class="token function">sudo</span> ufw allow <span class="token number">80</span>/tcp
+	</code>
+</pre>
+<p dir="auto">
+	Разрешить HTTPS:
+</p>
+<pre class="language-bash">
+	<code class="language-bash is-loaded">
+		<span class="token function">sudo</span> ufw allow <span class="token number">443</span>/tcp
+	</code>
+</pre>
+<p dir="auto">
+	Проверить правила firewall:
+</p>
+<pre class="language-bash">
+	<code class="language-bash is-loaded"><span class="token function">sudo</span> ufw status verbose</code>
+</pre>
+<p dir="auto">
+	Ожидаемый результат должен содержать:
+</p>
+<pre class="language-bash">
+	<code class="language-bash is-loaded">
+		<span class="token number">22</span>/tcp ALLOW IN
+		<span class="token number">80</span>/tcp ALLOW IN
+		<span class="token number">443</span>/tcp ALLOW IN
+	</code>
+</pre>
+<p dir="auto">
+	Если используется профиль приложения Nginx в UFW, можно посмотреть доступные профили:
+</p>
+<pre class="language-bash">
+	<code class="language-bash is-loaded"><span class="token function">sudo</span> ufw app list</code>
+</pre>
+<p dir="auto">
+	И разрешить полный профиль Nginx:
+</p>
+<pre class="language-bash">
+	<code class="language-bash is-loaded">
+		<span class="token function">sudo</span> ufw allow <span class="token string">'Nginx Full'</span>
+	</code>
+</pre>
+<h2 data-heading="Этап 5. Проверка стартовой страницы Nginx" dir="auto">Этап 5. Проверка стартовой страницы Nginx</h2>
+<p dir="auto">
+	Проверить доступность Nginx локально на сервере:
+</p>
+<pre class="language-bash">
+	<code class="language-bash is-loaded">
+		<span class="token function">curl</span> <span class="token parameter variable">-I</span> http://localhost
+	</code>
+</pre>
+<p dir="auto">
+	Ожидаемый результат:
+</p>
+<pre class="language-bash">
+	<code class="language-bash is-loaded">HTTP/1.1 <span class="token number">200</span> OK</code>
+</pre>
+<p dir="auto">
+	Проверить доступность по IP-адресу сервера:
+</p>
+<pre class="language-bash">
+	<code class="language-bash is-loaded">
+		<span class="token function">curl</span> <span class="token parameter variable">-I</span> http://192.168.1.50
+	</code>
+</pre>
+<p dir="auto">
+	С рабочей машины открыть в браузере:
+</p>
+<pre class="language-text">
+	<code class="language-text is-loaded">http://192.168.1.50</code>
+</pre>
+<p dir="auto">
+	Должна открыться стандартная стартовая страница Nginx.
+</p>
+<p dir="auto">
+	Если страница не открывается, необходимо проверить:
+</p>
+<table>
+	<thead>
+		<tr>
+			<th>Возможная причина</th>
+			<th>Команда проверки</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>Nginx не запущен</td>
+			<td><code>systemctl status nginx</code></td>
+		</tr>
+		<tr>
+			<td>Firewall блокирует порт</td>
+			<td><code>sudo ufw status verbose</code></td>
+		</tr>
+		<tr>
+			<td>Неверный IP-адрес</td>
+			<td><code>hostname -I</code></td>
+		</tr>
+		<tr>
+			<td>Сервер недоступен по сети</td>
+			<td><code>ping 192.168.1.50</code></td>
+		</tr>
+		<tr>
+			<td>Порт 80 не слушается</td>
+			<td>`sudo ss -tulpn</td>
+		</tr>
+	</tbody>
+</table>
