@@ -1,0 +1,398 @@
+{% extends 'layouts/base.twig' %}
+
+{% set page_title = 'Практическая работа №1' %}
+{% set body_class = 'subpage' %}
+
+{% block head %}
+	<link rel="stylesheet" href="/assets/css/works/pr1.css" />
+	<style>
+		.screenshot-place {
+			display: flex;
+			flex-direction: column;
+			flex-wrap: nowrap;
+			justify-content: center;
+			align-items: center;
+		}
+
+		.screenshot-place img {
+			width: 800px;
+		}
+
+		.slider {
+			position: relative;
+			width: 600px;
+			max-width: 100%;
+			margin: 0 auto;
+			overflow: hidden;
+		}
+
+		.slides {
+			position: relative;
+		}
+
+		.slide {
+			display: none;
+			width: 100%;
+			height: 350px;
+			object-fit: cover;
+			border-radius: 12px;
+		}
+
+		.slide.active {
+			display: block;
+		}
+
+		.prev, .next {
+			position: absolute;
+			top: 50%;
+			transform: translateY(-59%);
+			background: rgba(0, 0, 0, 0.5);
+			color: white;
+			border: none;
+			font-size: 32px;
+			padding: 5px 18px;
+			cursor: pointer;
+			border-radius: 50%;
+			z-index: 2;
+		}
+
+		.prev {
+			left: 0px;
+		}
+
+		.next {
+			right: 0px;
+		}
+	</style>
+{% endblock %}
+
+{% block content %}
+	<section id="content">
+		<div class="container">
+			<div class="row">
+				<div class="col-9 col-12-medium">
+					<section>
+						<h2>Практическая работа № 1</h2>
+						<h3>Подготовка виртуальной машины с Linux</h3>
+
+						<h3>Цель работы</h3>
+						<p>
+							Подготовить виртуальную машину с Debian 12 или Ubuntu Server LTS для дальнейшей установки
+							Nginx, Apache, PHP, Redis и резервного копирования.
+						</p>
+
+						<h3>Исходные данные</h3>
+						<table>
+							<tbody>
+								<tr>
+									<th>ОС</th>
+									<td>Debian 12 / Ubuntu Server 22.04 или 24.04 LTS</td>
+								</tr>
+								<tr>
+									<th>Hostname</th>
+									<td><code>saas-node-01</code></td>
+								</tr>
+								<tr>
+									<th>Пользователь</th>
+									<td><code>sysadmin</code></td>
+								</tr>
+								<tr>
+									<th>CPU</th>
+									<td>2 vCPU минимум</td>
+								</tr>
+								<tr>
+									<th>RAM</th>
+									<td>2 GB минимум</td>
+								</tr>
+								<tr>
+									<th>Диск</th>
+									<td>20 GB минимум</td>
+								</tr>
+								<tr>
+									<th>Сеть</th>
+									<td>NAT или Bridge</td>
+								</tr>
+							</tbody>
+						</table>
+
+						<h3>Задание 1. Создать виртуальную машину</h3>
+						<p>
+							Создать виртуальную машину со следующими параметрами:
+						</p>
+
+<pre class="language-text code-small"><code>Имя ВМ: saas-node-01
+Тип ОС: Linux
+CPU: 2 vCPU
+RAM: 2048–4096 MB
+Диск: 20–40 GB
+Сеть: NAT или Bridge</code></pre>
+
+						<div class="screenshot-place">
+							<br>
+							<img src="/images/practice-1/Screenshot-1.png" alt="Скриншот 1">
+							<div class="screenshot-text"><strong>Скриншот 1:</strong> параметры созданной виртуальной машины.</div>
+						</div>
+
+						<h3>Задание 2. Установить операционную систему</h3>
+						<div class="slider">
+							<button class="prev">‹</button>
+
+							<div class="slides">
+								<img src="/images/practice-1/setup/setup-1.png" class="slide active" alt="Фото 1">
+								<img src="/images/practice-1/setup/setup-2.png" class="slide" alt="Фото 2">
+								<img src="/images/practice-1/setup/setup-3.png" class="slide" alt="Фото 3">
+								<img src="/images/practice-1/setup/setup-4.png" class="slide" alt="Фото 4">
+								<img src="/images/practice-1/setup/setup-5.png" class="slide" alt="Фото 5">
+								<img src="/images/practice-1/setup/setup-6.png" class="slide" alt="Фото 6">
+								<img src="/images/practice-1/setup/setup-7.png" class="slide" alt="Фото 7">
+								<img src="/images/practice-1/setup/setup-8.png" class="slide" alt="Фото 8">
+								<img src="/images/practice-1/setup/setup-9.png" class="slide" alt="Фото 9">
+								<img src="/images/practice-1/setup/setup-10.png" class="slide" alt="Фото 10">
+								<img src="/images/practice-1/setup/setup-11.png" class="slide" alt="Фото 11">
+								<img src="/images/practice-1/setup/setup-12.png" class="slide" alt="Фото 12">
+								<img src="/images/practice-1/setup/setup-13.png" class="slide" alt="Фото 13">
+								<img src="/images/practice-1/setup/setup-14.png" class="slide" alt="Фото 14">
+								<img src="/images/practice-1/setup/setup-15.png" class="slide" alt="Фото 15">
+								<img src="/images/practice-1/setup/setup-16.png" class="slide" alt="Фото 16">
+								<img src="/images/practice-1/setup/setup-17.png" class="slide" alt="Фото 17">
+								<img src="/images/practice-1/setup/setup-18.png" class="slide" alt="Фото 18">
+								<img src="/images/practice-1/setup/setup-19.png" class="slide" alt="Фото 19">
+								<img src="/images/practice-1/setup/setup-20.png" class="slide" alt="Фото 20">
+								<img src="/images/practice-1/setup/setup-21.png" class="slide" alt="Фото 21">
+								<img src="/images/practice-1/setup/setup-22.png" class="slide" alt="Фото 22">
+								<img src="/images/practice-1/setup/setup-23.png" class="slide" alt="Фото 23">
+							</div>
+
+							<button class="next">›</button>
+						</div>
+						<p>
+							<br>
+							Во время установки указать:
+						</p>
+
+<pre class="language-text code-small"><code>Hostname: saas-node-01
+Domain name: оставить пустым
+Root password: 1
+Пользователь: sysadmin
+Пароль пользователя: 1
+SSH server: включить
+Разметка диска: использовать весь диск
+Графическая оболочка: не устанавливать</code></pre>
+
+						<div class="screenshot-place">
+							<br>
+							<img src="/images/practice-1/Screenshot-2.png" alt="Скриншот 2">
+							<div class="screenshot-text"><strong>Скриншот 2:</strong> экран завершённой установки или первый вход в систему.</div>
+						</div>
+
+						<h3>Задание 3. Проверить систему после установки</h3>
+
+<pre class="language-bash code-small"><code>whoami
+hostname
+cat /etc/os-release</code></pre>
+
+						<p>
+							Ожидаемый результат:
+						</p>
+
+<pre class="language-text code-small"><code>Пользователь: sysadmin
+Hostname: saas-node-01
+ОС: Debian или Ubuntu Server</code></pre>
+
+						<div class="screenshot-place">
+							<br>
+							<img src="/images/practice-1/Screenshot-3.png" alt="Скриншот 3">
+							<div class="screenshot-text"><strong>Скриншот 3:</strong> вывод команд <code>whoami</code>, <code>hostname</code>, <code>
+								cat /etc/os-release
+							</code>.</div>
+						</div>
+
+						<h3>Задание 4. Обновить систему</h3>
+
+<pre class="language-bash code-small"><code>sudo apt update && sudo apt upgrade -y</code></pre>
+
+						<p>
+							После обновления выполнить перезагрузку:
+						</p>
+
+<pre class="language-bash code-small"><code>sudo reboot</code></pre>
+
+						<div class="screenshot-place">
+							<br>
+							<img src="/images/practice-1/Screenshot-4.png" alt="Скриншот 4">
+							<div class="screenshot-text"><strong>Скриншот 4:</strong> успешное выполнение обновления системы.</div>
+						</div>
+
+						<h3>Задание 5. Установить базовые утилиты</h3>
+
+<pre class="language-bash code-small"><code>sudo apt install -y \
+sudo curl wget git nano vim htop net-tools unzip zip \
+ca-certificates gnupg lsb-release apt-transport-https \
+software-properties-common ufw cron</code></pre>
+
+						<p>
+							Проверить установку:
+						</p>
+
+<pre class="language-bash code-small"><code>curl --version
+git --version
+htop --version</code></pre>
+
+						<div class="screenshot-place">
+							<br>
+							<img src="/images/practice-1/Screenshot-5.png" alt="Скриншот 5">
+							<div class="screenshot-text"><strong>Скриншот 5:</strong> вывод проверочных команд.</div>
+						</div>
+
+						<h3>Задание 6. Проверить hostname</h3>
+
+						<p>
+							Открыть файл:
+						</p>
+
+<pre class="language-bash code-small"><code>sudo nano /etc/hosts</code></pre>
+
+						<p>
+							Проверить наличие строки:
+						</p>
+
+<pre class="language-text code-small"><code>127.0.1.1 saas-node-01</code></pre>
+
+						<div class="screenshot-place">
+							<br>
+							<img src="/images/practice-1/Screenshot-6.png" alt="Скриншот 6">
+							<div class="screenshot-text"><strong>Скриншот 6:</strong> вывод <code>hostnamectl</code> и содержимое файла <code>
+								/etc/hosts
+							</code>.</div>
+						</div>
+
+						<h3>Задание 7. Настроить SSH</h3>
+
+<pre class="language-bash code-small"><code>sudo apt install -y openssh-server
+sudo systemctl enable ssh
+sudo systemctl start ssh
+sudo systemctl status ssh</code></pre>
+
+						<p>
+							Узнать IP-адрес сервера:
+						</p>
+
+<pre class="language-bash code-small"><code>hostname -I</code></pre>
+
+						<p>
+							Подключиться с рабочей машины:
+						</p>
+
+<pre class="language-bash code-small"><code>ssh sysadmin@IP_АДРЕС_СЕРВЕРА</code></pre>
+
+						<div class="screenshot-place">
+							<br>
+							<img src="/images/practice-1/Screenshot-7.png" alt="Скриншот 7">
+							<div class="screenshot-text"><strong>Скриншот 7:</strong> статус службы SSH и успешное SSH-подключение.</div>
+						</div>
+
+						<h3>Задание 8. Настроить firewall</h3>
+
+<pre class="language-bash code-small"><code>sudo ufw allow 22/tcp
+sudo ufw enable
+sudo ufw status verbose</code></pre>
+
+						<p>
+							Ожидаемый результат:
+						</p>
+
+<pre class="language-text code-small"><code>Status: active
+22/tcp ALLOW IN</code></pre>
+
+						<div class="screenshot-place">
+							<br>
+							<img src="/images/practice-1/Screenshot-8.png" alt="Скриншот 8">
+							<div class="screenshot-text"><strong>Скриншот 8:</strong> вывод <code>sudo ufw status verbose</code>.</div>
+						</div>
+
+						<h3>Задание 9. Создать рабочие каталоги</h3>
+
+<pre class="language-bash code-small"><code>sudo mkdir -p /opt/saas/app
+sudo mkdir -p /opt/saas/config
+sudo mkdir -p /opt/saas/data
+sudo mkdir -p /opt/saas/backups
+sudo mkdir -p /opt/saas/logs
+sudo mkdir -p /opt/saas/scripts
+
+sudo chown -R sysadmin:sysadmin /opt/saas
+ls -la /opt/saas</code></pre>
+
+						<div class="screenshot-place">
+							<br>
+							<img src="/images/practice-1/Screenshot-9.png" alt="Скриншот 9">
+							<div class="screenshot-text"><strong>Скриншот 9:</strong> структура каталога <code>/opt/saas</code>.</div>
+						</div>
+
+						<h3>Контрольные вопросы</h3>
+						<ol class="ol-self">
+							<li>Для чего используется SSH?</li>
+							<li>Почему серверная ОС устанавливается без графической оболочки?</li>
+							<li>Для чего нужен firewall?</li>
+							<li>Как проверить версию установленной ОС?</li>
+							<li>Для чего создаётся каталог <code>/opt/saas</code>?</li>
+						</ol>
+
+						<h3>Результат работы</h3>
+						<ul class="ul-self">
+							<li>Виртуальная машина создана.</li>
+							<li>Операционная система установлена.</li>
+							<li>Система обновлена.</li>
+							<li>SSH работает.</li>
+							<li>Firewall включён.</li>
+							<li>Рабочие каталоги созданы.</li>
+						</ul>
+					</section>
+				</div>
+				<div class="col-3 col-12-medium">
+					<section>
+						<header>
+							<h2>Навигация</h2>
+						</header>
+						<ul class="link-list">
+							<li><a href="/installation">Назад к установке</a></li>
+							{# <li><a href="/verification">Перейти к проверке</a></li> #}
+						</ul>
+					</section>
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}
+
+
+{% block javascripts %}
+	<script>
+		const slides = document.querySelectorAll(".slide");
+		const prev = document.querySelector(".prev");
+		const next = document.querySelector(".next");
+
+		let currentIndex = 0;
+
+		function showSlide(index) {
+			slides.forEach((slide) => slide.classList.remove("active"));
+
+			if (index < 0) {
+				currentIndex = slides.length - 1;
+			} else if (index >= slides.length) {
+				currentIndex = 0;
+			} else {
+				currentIndex = index;
+			}
+
+			slides[currentIndex].classList.add("active");
+		}
+
+		prev.addEventListener("click", () => {
+			showSlide(currentIndex - 1);
+		});
+
+		next.addEventListener("click", () => {
+			showSlide(currentIndex + 1);
+		});
+	</script>
+{% endblock %}

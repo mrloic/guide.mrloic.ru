@@ -1,0 +1,255 @@
+{% extends 'layouts/base.twig' %}
+
+{% set page_title = 'Практическая работа №2' %}
+{% set body_class = 'subpage' %}
+
+{% block head %}
+	<link rel="stylesheet" href="/assets/css/works/pr2.css" />
+	<style>
+		.screenshot-place {
+			display: flex;
+			flex-direction: column;
+			flex-wrap: nowrap;
+			justify-content: center;
+			align-items: center;
+		}
+
+		.screenshot-place img {
+			width: 800px;
+		}
+	</style>
+{% endblock %}
+
+{% block content %}
+	<section id="content">
+		<div class="container">
+			<div class="row">
+				<div class="col-9 col-12-medium">
+					<section>
+						<h2>Практическая работа № 2</h2>
+						<h3>Настройка сетевых параметров виртуальной машины</h3>
+
+						<h3>Цель работы</h3>
+						<p>
+							Настроить сетевой доступ к серверу, определить IP-адрес, проверить DNS, gateway, SSH и
+							firewall.
+						</p>
+
+						<h3>Исходные данные</h3>
+						<table>
+							<tbody>
+								<tr>
+									<th>Hostname</th>
+									<td><code>saas-node-01</code></td>
+								</tr>
+								<tr>
+									<th>IP</th>
+									<td><code>192.168.89.129</code></td>
+								</tr>
+								<tr>
+									<th>Gateway</th>
+									<td><code>192.168.89.2</code></td>
+								</tr>
+								<tr>
+									<th>DNS</th>
+									<td><code>8.8.8.8</code>, <code>1.1.1.1</code></td>
+								</tr>
+								<tr>
+									<th>Пользователь</th>
+									<td><code>sysadmin</code></td>
+								</tr>
+							</tbody>
+						</table>
+
+						<h3>Задание 1. Определить IP-адрес и интерфейс</h3>
+
+<pre class="language-bash code-small"><code>hostname -I
+ip a
+ip link show</code></pre>
+
+						<p>
+							Записать:
+						</p>
+
+<pre class="language-text code-small"><code>Интерфейс:
+IP-адрес:
+Маска:</code></pre>
+
+						<div class="screenshot-place">
+							<br>
+							<img src="/images/practice-2/Screenshot-1.png" alt="Скриншот 1">
+							<div class="screenshot-text"><strong>Скриншот 1:</strong> вывод <code>hostname -I</code> и <code>ip a</code>.</div>
+						</div>
+
+						<h3>Задание 2. Проверить маршрут по умолчанию</h3>
+
+<pre class="language-bash code-small"><code>ip route
+ip route | grep default</code></pre>
+
+						<p>
+							Ожидаемый результат:
+						</p>
+
+<pre class="language-text code-small"><code>default via 192.168.89.2 dev ens18</code></pre>
+
+						<div class="screenshot-place">
+							<br>
+							<img src="/images/practice-2/Screenshot-2.png" alt="Скриншот 2">
+							<div class="screenshot-text"><strong>Скриншот 2:</strong> вывод <code>ip route</code>.</div>
+						</div>
+
+						<h3>Задание 3. Проверить доступность gateway</h3>
+
+<pre class="language-bash code-small"><code>ping -c 4 192.168.89.2</code></pre>
+
+						<div class="screenshot-place">
+							<br>
+							<img src="/images/practice-2/Screenshot-3.png" alt="Скриншот 3">
+							<div class="screenshot-text"><strong>Скриншот 3:</strong> успешный <code>ping</code> до gateway.</div>
+						</div>
+
+						<h3>Задание 4. Проверить доступ в Интернет</h3>
+
+<pre class="language-bash code-small"><code>ping -c 4 8.8.8.8</code></pre>
+
+						<div class="screenshot-place">
+							<br>
+							<img src="/images/practice-2/Screenshot-4.png" alt="Скриншот 4">
+							<div class="screenshot-text"><strong>Скриншот 4:</strong> успешный <code>ping</code> до <code>8.8.8.8</code>.</div>
+						</div>
+
+						<h3>Задание 5. Проверить DNS</h3>
+
+<pre class="language-bash code-small"><code>ping -c 4 debian.org
+ping -c 4 ubuntu.com
+cat /etc/resolv.conf</code></pre>
+
+						<div class="screenshot-place">
+							<br>
+							<img src="/images/practice-2/Screenshot-5.png" alt="Скриншот 5">
+							<div class="screenshot-text"><strong>Скриншот 5:</strong> успешная проверка DNS и содержимое <code>
+								/etc/resolv.conf
+							</code>.</div>
+						</div>
+
+						<h3>Задание 6. Проверить SSH-доступ</h3>
+
+						<p>
+							С рабочей машины выполнить:
+						</p>
+
+<pre class="language-bash code-small"><code>ssh sysadmin@192.168.89.129</code></pre>
+
+						<p>
+							На сервере после подключения выполнить:
+						</p>
+
+<pre class="language-bash code-small"><code>whoami
+hostname</code></pre>
+
+						<div class="screenshot-place">
+							<br>
+							<img src="/images/practice-2/Screenshot-6.png" alt="Скриншот 6">
+							<div class="screenshot-text"><strong>Скриншот 6:</strong> успешное SSH-подключение.</div>
+						</div>
+
+						<h3>Задание 7. Проверить firewall</h3>
+
+<pre class="language-bash code-small"><code>sudo ufw status verbose</code></pre>
+
+						<p>
+							Ожидаемый результат:
+						</p>
+
+<pre class="language-text code-small"><code>Status: active
+22/tcp ALLOW IN</code></pre>
+
+						<div class="screenshot-place">
+							<br>
+							<img src="/images/practice-2/Screenshot-7.png" alt="Скриншот 7">
+							<div class="screenshot-text"><strong>Скриншот 7:</strong> вывод <code>sudo ufw status verbose</code>.</div>
+						</div>
+
+						<h3>Задание 8. Зафиксировать сетевые параметры</h3>
+
+						<table>
+							<tbody>
+								<tr>
+									<th>Hostname</th>
+									<td></td>
+								</tr>
+								<tr>
+									<th>Интерфейс</th>
+									<td></td>
+								</tr>
+								<tr>
+									<th>IP-адрес</th>
+									<td></td>
+								</tr>
+								<tr>
+									<th>Маска</th>
+									<td></td>
+								</tr>
+								<tr>
+									<th>Gateway</th>
+									<td></td>
+								</tr>
+								<tr>
+									<th>DNS 1</th>
+									<td></td>
+								</tr>
+								<tr>
+									<th>DNS 2</th>
+									<td></td>
+								</tr>
+								<tr>
+									<th>SSH работает</th>
+									<td>да / нет</td>
+								</tr>
+								<tr>
+									<th>Firewall включён</th>
+									<td>да / нет</td>
+								</tr>
+							</tbody>
+						</table>
+
+						<div class="screenshot-place">
+							<br>
+							<img src="/images/practice-2/Screenshot-8.png" alt="Скриншот 8">
+							<div class="screenshot-text"><strong>Скриншот 8:</strong> заполненная таблица сетевых параметров.</div>
+						</div>
+
+						<h3>Контрольные вопросы</h3>
+						<ol class="ol-self">
+							<li>Чем DHCP отличается от статического IP?</li>
+							<li>Для чего нужен gateway?</li>
+							<li>Для чего нужен DNS?</li>
+							<li>Как определить сетевой интерфейс в Linux?</li>
+							<li>Почему SSH должен быть разрешён в firewall?</li>
+						</ol>
+
+						<h3>Результат работы</h3>
+						<ul class="ul-self">
+							<li>IP-адрес определён.</li>
+							<li>Gateway проверен.</li>
+							<li>DNS работает.</li>
+							<li>SSH-подключение проверено.</li>
+							<li>Firewall включён.</li>
+						</ul>
+					</section>
+				</div>
+				<div class="col-3 col-12-medium">
+					<section>
+						<header>
+							<h2>Навигация</h2>
+						</header>
+						<ul class="link-list">
+							<li><a href="/installation">Назад к установке</a></li>
+							{# <li><a href="/verification">Перейти к проверке</a></li> #}
+						</ul>
+					</section>
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}

@@ -1,8 +1,84 @@
-{% extends 'layouts/base.twig' %}
+﻿{% extends 'layouts/base.twig' %}
 
 {% set page_title = 'Требования' %}
 {% set body_class = 'subpage' %}
+{% block head %}
+	<style>
+		
 
+		code, kbd { font-family: "Roboto Mono", "Courier New", Courier, monospace; background-color: #f5f5f5; }
+
+		pre { box-sizing: border-box; width: 100%; max-width: 100%; margin: 1em 0; padding: 16px 18px;
+
+		background-color: #f5f5f5; border: 1px solid #e0e0e0; border-radius: 6px;
+
+		overflow-x: hidden;
+
+		white-space: pre-wrap; }
+
+		pre code { display: block; padding: 0; margin: 0;
+
+		background: transparent; color: #222;
+
+		font-family: "Roboto Mono", "Courier New", Courier, monospace; font-size: 14px; line-height: 1.6;
+
+		white-space: pre-wrap; overflow-wrap: break-word; word-break: normal; }
+
+		table { background: white; border: 1px solid #666; border-collapse: collapse; padding: 0.5em; }
+
+		table thead th, table tfoot th { text-align: left; background-color: #eaeaea; color: black; }
+
+		table th, table td { border: 1px solid #ddd; padding: 0.5em; }
+
+		table td { color: #222222; }
+
+		.callout[data-callout="abstract"] .callout-title, .callout[data-callout="summary"] .callout-title,
+		.callout[data-callout="tldr"] .callout-title, .callout[data-callout="faq"] .callout-title,
+		.callout[data-callout="info"] .callout-title, .callout[data-callout="help"] .callout-title { background-color:
+		#828ee7; } .callout[data-callout="tip"] .callout-title, .callout[data-callout="hint"] .callout-title,
+		.callout[data-callout="important"] .callout-title { background-color: #34bbe6; }
+		.callout[data-callout="success"] .callout-title, .callout[data-callout="check"] .callout-title,
+		.callout[data-callout="done"] .callout-title { background-color: #a3e048; } .callout[data-callout="question"]
+		.callout-title, .callout[data-callout="todo"] .callout-title { background-color: #49da9a; }
+		.callout[data-callout="caution"] .callout-title, .callout[data-callout="attention"] .callout-title {
+		background-color: #f7d038; } .callout[data-callout="warning"] .callout-title, .callout[data-callout="missing"]
+		.callout-title, .callout[data-callout="bug"] .callout-title { background-color: #eb7532; }
+		.callout[data-callout="failure"] .callout-title, .callout[data-callout="fail"] .callout-title,
+		.callout[data-callout="danger"] .callout-title, .callout[data-callout="error"] .callout-title {
+		background-color: #e6261f; } .callout[data-callout="example"] .callout-title { background-color: #d23be7; }
+		.callout[data-callout="quote"] .callout-title, .callout[data-callout="cite"] .callout-title { background-color:
+		#aaaaaa; }
+
+		.callout-icon { flex: 0 0 auto; display: flex; align-self: center; }
+
+		svg.svg-icon { height: 18px; width: 18px; stroke-width: 1.75px; }
+
+		.callout { overflow: hidden; margin: 1em 0; box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0,
+		0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2); border-radius: 4px; }
+
+		.callout-title { padding: 0.5em; display: flex; gap: 8px; font-size: inherit; color: black; line-height: 1.3em;
+		}
+
+		.callout-title-inner { font-weight: bold; color: black; }
+
+		.callout-content { overflow-x: auto; padding: 0.25em 0.5em; color: #222222; background-color: white !important;
+		}
+
+		ul.contains-task-list { padding-left: 0; list-style: none; }
+
+		ul.contains-task-list ul.contains-task-list { padding-left: 2em; }
+
+		ul.contains-task-list li input[type="checkbox"] { margin-right: 0.5em; }
+
+		.callout-table, .callout-table tr, .callout-table p { width: 100%; padding: 0; }
+
+		.callout-table td { width: 100%; padding: 0 1em; }
+
+		.callout-table p { padding-bottom: 0.5em; }
+
+		.source-table { width: 100%; background-color: #f5f5f5; }
+	</style>
+{% endblock %}
 {% block content %}
 	<section id="content">
 		<div class="container">
@@ -13,394 +89,832 @@
 						<header>
 							<h2>2. Требования</h2>
 						</header>
-						<p>
-							Для нового системного администратора понимание требований к серверной инфраструктуре
-							является одной из базовых точек входа в работу с SaaS-решением. До начала настройки,
-							сопровождения или устранения инцидентов необходимо ясно понимать, <strong>
-								какой именно должна быть система
-							</strong>, <strong>какие свойства она обязана обеспечивать</strong>, <strong>
-								какие риски считаются критическими
-							</strong> и <strong>по каким критериям оценивается её работоспособность</strong>. Если
-							системный администратор не ориентируется в требованиях к инфраструктуре, он может технически
-							корректно выполнить отдельную настройку, но при этом не обеспечить устойчивость сервиса,
-							безопасность данных или требуемый уровень доступности. Именно поэтому раздел требований
-							является не формальным описанием, а практической основой всей дальнейшей работы с
-							инфраструктурой.
+						<p dir="auto">
+							Раздел содержит перечень требований к виртуальной машине, операционной системе, сетевой
+							конфигурации, программным компонентам и сервисам, необходимым для развёртывания учебной
+							SaaS-инфраструктуры.
 						</p>
-						<p>
-							В контексте SaaS-решения требования к серверной архитектуре определяют, как должна быть
-							организована среда, чтобы пользователи могли непрерывно работать с сервисом через сеть, не
-							сталкивались с потерей данных, длительными простоями, критическим падением
-							производительности или нарушением безопасности. Для системного администратора это означает,
-							что его повседневные обязанности — настройка серверов, сопровождение сети, обновление
-							программного обеспечения, резервное копирование, обеспечение информационной безопасности и
-							ведение технической документации — всегда должны соотноситься с этими требованиями. Работа
-							администратора не ограничивается выполнением отдельных операций; она должна быть направлена
-							на то, чтобы инфраструктура реально соответствовала установленным условиям эксплуатации.
+						<h3 data-heading="2.1 Требования к виртуальной машине" dir="auto">
+							2.1 Требования к виртуальной машине
+						</h3>
+						<table>
+							<thead>
+								<tr>
+									<th>Компонент</th>
+									<th align="right">Минимальное значение</th>
+									<th align="right">Рекомендуемое значение</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>Тип среды</td>
+									<td align="right">виртуальная машина</td>
+									<td align="right">
+										виртуальная машина в Proxmox VE / VirtualBox / VMware / Hyper-V
+									</td>
+								</tr>
+								<tr>
+									<td>Архитектура</td>
+									<td align="right">amd64 / x86_64</td>
+									<td align="right">amd64 / x86_64</td>
+								</tr>
+								<tr>
+									<td>CPU</td>
+									<td align="right">2 vCPU</td>
+									<td align="right">4 vCPU</td>
+								</tr>
+								<tr>
+									<td>RAM</td>
+									<td align="right">2 GB</td>
+									<td align="right">4–8 GB</td>
+								</tr>
+								<tr>
+									<td>Диск</td>
+									<td align="right">20 GB</td>
+									<td align="right">40 GB SSD/NVMe</td>
+								</tr>
+								<tr>
+									<td>Сетевой адаптер</td>
+									<td align="right">1 адаптер</td>
+									<td align="right">bridge/NAT с доступом в Интернет</td>
+								</tr>
+								<tr>
+									<td>Доступ к серверу</td>
+									<td align="right">консоль ВМ</td>
+									<td align="right">SSH + консоль ВМ</td>
+								</tr>
+							</tbody>
+						</table>
+						<h3 data-heading="2.2 Требования к операционной системе" dir="auto">
+							2.2 Требования к операционной системе
+						</h3>
+						<p dir="auto">
+							В лабораторных работах допускается использовать один из следующих дистрибутивов:
 						</p>
-						<p>
-							Требования к серверной инфраструктуре условно делятся на несколько групп. Первая группа
-							связана с функциональными требованиями, то есть с тем, что именно должна обеспечивать
-							система в процессе своей работы. Вторая группа включает нефункциональные требования,
-							определяющие качественные характеристики инфраструктуры: доступность, масштабируемость,
-							управляемость и производительность. Третья группа относится к данным и охватывает их
-							целостность, резервирование, хранение и восстановление. Четвёртая группа связана с
-							безопасности и включает защиту доступа, шифрование, аудит событий и меры по снижению рисков
-							внешнего и внутреннего воздействия. Для нового системного администратора понимание всех этих
-							групп требований важно потому, что именно они определяют логику настройки серверной среды и
-							порядок её сопровождения.
+						<table>
+							<thead>
+								<tr>
+									<th>Операционная система</th>
+									<th>Версия</th>
+									<th>Назначение</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>Debian</td>
+									<td>Debian 12 Bookworm</td>
+									<td>основной рекомендуемый вариант</td>
+								</tr>
+								<tr>
+									<td>Ubuntu Server</td>
+									<td>Ubuntu Server 22.04 LTS / 24.04 LTS</td>
+									<td>альтернативный вариант</td>
+								</tr>
+							</tbody>
+						</table>
+						<h3 data-heading="2.3 Требования к системным пакетам" dir="auto">
+							2.3 Требования к системным пакетам
+						</h3>
+						<p dir="auto">
+							На сервере должны быть установлены базовые административные и диагностические пакеты:
 						</p>
-						<p>
-							В реальной работе системный администратор должен учитывать, что любая серверная
-							инфраструктура строится не «в целом надёжной», а соответствующей определённым требованиям
-							организации. Например, если сервис должен быть доступен круглосуточно, архитектура не может
-							опираться на один сервер без резервирования. Если в системе обрабатываются критически важные
-							данные, недостаточно просто организовать локальное хранение без репликации и резервного
-							копирования. Если инфраструктура должна выдерживать рост числа пользователей, она должна
-							поддерживать масштабирование, а не только работать в текущей конфигурации. Если сервис
-							используется через Интернет, вопросы защищённого доступа и разграничения прав становятся не
-							дополнительной мерой, а обязательным элементом архитектуры. Таким образом, требования
-							определяют не только проектирование, но и всю дальнейшую эксплуатацию системы.
+						<table>
+							<thead>
+								<tr>
+									<th>Пакет</th>
+									<th>Назначение</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td><code>sudo</code></td>
+									<td>выполнение административных команд</td>
+								</tr>
+								<tr>
+									<td><code>curl</code></td>
+									<td>проверка HTTP/HTTPS-запросов</td>
+								</tr>
+								<tr>
+									<td><code>wget</code></td>
+									<td>загрузка файлов</td>
+								</tr>
+								<tr>
+									<td><code>git</code></td>
+									<td>работа с репозиториями</td>
+								</tr>
+								<tr>
+									<td><code>nano</code> / <code>vim</code></td>
+									<td>редактирование конфигурационных файлов</td>
+								</tr>
+								<tr>
+									<td><code>htop</code></td>
+									<td>просмотр нагрузки на сервер</td>
+								</tr>
+								<tr>
+									<td><code>net-tools</code></td>
+									<td>сетевые диагностические утилиты</td>
+								</tr>
+								<tr>
+									<td><code>unzip</code>, <code>zip</code></td>
+									<td>работа с архивами</td>
+								</tr>
+								<tr>
+									<td><code>ca-certificates</code></td>
+									<td>работа с HTTPS-сертификатами</td>
+								</tr>
+								<tr>
+									<td><code>gnupg</code></td>
+									<td>работа с ключами репозиториев</td>
+								</tr>
+								<tr>
+									<td><code>lsb-release</code></td>
+									<td>определение версии дистрибутива</td>
+								</tr>
+								<tr>
+									<td><code>apt-transport-https</code></td>
+									<td>работа с HTTPS-репозиториями</td>
+								</tr>
+								<tr>
+									<td><code>software-properties-common</code></td>
+									<td>управление дополнительными репозиториями</td>
+								</tr>
+								<tr>
+									<td><code>ufw</code></td>
+									<td>базовая настройка firewall</td>
+								</tr>
+								<tr>
+									<td><code>cron</code></td>
+									<td>запуск задач по расписанию</td>
+								</tr>
+							</tbody>
+						</table>
+						<p dir="auto">
+							Команда установки:
 						</p>
-						<p>
-							Для нового системного администратора важно понимать и ещё одну вещь: требования существуют
-							не отдельно от его должностных обязанностей, а реализуются через них. Обязанность по
-							конфигурации и настройке серверов связана с обеспечением производительности и устойчивости
-							узлов. Поддержка локальной и глобальной сети связана с требованиями доступности и
-							отказоустойчивости сетевого взаимодействия. Резервное копирование и восстановление данных
-							напрямую относятся к требованиям к данным. Обеспечение информационной безопасности
-							соответствует требованиям защиты инфраструктуры и программного обеспечения. Ведение
-							технической документации обеспечивает управляемость и сопровождаемость системы. Поэтому
-							понимание требований помогает новому специалисту видеть смысл своей работы не на уровне
-							отдельных задач, а на уровне качества всей инфраструктурной среды.
+<pre class="language-bash"><code class="language-bash is-loaded"><span class="token function">sudo</span> <span class="token function">apt</span> update
+<span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> <span class="token parameter variable">-y</span> <span class="token function">sudo</span> <span class="token function">curl</span> <span class="token function">wget</span> <span class="token function">git</span> <span class="token function">nano</span> <span class="token function">vim</span> <span class="token function">htop</span> net-tools <span class="token function">unzip</span> <span class="token function">zip</span> ca-certificates gnupg lsb-release apt-transport-https software-properties-common ufw <span class="token function">cron</span>
+</code></pre>
+						<h3 data-heading="2.4 Требования к веб-серверам" dir="auto">2.4 Требования к веб-серверам</h3>
+						<p dir="auto">
+							В учебной инфраструктуре используются два веб-сервера:
 						</p>
-						<h3>2.1. Функциональные требования</h3>
-						<p>
-							Функциональные требования описывают, какие практические задачи должна выполнять серверная
-							инфраструктура SaaS-решения. Для нового системного администратора это означает понимание
-							того, <strong>что система обязана обеспечивать в рабочем режиме</strong>, независимо от
-							того, какие именно программные продукты и аппаратные средства используются внутри
-							организации. Эти требования служат ориентиром для настройки серверов, сетевых служб,
-							балансировщиков, хранилищ данных и других компонентов инфраструктуры.
+						<table>
+							<thead>
+								<tr>
+									<th>Компонент</th>
+									<th>Требование</th>
+									<th>Назначение</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>Nginx</td>
+									<td>версия из репозитория Debian/Ubuntu</td>
+									<td>внешний reverse proxy, HTTPS, входная точка приложения</td>
+								</tr>
+								<tr>
+									<td>Apache HTTP Server</td>
+									<td>Apache 2.4.x</td>
+									<td>внутренний backend-сервер приложения</td>
+								</tr>
+							</tbody>
+						</table>
+						<h3 data-heading="Требуемые службы" dir="auto">Требуемые службы</h3>
+						<table>
+							<thead>
+								<tr>
+									<th>Служба</th>
+									<th>systemd unit</th>
+									<th align="right">Порт</th>
+									<th>Доступность</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>Nginx</td>
+									<td><code>nginx.service</code></td>
+									<td align="right"><code>80/tcp</code>, <code>443/tcp</code></td>
+									<td>внешняя сеть</td>
+								</tr>
+								<tr>
+									<td>Apache</td>
+									<td><code>apache2.service</code></td>
+									<td align="right"><code>127.0.0.1:8080</code></td>
+									<td>только локально</td>
+								</tr>
+								<tr>
+									<td>SSH</td>
+									<td><code>ssh.service</code></td>
+									<td align="right"><code>22/tcp</code></td>
+									<td>административный доступ</td>
+								</tr>
+							</tbody>
+						</table>
+						<h3 data-heading="Требуемые модули Apache" dir="auto">Требуемые модули Apache</h3>
+						<table>
+							<thead>
+								<tr>
+									<th>Модуль</th>
+									<th>Назначение</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td><code>rewrite</code></td>
+									<td>поддержка URL rewriting</td>
+								</tr>
+								<tr>
+									<td><code>proxy</code></td>
+									<td>проксирование запросов при необходимости</td>
+								</tr>
+								<tr>
+									<td><code>proxy_fcgi</code></td>
+									<td>взаимодействие с PHP-FPM при использовании FastCGI</td>
+								</tr>
+								<tr>
+									<td><code>headers</code></td>
+									<td>управление HTTP-заголовками</td>
+								</tr>
+								<tr>
+									<td><code>ssl</code></td>
+									<td>поддержка HTTPS при необходимости</td>
+								</tr>
+							</tbody>
+						</table>
+						<p dir="auto">
+							Команды включения модулей:
 						</p>
-						<p>
-							Первым и основным функциональным требованием является обеспечение непрерывной доступности
-							сервиса. Пользователь SaaS-решения должен иметь возможность обратиться к приложению через
-							сеть и получить доступ к его функциям в любое время, предусмотренное режимом эксплуатации.
-							Для системного администратора это означает, что инфраструктура не должна зависеть от одного
-							критического узла, отказ которого делает весь сервис недоступным. Даже если отдельный сервер
-							или конкретный экземпляр службы выходит из строя, система должна либо продолжить работу за
-							счёт резервных компонентов, либо восстановить доступность за минимально допустимое время. В
-							практической работе администратора это требование выражается в необходимости правильно
-							распределять роли серверов, поддерживать актуальное состояние сетевых настроек, следить за
-							балансировщиками нагрузки и контролировать доступность прикладных сервисов.
+<pre class="language-bash"><code class="language-bash is-loaded"><span class="token function">sudo</span> a2enmod rewrite
+<span class="token function">sudo</span> a2enmod proxy
+<span class="token function">sudo</span> a2enmod proxy_fcgi
+<span class="token function">sudo</span> a2enmod headers
+<span class="token function">sudo</span> a2enmod ssl
+</code></pre>
+						<h3 data-heading="2.5 Требования к PHP" dir="auto">2.5 Требования к PHP</h3>
+						<table>
+							<thead>
+								<tr>
+									<th>Компонент</th>
+									<th>Требование</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>PHP</td>
+									<td>PHP 8.2 или выше</td>
+								</tr>
+								<tr>
+									<td>Рекомендуемая версия</td>
+									<td>PHP 8.2 / 8.3 / 8.4</td>
+								</tr>
+								<tr>
+									<td>Режим работы</td>
+									<td>PHP-FPM или модуль Apache</td>
+								</tr>
+								<tr>
+									<td>CLI-интерфейс</td>
+									<td>обязателен</td>
+								</tr>
+								<tr>
+									<td>Redis-модуль</td>
+									<td>обязателен</td>
+								</tr>
+							</tbody>
+						</table>
+						<h3 data-heading="Требуемые PHP-пакеты" dir="auto">Требуемые PHP-пакеты</h3>
+						<table>
+							<thead>
+								<tr>
+									<th>Пакет</th>
+									<th>Назначение</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td><code>php</code></td>
+									<td>базовый пакет PHP</td>
+								</tr>
+								<tr>
+									<td><code>php-cli</code></td>
+									<td>выполнение PHP из командной строки</td>
+								</tr>
+								<tr>
+									<td><code>php-fpm</code></td>
+									<td>обработка PHP через FastCGI Process Manager</td>
+								</tr>
+								<tr>
+									<td><code>php-curl</code></td>
+									<td>HTTP-запросы из PHP</td>
+								</tr>
+								<tr>
+									<td><code>php-mbstring</code></td>
+									<td>работа с многобайтовыми строками</td>
+								</tr>
+								<tr>
+									<td><code>php-xml</code></td>
+									<td>обработка XML</td>
+								</tr>
+								<tr>
+									<td><code>php-zip</code></td>
+									<td>работа с ZIP-архивами</td>
+								</tr>
+								<tr>
+									<td><code>php-redis</code></td>
+									<td>подключение PHP к Redis</td>
+								</tr>
+							</tbody>
+						</table>
+						<p dir="auto">
+							Команда установки:
 						</p>
-						<p>
-							Следующим функциональным требованием является поддержка горизонтального масштабирования. Для
-							SaaS-решения это особенно важно, поскольку количество пользователей, объём трафика и
-							нагрузка на серверную часть могут изменяться со временем. Система должна быть организована
-							так, чтобы при росте нагрузки можно было добавлять новые вычислительные узлы и включать их в
-							общую схему обработки запросов без полной перестройки всей архитектуры. Для системного
-							администратора понимание этого требования означает, что при настройке инфраструктуры нельзя
-							ориентироваться только на текущее состояние среды. Необходимо учитывать возможность
-							расширения: предусматривать унифицированные конфигурации, понятные роли узлов, предсказуемую
-							сетевую схему и способы подключения новых серверов к существующей системе.
+<pre class="language-bash"><code class="language-bash is-loaded"><span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> <span class="token parameter variable">-y</span> php php-cli php-fpm php-curl php-mbstring php-xml php-zip php-redis
+</code></pre>
+						<h3 data-heading="2.6 Требования к Redis" dir="auto">2.6 Требования к Redis</h3>
+						<table>
+							<thead>
+								<tr>
+									<th>Компонент</th>
+									<th>Требование</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>Redis</td>
+									<td>Redis Open Source 7.x или версия из репозитория Debian/Ubuntu</td>
+								</tr>
+								<tr>
+									<td>Служба</td>
+									<td><code>redis-server.service</code></td>
+								</tr>
+								<tr>
+									<td>Порт</td>
+									<td><code>6379/tcp</code></td>
+								</tr>
+								<tr>
+									<td>Режим доступа</td>
+									<td>только локально</td>
+								</tr>
+								<tr>
+									<td>Адрес привязки</td>
+									<td><code>127.0.0.1 ::1</code></td>
+								</tr>
+								<tr>
+									<td>Protected mode</td>
+									<td><code>yes</code></td>
+								</tr>
+								<tr>
+									<td>Persistence</td>
+									<td>RDB snapshot</td>
+								</tr>
+							</tbody>
+						</table>
+						<h3 data-heading="Требуемые Redis-пакеты" dir="auto">Требуемые Redis-пакеты</h3>
+						<table>
+							<thead>
+								<tr>
+									<th>Пакет</th>
+									<th>Назначение</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td><code>redis-server</code></td>
+									<td>сервер Redis</td>
+								</tr>
+								<tr>
+									<td><code>redis-tools</code></td>
+									<td>утилита <code>redis-cli</code> и инструменты диагностики</td>
+								</tr>
+							</tbody>
+						</table>
+						<p dir="auto">
+							Команда установки:
 						</p>
-						<p>
-							Ещё одним важным функциональным требованием является устойчивость к отказу отдельных узлов и
-							компонентов. В отказоустойчивой архитектуре сбой одного сервера, одного экземпляра
-							приложения, одного сетевого устройства или одного дискового элемента не должен автоматически
-							приводить к полной остановке всей системы. Новый системный администратор должен понимать,
-							что задача инфраструктуры состоит не в том, чтобы вообще не допускать отказов, а в том,
-							чтобы минимизировать их влияние на работу сервиса. На практике это означает необходимость
-							резервирования компонентов, использования нескольких серверов приложений, репликации данных,
-							настройки health-check механизмов и контроля переключения нагрузки при недоступности узлов.
+<pre class="language-bash"><code class="language-bash is-loaded"><span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> <span class="token parameter variable">-y</span> redis-server redis-tools
+</code></pre>
+						<p dir="auto">
+							Проверка Redis:
 						</p>
-						<p>
-							Отдельным функциональным требованием является обеспечение отказоустойчивого хранения данных.
-							Для SaaS-сервиса наличие работающего веб-интерфейса или сервера приложений не имеет смысла,
-							если данные пользователей недоступны, повреждены или утеряны. Поэтому инфраструктура должна
-							поддерживать механизмы репликации, резервирования и восстановления данных. Для системного
-							администратора это требование напрямую связано с его обязанностями по резервному
-							копированию, восстановлению и сопровождению серверного программного обеспечения. Новый
-							специалист должен воспринимать работу с данными как одну из центральных зон своей
-							ответственности, поскольку именно данные являются самым критичным ресурсом любого
-							SaaS-решения.
+<pre class="language-bash"><code class="language-bash is-loaded">redis-cli <span class="token function">ping</span>
+</code></pre>
+						<p dir="auto">
+							Ожидаемый результат:
 						</p>
-						<p>
-							К функциональным требованиям также относится возможность контролируемого обновления системы.
-							SaaS-сервис развивается, обновляется и изменяется, поэтому серверная инфраструктура должна
-							позволять внедрять новые версии программного обеспечения, применять исправления и изменять
-							конфигурацию без разрушения общей архитектурной устойчивости. Это особенно важно для
-							системного администратора, поскольку именно он участвует в установке, настройке и обновлении
-							операционных систем и программного обеспечения. Понимание данного требования помогает новому
-							специалисту избегать хаотичных изменений в продуктивной среде и осознавать необходимость
-							регламентированного подхода к обновлениям.
+<pre class="language-text"><code class="language-text is-loaded">PONG
+</code></pre>
+						<h3 data-heading="2.7 Требования к сетевой конфигурации" dir="auto">
+							2.7 Требования к сетевой конфигурации
+						</h3>
+						<table>
+							<thead>
+								<tr>
+									<th>Параметр</th>
+									<th>Требование</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>IP-адрес</td>
+									<td>статический или закреплённый DHCP</td>
+								</tr>
+								<tr>
+									<td>DNS</td>
+									<td>рабочее разрешение доменных имён</td>
+								</tr>
+								<tr>
+									<td>Gateway</td>
+									<td>настроен</td>
+								</tr>
+								<tr>
+									<td>SSH</td>
+									<td>доступен по сети</td>
+								</tr>
+								<tr>
+									<td>HTTP</td>
+									<td>доступен через Nginx</td>
+								</tr>
+								<tr>
+									<td>HTTPS</td>
+									<td>доступен через Nginx</td>
+								</tr>
+								<tr>
+									<td>Redis</td>
+									<td>не должен быть доступен из внешней сети</td>
+								</tr>
+								<tr>
+									<td>Apache</td>
+									<td>не должен быть доступен из внешней сети напрямую</td>
+								</tr>
+							</tbody>
+						</table>
+						<h3 data-heading="Используемые порты" dir="auto">Используемые порты</h3>
+						<table>
+							<thead>
+								<tr>
+									<th align="right">Порт</th>
+									<th>Протокол</th>
+									<th>Сервис</th>
+									<th>Доступ</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td align="right"><code>22</code></td>
+									<td>TCP</td>
+									<td>SSH</td>
+									<td>административный доступ</td>
+								</tr>
+								<tr>
+									<td align="right"><code>80</code></td>
+									<td>TCP</td>
+									<td>HTTP / Nginx</td>
+									<td>внешняя сеть</td>
+								</tr>
+								<tr>
+									<td align="right"><code>443</code></td>
+									<td>TCP</td>
+									<td>HTTPS / Nginx</td>
+									<td>внешняя сеть</td>
+								</tr>
+								<tr>
+									<td align="right"><code>8080</code></td>
+									<td>TCP</td>
+									<td>Apache backend</td>
+									<td>только <code>127.0.0.1</code></td>
+								</tr>
+								<tr>
+									<td align="right"><code>6379</code></td>
+									<td>TCP</td>
+									<td>Redis</td>
+									<td>только <code>127.0.0.1</code></td>
+								</tr>
+							</tbody>
+						</table>
+						<h3 data-heading="2.8 Требования к firewall" dir="auto">2.8 Требования к firewall</h3>
+						<p dir="auto">
+							На сервере должен быть включён firewall <code>ufw</code>.
 						</p>
-						<p>
-							Таким образом, функциональные требования определяют основные задачи серверной
-							инфраструктуры: обеспечивать непрерывную доступность сервиса, поддерживать масштабирование,
-							сохранять устойчивость при частичных отказах, защищать данные от потери и поддерживать
-							возможность контролируемого обновления. Для нового системного администратора это не просто
-							технические характеристики системы, а практические ориентиры, которые должны учитываться при
-							каждой настройке, проверке и изменении серверной среды.
+						<p dir="auto">
+							Разрешённые входящие подключения:
 						</p>
-						<h3>2.2. Нефункциональные требования</h3>
-						<p>
-							Нефункциональные требования определяют не то, какие задачи выполняет система, а то, <strong>
-								какими качествами она должна обладать
-							</strong> в процессе эксплуатации. Для нового системного администратора именно эти требования
-							часто оказываются наиболее показательными, потому что по ним оценивается, насколько грамотно организована
-							инфраструктура и насколько качественно она сопровождается. Даже если система формально работает
-							и отвечает на запросы, она не может считаться полноценной, если делает это слишком медленно, нестабильно,
-							неуправляемо или с высоким риском отказа.
+<pre class="language-bash"><code class="language-bash is-loaded"><span class="token function">sudo</span> ufw allow <span class="token number">22</span>/tcp
+<span class="token function">sudo</span> ufw allow <span class="token number">80</span>/tcp
+<span class="token function">sudo</span> ufw allow <span class="token number">443</span>/tcp
+<span class="token function">sudo</span> ufw <span class="token builtin class-name">enable</span>
+</code></pre>
+						<p dir="auto">
+							Проверка:
 						</p>
-						<p>
-							Одним из главных нефункциональных требований является соблюдение заданного уровня
-							доступности сервиса. Обычно это требование связано с внутренними или внешними ожиданиями по
-							SLA, то есть по уровню доступности, который должна обеспечивать система. Для нового
-							системного администратора это означает, что доступность нужно воспринимать не как
-							абстрактную характеристику, а как измеряемый показатель, зависящий от состояния серверов,
-							сети, балансировщиков, хранилищ, баз данных и систем мониторинга. Работа администратора
-							должна быть выстроена так, чтобы инфраструктура соответствовала целевому уровню доступности,
-							а все изменения и настройки оценивались с точки зрения их влияния на непрерывность работы
-							сервиса.
+<pre class="language-bash"><code class="language-bash is-loaded"><span class="token function">sudo</span> ufw status verbose
+</code></pre>
+						<p dir="auto">
+							Ожидаемые разрешённые порты:
 						</p>
-						<p>
-							Не менее важным нефункциональным требованием является производительность. SaaS-решение
-							должно не просто быть доступным, а обеспечивать приемлемую скорость отклика, устойчивую
-							обработку запросов и предсказуемое поведение под нагрузкой. Новый системный администратор
-							должен понимать, что производительность зависит не только от самого приложения, но и от
-							множества инфраструктурных факторов: характеристик серверов, правильности настройки сети,
-							состояния базы данных, работы кэша, распределения нагрузки и параметров операционной
-							системы. В должностной инструкции отдельно указано, что системный администратор должен знать
-							метрики производительности, методы измерения параметров функционирования прикладного
-							программного обеспечения и современные методы контроля производительности
-							инфокоммуникационных систем. Это означает, что контроль производительности является частью
-							его прямой профессиональной функции.
+<pre class="language-text"><code class="language-text is-loaded">22/tcp
+80/tcp
+443/tcp
+</code></pre>
+						<p dir="auto">
+							Порты <code>8080</code> и <code>6379</code> не открываются во внешнюю сеть.
 						</p>
-						<p>
-							Следующим нефункциональным требованием является масштабируемость. В отличие от
-							функционального требования поддержки масштабирования, здесь акцент делается на качестве
-							архитектуры: насколько легко и предсказуемо система может быть расширена без нарушения её
-							устойчивости. Для нового системного администратора это означает, что инфраструктура должна
-							быть понятной, модульной и допускающей расширение без полной переработки всей конфигурации.
-							Если добавление нового узла требует ручной перестройки всех сетевых правил, изменения логики
-							хранения данных и значительных простоев, такую архитектуру сложно назвать масштабируемой.
-							Поэтому администратор должен с самого начала понимать ценность типовых конфигураций,
-							стандартизированных ролей и документированных процедур подключения новых компонентов.
+						<h3 data-heading="2.9 Требования к каталогам" dir="auto">2.9 Требования к каталогам</h3>
+						<p dir="auto">
+							На сервере должны быть подготовлены следующие каталоги:
 						</p>
-						<p>
-							Важным нефункциональным требованием является управляемость инфраструктуры. Система должна
-							быть такой, чтобы её можно было наблюдать, настраивать, проверять, документировать и
-							восстанавливать без неоправданных трудозатрат и без зависимости от одного конкретного
-							специалиста. Для нового системного администратора это означает необходимость поддерживать
-							порядок в конфигурациях, фиксировать внесённые изменения, использовать понятные схемы
-							именования, следить за актуальностью документации и выстраивать инфраструктуру так, чтобы
-							она оставалась сопровождаемой. Ведение технической документации прямо указано в должностных
-							обязанностях системного администратора, а знание требований к содержанию и оформлению
-							нормативной и технической документации относится к его профессиональной подготовке. Это
-							подчёркивает, что управляемость системы обеспечивается не только средствами мониторинга и
-							администрирования, но и качеством её документирования.
+						<table>
+							<thead>
+								<tr>
+									<th>Каталог</th>
+									<th>Назначение</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td><code>/var/www/saas-app/public</code></td>
+									<td>публичные файлы приложения</td>
+								</tr>
+								<tr>
+									<td><code>/opt/saas/app</code></td>
+									<td>файлы приложения или тестового backend</td>
+								</tr>
+								<tr>
+									<td><code>/opt/saas/config</code></td>
+									<td>копии конфигурационных файлов</td>
+								</tr>
+								<tr>
+									<td><code>/opt/saas/data</code></td>
+									<td>служебные данные учебного стенда</td>
+								</tr>
+								<tr>
+									<td><code>/opt/saas/backups</code></td>
+									<td>резервные копии</td>
+								</tr>
+								<tr>
+									<td><code>/opt/saas/logs</code></td>
+									<td>журналы backup-скриптов</td>
+								</tr>
+								<tr>
+									<td><code>/opt/saas/scripts</code></td>
+									<td>служебные скрипты</td>
+								</tr>
+								<tr>
+									<td><code>/etc/nginx/sites-available/saas-app</code></td>
+									<td>конфигурация Nginx</td>
+								</tr>
+								<tr>
+									<td><code>/etc/apache2/sites-available/saas-app.conf</code></td>
+									<td>конфигурация Apache</td>
+								</tr>
+								<tr>
+									<td><code>/etc/nginx/ssl</code></td>
+									<td>TLS-сертификаты</td>
+								</tr>
+							</tbody>
+						</table>
+						<h3 data-heading="2.10 Требования к TLS" dir="auto">2.10 Требования к TLS</h3>
+						<table>
+							<thead>
+								<tr>
+									<th>Параметр</th>
+									<th>Требование</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>HTTPS</td>
+									<td>обязателен для внешнего доступа</td>
+								</tr>
+								<tr>
+									<td>Сертификат для учебной среды</td>
+									<td>самоподписанный</td>
+								</tr>
+								<tr>
+									<td>Сертификат для production-среды</td>
+									<td>сертификат доверенного центра</td>
+								</tr>
+								<tr>
+									<td>Приватный ключ</td>
+									<td>доступен только администратору/root</td>
+								</tr>
+								<tr>
+									<td>HTTP-запросы</td>
+									<td>перенаправляются на HTTPS</td>
+								</tr>
+							</tbody>
+						</table>
+						<h3 data-heading="2.11 Требования к резервному копированию" dir="auto">
+							2.11 Требования к резервному копированию
+						</h3>
+						<table>
+							<thead>
+								<tr>
+									<th>Объект</th>
+									<th>Требование</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>Файлы приложения</td>
+									<td>включаются в backup</td>
+								</tr>
+								<tr>
+									<td>Конфигурация Nginx</td>
+									<td>включается в backup</td>
+								</tr>
+								<tr>
+									<td>Конфигурация Apache</td>
+									<td>включается в backup</td>
+								</tr>
+								<tr>
+									<td>TLS-сертификаты</td>
+									<td>включаются в backup</td>
+								</tr>
+								<tr>
+									<td>Redis dump</td>
+									<td>включается в backup</td>
+								</tr>
+								<tr>
+									<td>Каталог <code>/opt/saas/data</code></td>
+									<td>включается в backup</td>
+								</tr>
+								<tr>
+									<td>Автоматический запуск</td>
+									<td>через <code>cron</code></td>
+								</tr>
+								<tr>
+									<td>Формат архива</td>
+									<td><code>.tar.gz</code></td>
+								</tr>
+								<tr>
+									<td>Проверка восстановления</td>
+									<td>обязательна</td>
+								</tr>
+							</tbody>
+						</table>
+						<p dir="auto">
+							Минимальный состав backup:
 						</p>
-						<p>
-							С нефункциональными требованиями тесно связана устойчивость к изменениям. В рабочей среде
-							серверная инфраструктура не остаётся неизменной: обновляются версии программного
-							обеспечения, меняются параметры сети, вводятся новые узлы, корректируются политики
-							безопасности, расширяется объём обрабатываемых данных. Новый системный администратор должен
-							понимать, что правильно организованная инфраструктура должна выдерживать такие изменения без
-							разрушения своей логики и без неконтролируемого роста сложности. Это означает, что любые
-							действия по обновлению и настройке должны выполняться в рамках понятных процедур и с учётом
-							архитектурных зависимостей.
+<pre class="language-text"><code class="language-text is-loaded">/var/www/saas-app
+/etc/nginx/sites-available/saas-app
+/etc/apache2/sites-available/saas-app.conf
+/etc/nginx/ssl
+/opt/saas/data
+/var/lib/redis/dump.rdb
+</code></pre>
+						<h3 data-heading="2.12 Требования к проверке работоспособности" dir="auto">
+							2.12 Требования к проверке работоспособности
+						</h3>
+						<p dir="auto">
+							После установки компонентов должны выполняться следующие проверки:
 						</p>
-						<p>
-							Отдельного внимания заслуживает требование наблюдаемости системы. Для того чтобы
-							сопровождать инфраструктуру, администратор должен иметь возможность видеть её текущее
-							состояние, отслеживать поведение сервисов, анализировать нагрузку, фиксировать ошибки и
-							вовремя получать уведомления об отклонениях от нормы. Без этого невозможно обеспечить ни
-							производительность, ни доступность, ни устойчивость к отказам. Именно поэтому в дальнейшем в
-							руководстве отдельно рассматриваются мониторинг, алертинг, логирование и анализ инцидентов.
+						<table>
+							<thead>
+								<tr>
+									<th>Проверка</th>
+									<th>Команда</th>
+									<th>Ожидаемый результат</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>Версия ОС</td>
+									<td><code>cat /etc/os-release</code></td>
+									<td>Debian или Ubuntu Server</td>
+								</tr>
+								<tr>
+									<td>IP-адрес</td>
+									<td><code>hostname -I</code></td>
+									<td>отображается IP-адрес</td>
+								</tr>
+								<tr>
+									<td>Nginx</td>
+									<td><code>systemctl status nginx</code></td>
+									<td><code>active (running)</code></td>
+								</tr>
+								<tr>
+									<td>Apache</td>
+									<td><code>systemctl status apache2</code></td>
+									<td><code>active (running)</code></td>
+								</tr>
+								<tr>
+									<td>PHP</td>
+									<td><code>php -v</code></td>
+									<td>PHP 8.2+</td>
+								</tr>
+								<tr>
+									<td>Redis</td>
+									<td><code>redis-cli ping</code></td>
+									<td><code>PONG</code></td>
+								</tr>
+								<tr>
+									<td>Firewall</td>
+									<td><code>ufw status verbose</code></td>
+									<td>активен</td>
+								</tr>
+								<tr>
+									<td>HTTP</td>
+									<td><code>curl -I http://localhost</code></td>
+									<td>редирект или ответ сервера</td>
+								</tr>
+								<tr>
+									<td>HTTPS</td>
+									<td><code>curl -k -I https://localhost</code></td>
+									<td>HTTP-ответ</td>
+								</tr>
+								<tr>
+									<td>Порты</td>
+									<td><code>ss -tulpn</code></td>
+									<td>службы слушают нужные порты</td>
+								</tr>
+								<tr>
+									<td>Backup</td>
+									<td>запуск backup-скрипта</td>
+									<td>создан архив</td>
+								</tr>
+								<tr>
+									<td>Restore</td>
+									<td>тестовое восстановление</td>
+									<td>данные восстановлены</td>
+								</tr>
+							</tbody>
+						</table>
+						<h3 data-heading="2.13 Итоговый перечень сервисов" dir="auto">
+							2.13 Итоговый перечень сервисов
+						</h3>
+						<table>
+							<thead>
+								<tr>
+									<th>Сервис</th>
+									<th>Назначение</th>
+									<th>Обязателен</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td><code>ssh</code></td>
+									<td>удалённое администрирование</td>
+									<td>да</td>
+								</tr>
+								<tr>
+									<td><code>nginx</code></td>
+									<td>reverse proxy, HTTPS, входная точка</td>
+									<td>да</td>
+								</tr>
+								<tr>
+									<td><code>apache2</code></td>
+									<td>внутренний backend</td>
+									<td>да</td>
+								</tr>
+								<tr>
+									<td><code>php-fpm</code></td>
+									<td>выполнение PHP</td>
+									<td>да</td>
+								</tr>
+								<tr>
+									<td><code>redis-server</code></td>
+									<td>кэш / временные данные / тестовое хранилище</td>
+									<td>да</td>
+								</tr>
+								<tr>
+									<td><code>ufw</code></td>
+									<td>firewall</td>
+									<td>да</td>
+								</tr>
+								<tr>
+									<td><code>cron</code></td>
+									<td>запуск backup по расписанию</td>
+									<td>да</td>
+								</tr>
+							</tbody>
+						</table>
+						<h3 data-heading="2.14 Итоговые минимальные требования" dir="auto">
+							2.14 Итоговые минимальные требования
+						</h3>
+						<p dir="auto">
+							Для выполнения лабораторных работ требуется сервер со следующей конфигурацией:
 						</p>
-						<p>
-							Таким образом, нефункциональные требования определяют качество серверной инфраструктуры как
-							рабочей среды. Для нового системного администратора они выражаются в необходимости
-							обеспечивать доступность, контролировать производительность, поддерживать масштабируемость,
-							сохранять управляемость и обеспечивать наблюдаемость системы. Именно по этим признакам в
-							реальной эксплуатации оценивается зрелость и устойчивость серверной архитектуры.
-						</p>
-						<h3>2.3. Требования к данным</h3>
-						<p>
-							Для системного администратора работа с данными является одной из наиболее ответственных
-							областей сопровождения серверной инфраструктуры. В контексте SaaS-решения данные
-							представляют собой основу сервиса: именно ради доступа к данным, их обработки, хранения,
-							изменения и анализа пользователи работают с системой. Если данные утрачены, повреждены,
-							недоступны или восстановлены некорректно, сервис фактически перестаёт выполнять свою
-							основную функцию. Поэтому требования к данным занимают центральное место в архитектуре и
-							должны быть хорошо понятны новому системному администратору.
-						</p>
-						<p>
-							Первое базовое требование к данным — это их целостность. Система должна обеспечивать такое
-							состояние данных, при котором они остаются корректными, непротиворечивыми и пригодными к
-							использованию даже при сбоях отдельных компонентов. Для нового системного администратора это
-							означает, что любые действия с базой данных, файловыми хранилищами, резервными копиями и
-							механизмами репликации должны оцениваться с точки зрения риска нарушения целостности
-							информации. Нельзя рассматривать работу с данными только как техническую операцию хранения.
-							Необходимо понимать, что некорректное обновление, неправильное переключение, сбой во время
-							записи или ошибочное восстановление могут привести к нарушениям, которые будут заметны
-							пользователю уже на уровне бизнес-логики сервиса.
-						</p>
-						<p>
-							Вторым важным требованием является репликация данных. Для отказоустойчивой архитектуры
-							недостаточно хранить информацию только в одном месте. Если база данных или файловое
-							хранилище завязаны на один сервер, его отказ становится критическим событием для всей
-							системы. Поэтому инфраструктура должна предусматривать создание и поддержку копий данных на
-							нескольких узлах или в нескольких средах. Для системного администратора это означает
-							необходимость понимать назначение репликации, контролировать её состояние, следить за
-							синхронностью данных и учитывать особенности переключения между основным и резервным
-							экземплярами. Новый специалист должен чётко осознавать, что наличие репликации само по себе
-							ещё не гарантирует безопасность данных, если её работоспособность не проверяется и не
-							документируется.
-						</p>
-						<p>
-							Третьим обязательным требованием является регулярное резервное копирование. В должностной
-							инструкции системного администратора резервное копирование и восстановление данных прямо
-							указаны как отдельная обязанность, а умение архивировать базы данных, определять точки
-							восстановления и применять современные средства резервирования относится к обязательным
-							профессиональным умениям. Это делает работу с резервными копиями не дополнительной, а одной
-							из основных функций администратора. В условиях SaaS-сервиса резервное копирование необходимо
-							для защиты от аппаратных сбоев, ошибок конфигурации, программных ошибок, вредоносного
-							воздействия, человеческого фактора и иных событий, которые могут повредить данные или
-							сделать их недоступными. Новый системный администратор должен понимать, что резервная копия
-							ценна только тогда, когда она создаётся регулярно, хранится надёжно, контролируется по факту
-							выполнения и пригодна для восстановления.
-						</p>
-						<p>
-							Следующим требованием к данным является возможность восстановления после отказа. Создание
-							резервной копии само по себе ещё не означает готовности системы к аварийному сценарию.
-							Необходимо, чтобы администратор мог определить точку восстановления, выбрать корректную
-							процедуру возврата данных, выполнить восстановление в допустимые сроки и убедиться в
-							корректности результата. Для нового специалиста это особенно важно, потому что работа с
-							восстановлением требует не только технической подготовки, но и дисциплины в
-							документировании. Причины сбоев, ход восстановления и полученный результат должны
-							фиксироваться, чтобы в дальнейшем организация могла оценить качество сопровождения и снизить
-							вероятность повторения аналогичных проблем.
-						</p>
-						<p>
-							Требования к данным также включают необходимость разделения рабочих данных, резервных копий
-							и времен хранилищ. Новый системный администратор должен понимать, что нельзя считать
-							инфраструктуру защищённой, если рабочие данные и их резервные копии расположены на одном и
-							том же узле или в одной и той же зоне отказа. В таком случае единичный аппаратный сбой,
-							ошибка конфигурации или вредоносное воздействие могут затронуть и рабочую среду, и резервные
-							копии одновременно. Поэтому архитектура хранения должна предполагать разумное разделение
-							контуров хранения и наличие независимых точек сохранения информации.
-						</p>
-						<p>
-							Отдельное значение имеет документирование операций с данными. Ведение технической
-							документации относится к должностным обязанностям системного администратора, а требования к
-							оформлению технической документации входят в перечень необходимых знаний. В отношении данных
-							это означает, что процедуры резервного копирования, сроки хранения, расположение копий,
-							используемые средства архивирования, порядок восстановления и результаты проверок должны
-							быть зафиксированы в понятной и доступной форме. Для нового системного администратора это
-							особенно важно, поскольку чёткая документация помогает не только ему самому, но и всей
-							команде сопровождения действовать предсказуемо и слаженно в аварийных ситуациях.
-						</p>
-						<p>
-							Таким образом, требования к данным включают обеспечение их целостности, репликации,
-							регулярного резервного копирования, контролируемого восстановления и надлежащего
-							документирования всех связанных процедур. Для нового системного администратора понимание
-							этих требований является обязательным, поскольку работа с данными затрагивает наиболее
-							чувствительную часть инфраструктуры SaaS-сервиса и напрямую влияет на доверие пользователей
-							к системе.
-						</p>
-						<h3>2.4. Требования к безопасности</h3>
-						<p>
-							Безопасность серверной инфраструктуры SaaS-решения является одной из обязательных областей
-							ответственности системного администратора. В должностной инструкции прямо указано, что
-							системный администратор обязан обеспечивать информационную безопасность системы, а в перечне
-							необходимых знаний и умений отдельно выделены основы информационной безопасности, локальные
-							акты в этой области, типовые уязвимости, методы и средства защиты информации, защищённые
-							протоколы управления, средства защиты от несанкционированного доступа и применение
-							программно-аппаратных средств защиты информации. Для нового системного администратора это
-							означает, что безопасность должна восприниматься не как дополнительная задача, выполняемая
-							«по возможности», а как одно из постоянных условий правильной эксплуатации всей
-							инфраструктуры.
-						</p>
-						<p>
-							Первым базовым требованием к безопасности является использование защищённого сетевого
-							взаимодействия. Для SaaS-решения, доступного через сеть Интернет, это означает необходимость
-							применения TLS-шифрования при передаче данных между пользователем и сервисом, а также между
-							отдельными компонентами инфраструктуры там, где это требуется внутренней архитектурой. Новый
-							системный администратор должен понимать, что защищённое соединение необходимо не только для
-							формального соответствия современным требованиям, но и для предотвращения перехвата данных,
-							компрометации учётных данных и иных сетевых рисков. Поддержание защищённых соединений
-							является частью общей обязанности по установке, настройке и сопровождению программного
-							обеспечения и сетевой инфраструктуры.
-						</p>
-						<p>
-							Следующим важным требованием является разграничение прав доступа. В серверной инфраструктуре
-							не все пользователи и не все сервисы должны иметь одинаковые полномочия. Доступ к системе
-							должен предоставляться в соответствии с ролью, служебной необходимостью и внутренними
-							регламентами организации. Для нового системного администратора это означает необходимость
-							внимательно относиться к созданию учётных записей, настройке прав пользователей, разделению
-							административных и служебных полномочий, контролю доступа к серверным ресурсам и прикладным
-							сервисам. В должностной инструкции отдельно указано, что системный администратор должен
-							уметь идентифицировать права пользователей по доступу к программно-аппаратным средствам и
-							применять специальные средства контроля доступа. Это подчёркивает, что разграничение доступа
-							является частью его прямой профессиональной работы.
-						</p>
-						<p>
-							Третьим требованием является защита от несанкционированного доступа и эксплуатация системы с
-							учётом типовых уязвимостей. Новый системный администратор должен понимать, что серверная
-							инфраструктура подвергается не только риску случайных ошибок, но и риску преднамеренного
-							воздействия. Это может быть попытка подбора учётных данных, использование уязвимостей
-							программного обеспечения, компрометация сетевых служб, доступ к плохо защищённым
-							административным интерфейсам или иные формы несанкционированного воздействия. Поэтому
-							администратор обязан применять методы задания базовых параметров защиты операционных систем,
-							использовать защищённые протоколы управления, учитывать лицензионные и эксплуатационные
-							требования к программному обеспечению, а также контролировать актуальность обновлений
-							безопасности.
-						</p>
-						<p>
-							Отдельным требованием к безопасности является аудит и логирование действий. Защищённая
-							инфраструктура должна не только ограничивать опасные действия, но и фиксировать события,
-							имеющие отношение к безопасности и устойчивости системы. Для нового системного
-							администратора это означает необходимость обеспечивать сбор журналов, хранение информации о
-							событиях доступа, изменениях конфигурации, ошибках служб и инцидентах, связанных с попытками
-							нарушения работы системы. В условиях SaaS-сервиса наличие журналов и аудита особенно важно,
-							поскольку позволяет восстанавливать цепочку событий при инцидентах и принимать решения на
-							основе фактов, а не предположений.
-						</p>
-						<p>
-							К требованиям безопасности также относится защита самой операционной среды. Это включает
-							актуализацию программного обеспечения, контроль лишних служб, ограничение открытых сетевых
-							портов, соблюдение регламентов установки программ, безопасную конфигурацию операционных
-							систем и использование средств антивирусной и иной защитной поддержки там, где это
-							необходимо. Поскольку в обязанности системного администратора входит установка, настройка и
-							обновление операционной системы и программного обеспечения, а также обеспечение
-							информационной безопасности системы, новый специалист должен понимать, что именно на этапе
-							установки и сопровождения закладывается большая часть практической защищённости
-							инфраструктуры. Ошибки, допущенные на этом этапе, могут в дальнейшем привести к
-							компрометации сервиса или осложнить его сопровождение.
-						</p>
-						<p>
-							Важной частью требований к безопасности является соблюдение локальных правовых актов и
-							внутренних регламентов организации. Безопасность инфраструктуры определяется не только
-							техническими средствами, но и установленным порядком работы. Новый системный администратор
-							должен учитывать, что любые действия с серверной инфраструктурой выполняются в соответствии
-							с правилами организации, внутренними требованиями к информационной безопасности, процедурами
-							ввода в эксплуатацию, регламентами обновления и правилами документирования. Такое понимание
-							особенно важно для адаптации нового сотрудника, потому что оно сразу связывает техническую
-							работу с организационной ответственностью.
-						</p>
-						<p>
-							Таким образом, требования к безопасности включают защищённое сетевое взаимодействие,
-							разграничение прав доступа, защиту от несанкционированного доступа, учёт уязвимостей, аудит
-							и логирование событий, безопасную конфигурацию операционной среды и соблюдение внутренних
-							регламентов организации. Для нового системного администратора понимание этих требований
-							является обязательным, поскольку обеспечение безопасности относится к числу его прямых
-							должностных обязанностей и напрямую влияет на устойчивость, доступность и надёжность
-							SaaS-решения.
-						</p>
+						<ul class="ul-self">
+							<li dir="auto">Debian 12 или Ubuntu Server 22.04/24.04 LTS;<br /></li>
+							<li dir="auto">архитектура amd64 / x86_64;<br /></li>
+							<li dir="auto">2 vCPU;<br /></li>
+							<li dir="auto">2 GB RAM минимум, рекомендуется 4 GB;<br /></li>
+							<li dir="auto">20 GB диска минимум, рекомендуется 40 GB;<br /></li>
+							<li dir="auto">доступ в Интернет;<br /></li>
+							<li dir="auto">статический или закреплённый IP-адрес;<br /></li>
+							<li dir="auto">SSH-доступ;<br /></li>
+							<li dir="auto">установленные Nginx, Apache, PHP, Redis;<br /></li>
+							<li dir="auto">включённый firewall;<br /></li>
+							<li dir="auto">
+								открытые порты <code>22</code>, <code>80</code>,
+								<code>443</code>;<br />
+							</li>
+							<li dir="auto">
+								закрытые для внешней сети порты <code>8080</code>,
+								<code>6379</code>;<br />
+							</li>
+							<li dir="auto">настроенное резервное копирование;<br /></li>
+							<li dir="auto">проверенное восстановление.<br /></li>
+						</ul>
 					</section>
 				</div>
 

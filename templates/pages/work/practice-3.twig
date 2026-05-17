@@ -1,0 +1,557 @@
+{% extends 'layouts/base.twig' %}
+
+{% set page_title = 'Практическая работа №3' %}
+{% set body_class = 'subpage' %}
+
+{% block head %}
+	<link rel="stylesheet" href="/assets/css/works/pr3.css" />
+	<style>
+		.screenshot-place {
+			display: flex;
+			flex-direction: column;
+			flex-wrap: nowrap;
+			justify-content: center;
+			align-items: center;
+		}
+
+		.screenshot-place img {
+			width: 800px;
+			border: 1px solid #000;
+		}
+	</style>
+{% endblock %}
+
+{% block content %}
+	<section id="content">
+		<div class="container">
+			<div class="row">
+				<div class="col-9 col-12-medium">
+					<section>
+						<h2>Практическая работа № 3</h2>
+						<h3>Установка и настройка Nginx, PHP-FPM и TLS</h3>
+
+						<h3>Цель работы</h3>
+						<p>
+							Установить Nginx, PHP и PHP-FPM, создать тестовое PHP-приложение, настроить обработку PHP
+							через Nginx, включить HTTPS и проверить доступность приложения.
+						</p>
+
+						<h3>Исходные данные</h3>
+						<table>
+							<tbody>
+								<tr>
+									<th>Операционная система</th>
+									<td>Debian 12</td>
+								</tr>
+								<tr>
+									<th>Hostname</th>
+									<td><code>saas-node-01</code></td>
+								</tr>
+								<tr>
+									<th>IP-адрес</th>
+									<td><code>192.168.89.129</code></td>
+								</tr>
+								<tr>
+									<th>Server name</th>
+									<td><code>saas-node-01.local</code></td>
+								</tr>
+								<tr>
+									<th>Каталог приложения</th>
+									<td><code>/var/www/saas-app/public</code></td>
+								</tr>
+								<tr>
+									<th>HTTP</th>
+									<td><code>80/tcp</code></td>
+								</tr>
+								<tr>
+									<th>HTTPS</th>
+									<td><code>443/tcp</code></td>
+								</tr>
+								<tr>
+									<th>PHP handler</th>
+									<td><code>PHP-FPM</code></td>
+								</tr>
+							</tbody>
+						</table>
+
+						<h3>Задание 1. Установить Nginx</h3>
+
+<pre class="language-bash code-small"><code>sudo apt update
+sudo apt install -y nginx
+sudo systemctl enable nginx
+sudo systemctl start nginx
+sudo systemctl status nginx</code></pre>
+
+						<div class="screenshot-place">
+							<br>
+							<img src="/images/practice-3/Screenshot-1.png" alt="Скриншот 1">
+							<div class="screenshot-text"><strong>Скриншот 1:</strong> статус службы <code>nginx.service</code>.</div>
+						</div>
+
+						<h3>Задание 2. Проверить работу Nginx на порту 80</h3>
+
+<pre class="language-bash code-small"><code>sudo ss -tulpn | grep nginx
+curl -I http://localhost</code></pre>
+
+						<p>
+							Ожидаемый результат:
+						</p>
+
+<pre class="language-text code-small"><code>HTTP/1.1 200 OK</code></pre>
+
+						<div class="screenshot-place">
+							<br>
+							<img src="/images/practice-3/Screenshot-2.png" alt="Скриншот 2">
+							<div class="screenshot-text"><strong>Скриншот 2:</strong> вывод команды <code>ss</code> и результат <code>
+								curl -I http://localhost
+							</code>.</div>
+						</div>
+
+						<h3>Задание 3. Открыть HTTP и HTTPS в firewall</h3>
+
+<pre class="language-bash code-small"><code>sudo ufw allow 80/tcp
+sudo ufw allow 443/tcp
+sudo ufw status verbose</code></pre>
+
+						<p>
+							Ожидаемый результат:
+						</p>
+
+<pre class="language-text code-small"><code>22/tcp  ALLOW IN
+80/tcp  ALLOW IN
+443/tcp ALLOW IN</code></pre>
+
+						<div class="screenshot-place">
+							<br>
+							<img src="/images/practice-3/Screenshot-3.png" alt="Скриншот 3">
+							<div class="screenshot-text"><strong>Скриншот 3:</strong> правила firewall с открытыми портами <code>22</code>, <code>
+								80
+							</code> и <code>443</code>.</div>
+						</div>
+
+						<h3>Задание 4. Установить PHP и PHP-FPM</h3>
+
+<pre class="language-bash code-small"><code>sudo apt install -y php php-cli php-fpm php-curl php-mbstring php-xml php-zip</code></pre>
+
+						<p>
+							Проверить версию PHP и состояние PHP-FPM:
+						</p>
+
+<pre class="language-bash code-small"><code>php -v
+systemctl status php8.2-fpm</code></pre>
+
+						<div class="screenshot-place">
+							<br>
+							<img src="/images/practice-3/Screenshot-4.png" alt="Скриншот 4">
+							<div class="screenshot-text"><strong>Скриншот 4:</strong> версия PHP и статус службы <code>php8.2-fpm</code>.</div>
+						</div>
+
+						<h3>Задание 5. Определить сокет PHP-FPM</h3>
+
+<pre class="language-bash code-small"><code>ls /run/php/
+systemctl status php*-fpm</code></pre>
+
+						<p>
+							Обычно сокет имеет один из следующих видов:
+						</p>
+
+<pre class="language-text code-small"><code>/run/php/php8.2-fpm.sock
+/run/php/php8.3-fpm.sock
+/run/php/php8.4-fpm.sock</code></pre>
+
+						<p>
+							В дальнейшей конфигурации используется пример <code>/run/php/php8.2-fpm.sock</code>. Если на
+							сервере установлен другой сокет, необходимо заменить его на фактическое имя из каталога <code
+							>
+								/run/php/
+							</code>.
+						</p>
+
+						<div class="screenshot-place">
+							<br>
+							<img src="/images/practice-3/Screenshot-5.png" alt="Скриншот 5">
+							<div class="screenshot-text"><strong>Скриншот 5:</strong> список файлов в каталоге <code>/run/php/</code> и найденный PHP-FPM</div>
+							socket.
+						</div>
+
+						<h3>Задание 6. Создать каталог PHP-приложения</h3>
+
+<pre class="language-bash code-small"><code>sudo mkdir -p /var/www/saas-app/public
+sudo chown -R sysadmin:www-data /var/www/saas-app
+sudo chmod -R 755 /var/www/saas-app
+
+ls -la /var/www/saas-app
+ls -la /var/www/saas-app/public</code></pre>
+
+						<div class="screenshot-place">
+							<br>
+							<img src="/images/practice-3/Screenshot-6.png" alt="Скриншот 6">
+							<div class="screenshot-text"><strong>Скриншот 6:</strong> созданный каталог <code>/var/www/saas-app/public</code> и права доступа.</div>
+						</div>
+
+						<h3>Задание 7. Создать тестовое PHP-приложение</h3>
+
+<pre class="language-bash code-small"><code>nano /var/www/saas-app/public/index.php</code></pre>
+
+						<p>
+							Содержимое файла:
+						</p>
+
+<pre class="language-php code-small"><code>&lt;?php
+$serverTime = date('Y-m-d H:i:s');
+$phpVersion = PHP_VERSION;
+?&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html lang="ru"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;SaaS PHP Backend&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;SaaS PHP backend is running&lt;/h1&gt;
+    &lt;p&gt;PHP version: &lt;?php echo $phpVersion; ?&gt;&lt;/p&gt;
+    &lt;p&gt;Server time: &lt;?php echo $serverTime; ?&gt;&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+						<p>
+							Проверить наличие файла:
+						</p>
+
+<pre class="language-bash code-small"><code>ls -la /var/www/saas-app/public
+cat /var/www/saas-app/public/index.php</code></pre>
+
+						<div class="screenshot-place">
+							<br>
+							<img src="/images/practice-3/Screenshot-7.png" alt="Скриншот 7">
+							<div class="screenshot-text"><strong>Скриншот 7:</strong> файл <code>index.php</code> в каталоге приложения.</div>
+						</div>
+
+						<h3>Задание 8. Создать конфигурацию Nginx для PHP-приложения</h3>
+
+<pre class="language-bash code-small"><code>sudo nano /etc/nginx/sites-available/saas-app</code></pre>
+
+						<p>
+							Содержимое файла:
+						</p>
+
+<pre class="language-nginx code-small"><code>server {
+    listen 80;
+    server_name saas-node-01.local 192.168.89.129;
+
+    root /var/www/saas-app/public;
+    index index.php index.html;
+
+    access_log /var/log/nginx/saas-app.access.log;
+    error_log /var/log/nginx/saas-app.error.log;
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    location ~ \.php$ {
+        include snippets/fastcgi-php.conf;
+        fastcgi_pass unix:/run/php/php8.2-fpm.sock;
+    }
+
+    location ~ /\.ht {
+        deny all;
+    }
+}</code></pre>
+
+						<p>
+							Если в задании 5 был найден другой сокет PHP-FPM, заменить строку:
+						</p>
+
+<pre class="language-nginx code-small"><code>fastcgi_pass unix:/run/php/php8.2-fpm.sock;</code></pre>
+
+						<p>
+							на фактический путь, например:
+						</p>
+
+<pre class="language-nginx code-small"><code>fastcgi_pass unix:/run/php/php8.3-fpm.sock;</code></pre>
+
+						<div class="screenshot-place">
+							<br>
+							<img src="/images/practice-3/Screenshot-8.png" alt="Скриншот 8">
+							<div class="screenshot-text"><strong>Скриншот 8:</strong> конфигурационный файл <code>
+								/etc/nginx/sites-available/saas-app
+							</code>.</div>
+						</div>
+
+						<h3>Задание 9. Активировать сайт Nginx</h3>
+
+<pre class="language-bash code-small"><code>sudo ln -s /etc/nginx/sites-available/saas-app /etc/nginx/sites-enabled/saas-app
+sudo rm -f /etc/nginx/sites-enabled/default
+sudo nginx -t
+sudo systemctl reload nginx</code></pre>
+
+						<p>
+							Ожидаемый результат проверки:
+						</p>
+
+<pre class="language-text code-small"><code>syntax is ok
+test is successful</code></pre>
+
+						<div class="screenshot-place">
+							<br>
+							<img src="/images/practice-3/Screenshot-9.png" alt="Скриншот 9">
+							<div class="screenshot-text"><strong>Скриншот 9:</strong> успешная проверка <code>sudo nginx -t</code>.</div>
+						</div>
+
+						<h3>Задание 10. Проверить PHP-приложение через Nginx</h3>
+
+<pre class="language-bash code-small"><code>curl http://localhost
+curl http://192.168.89.129</code></pre>
+
+						<p>
+							Ожидаемый результат должен содержать:
+						</p>
+
+<pre class="language-text code-small"><code>SaaS PHP backend is running
+PHP version:</code></pre>
+
+						<p>
+							Открыть в браузере:
+						</p>
+
+<pre class="language-text code-small"><code>http://192.168.89.129</code></pre>
+
+						<div class="screenshot-place">
+							<br>
+							<img src="/images/practice-3/Screenshot-10.1.png" alt="Скриншот 10.1">
+							<br>
+							<img src="/images/practice-3/Screenshot-10.2.png" alt="Скриншот 10.2">
+							<div class="screenshot-text"><strong>Скриншот 10:</strong> PHP-страница открывается через Nginx.</div>
+						</div>
+
+						<h3>Задание 11. Создать самоподписанный TLS-сертификат</h3>
+
+<pre class="language-bash code-small"><code>sudo mkdir -p /etc/nginx/ssl
+
+sudo openssl req -x509 -nodes -days 365 \
+-newkey rsa:2048 \
+-keyout /etc/nginx/ssl/saas-app.key \
+-out /etc/nginx/ssl/saas-app.crt</code></pre>
+
+						<p>
+							При создании сертификата можно указать:
+						</p>
+
+<pre class="language-text code-small"><code>Country Name: RU
+Organization Name: Training SaaS Infrastructure
+Common Name: saas-node-01.local</code></pre>
+
+						<p>
+							Проверить наличие файлов:
+						</p>
+
+<pre class="language-bash code-small"><code>sudo ls -la /etc/nginx/ssl
+sudo chmod 600 /etc/nginx/ssl/saas-app.key</code></pre>
+
+						<div class="screenshot-place">
+							<br>
+							<img src="/images/practice-3/Screenshot-11.png" alt="Скриншот 11">
+							<div class="screenshot-text"><strong>Скриншот 11:</strong> файлы <code>saas-app.crt</code> и <code>saas-app.key</code>.</div>
+						</div>
+
+						<h3>Задание 12. Включить HTTPS в Nginx</h3>
+
+						<p>
+							Заменить содержимое файла <code>/etc/nginx/sites-available/saas-app</code>:
+						</p>
+
+<pre class="language-nginx code-small"><code>server {
+    listen 80;
+    server_name saas-node-01.local 192.168.89.129;
+
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen 443 ssl;
+    server_name saas-node-01.local 192.168.89.129;
+
+    root /var/www/saas-app/public;
+    index index.php index.html;
+
+    ssl_certificate /etc/nginx/ssl/saas-app.crt;
+    ssl_certificate_key /etc/nginx/ssl/saas-app.key;
+
+    access_log /var/log/nginx/saas-app.access.log;
+    error_log /var/log/nginx/saas-app.error.log;
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    location ~ \.php$ {
+        include snippets/fastcgi-php.conf;
+        fastcgi_pass unix:/run/php/php8.2-fpm.sock;
+    }
+
+    location ~ /\.ht {
+        deny all;
+    }
+}</code></pre>
+
+						<p>
+							Если используется PHP 8.3 или другая версия, заменить строку
+							<code>fastcgi_pass unix:/run/php/php8.2-fpm.sock;</code>
+							на фактический socket.
+						</p>
+
+						<p>
+							Проверить и применить конфигурацию:
+						</p>
+
+<pre class="language-bash code-small"><code>sudo nginx -t
+sudo systemctl reload nginx</code></pre>
+
+						<div class="screenshot-place">
+							<br>
+							<img src="/images/practice-3/Screenshot-12.png" alt="Скриншот 12">
+							<div class="screenshot-text"><strong>Скриншот 12:</strong> успешная проверка <code>nginx -t</code> после включения HTTPS.</div>
+						</div>
+
+						<h3>Задание 13. Проверить HTTPS и редирект</h3>
+
+<pre class="language-bash code-small"><code>curl -k -I https://localhost
+curl -k https://localhost
+curl -I http://localhost</code></pre>
+
+						<p>
+							Ожидаемый результат:
+						</p>
+
+<pre class="language-text code-small"><code>HTTPS возвращает HTTP-ответ
+HTTPS-страница содержит SaaS PHP backend is running
+HTTP возвращает 301 redirect</code></pre>
+
+						<p>
+							Открыть в браузере:
+						</p>
+
+<pre class="language-text code-small"><code>https://192.168.89.129</code></pre>
+
+						<p>
+							Браузер может показать предупреждение о самоподписанном сертификате. Для учебного стенда это
+							допустимо.
+						</p>
+
+						<div class="screenshot-place">
+							<br>
+							<img src="/images/practice-3/Screenshot-13.1.png" alt="Скриншот 13.1">
+							<br>
+							<img src="/images/practice-3/Screenshot-13.2.png" alt="Скриншот 13.2">
+							<div class="screenshot-text"><strong>Скриншот 13:</strong> проверка HTTPS и редиректа HTTP → HTTPS.</div>
+						</div>
+
+						<h3>Задание 14. Проверить журналы Nginx</h3>
+
+<pre class="language-bash code-small"><code>sudo tail -n 30 /var/log/nginx/saas-app.access.log
+sudo tail -n 30 /var/log/nginx/saas-app.error.log</code></pre>
+
+						<div class="screenshot-place">
+							<br>
+							<img src="/images/practice-3/Screenshot-14.png" alt="Скриншот 14">
+							<div class="screenshot-text"><strong>Скриншот 14:</strong> журналы доступа и ошибок Nginx.</div>
+						</div>
+
+						<h3>Задание 15. Зафиксировать результат</h3>
+
+						<table>
+							<tbody>
+								<tr>
+									<th>Hostname</th>
+									<td></td>
+								</tr>
+								<tr>
+									<th>IP-адрес</th>
+									<td></td>
+								</tr>
+								<tr>
+									<th>Версия Nginx</th>
+									<td></td>
+								</tr>
+								<tr>
+									<th>Версия PHP</th>
+									<td></td>
+								</tr>
+								<tr>
+									<th>PHP-FPM socket</th>
+									<td></td>
+								</tr>
+								<tr>
+									<th>Каталог приложения</th>
+									<td><code>/var/www/saas-app/public</code></td>
+								</tr>
+								<tr>
+									<th>Конфигурация Nginx</th>
+									<td><code>/etc/nginx/sites-available/saas-app</code></td>
+								</tr>
+								<tr>
+									<th>HTTP работает</th>
+									<td>да / нет</td>
+								</tr>
+								<tr>
+									<th>HTTPS работает</th>
+									<td>да / нет</td>
+								</tr>
+								<tr>
+									<th>HTTP → HTTPS редирект</th>
+									<td>да / нет</td>
+								</tr>
+								<tr>
+									<th>PHP выполняется</th>
+									<td>да / нет</td>
+								</tr>
+							</tbody>
+						</table>
+
+						<div class="screenshot-place">
+							<br>
+							<img src="/images/practice-3/Screenshot-15.png" alt="Скриншот 15">
+							<div class="screenshot-text"><strong>Скриншот 15:</strong> заполненная таблица результата.</div>
+						</div>
+
+						<h3>Контрольные вопросы</h3>
+						<ol class="ol-self">
+							<li>Для чего используется Nginx?</li>
+							<li>Для чего нужен PHP-FPM?</li>
+							<li>Что делает директива <code>fastcgi_pass</code>?</li>
+							<li>Почему путь к PHP-FPM socket нужно проверять перед настройкой Nginx?</li>
+							<li>Для чего используется TLS-сертификат?</li>
+							<li>Почему самоподписанный сертификат подходит только для учебного стенда?</li>
+							<li>Какая команда проверяет корректность конфигурации Nginx?</li>
+						</ol>
+
+						<h3>Результат работы</h3>
+						<ul class="ul-self">
+							<li>Nginx установлен и запущен.</li>
+							<li>Порты <code>80/tcp</code> и <code>443/tcp</code> открыты в firewall.</li>
+							<li>PHP и PHP-FPM установлены.</li>
+							<li>Тестовое PHP-приложение создано в каталоге <code>/var/www/saas-app/public</code>.</li>
+							<li>Nginx обрабатывает PHP через PHP-FPM.</li>
+							<li>Самоподписанный TLS-сертификат создан.</li>
+							<li>HTTPS включён.</li>
+							<li>HTTP-запросы перенаправляются на HTTPS.</li>
+							<li>Журналы Nginx проверены.</li>
+						</ul>
+					</section>
+				</div>
+				<div class="col-3 col-12-medium">
+					<section>
+						<header>
+							<h2>Навигация</h2>
+						</header>
+						<ul class="link-list">
+							<li><a href="/installation">Назад к установке</a></li>
+							{# <li><a href="/verification">Перейти к проверке</a></li> #}
+						</ul>
+					</section>
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}

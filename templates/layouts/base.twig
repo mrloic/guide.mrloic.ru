@@ -18,6 +18,7 @@
 			{% block header %}
 				{% include 'partials/header.twig' %}
 			{% endblock %}
+			<button class="scroll-to-top" id="scrollToTopBtn" type="button" aria-label="Вернуться наверх">↑</button>
 
 			{% block content %}
 
@@ -25,6 +26,7 @@
 
 			{% include 'partials/copyright.twig' %}
 		</div>
+
 
 		{% include 'partials/scripts.twig' %}
 		{% block javascripts %}
