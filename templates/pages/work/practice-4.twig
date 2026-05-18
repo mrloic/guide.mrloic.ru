@@ -5,6 +5,12 @@
 
 {% block head %}
 	<link rel="stylesheet" href="/assets/css/works/pr4.css" />
+	<style>
+		.screenshot-place { display: flex; flex-direction: column; flex-wrap: nowrap; justify-content: center;
+		align-items: center; }
+
+		.screenshot-place img { width: 800px; border: 1px solid #000; }
+	</style>
 {% endblock %}
 
 {% block content %}
@@ -13,33 +19,600 @@
 			<div class="row">
 				<div class="col-9 col-12-medium">
 					<section>
-						{% include 'pages/work/pr4/part1.twig' %}
-						{% include 'pages/work/pr4/part2.twig' %}
-						{% include 'pages/work/pr4/part3.twig' %}
-						{% include 'pages/work/pr4/part4.twig' %}
-						{% include 'pages/work/pr4/part5.twig' %}
-						{% include 'pages/work/pr4/part6.twig' %}
-						{% include 'pages/work/pr4/part7.twig' %}
-						{% include 'pages/work/pr4/part8.twig' %}
-						{% include 'pages/work/pr4/part9.twig' %}
-						{% include 'pages/work/pr4/part10.twig' %}
-						{% include 'pages/work/pr4/part11.twig' %}
-						{% include 'pages/work/pr4/part12.twig' %}
-						{% include 'pages/work/pr4/part13.twig' %}
-						{% include 'pages/work/pr4/part14.twig' %}
-						{% include 'pages/work/pr4/part15.twig' %}
-						{% include 'pages/work/pr4/part16.twig' %}
-						{% include 'pages/work/pr4/part17.twig' %}
-						{% include 'pages/work/pr4/part18.twig' %}
-						{% include 'pages/work/pr4/part19.twig' %}
-						{% include 'pages/work/pr4/part20.twig' %}
-						{% include 'pages/work/pr4/part21.twig' %}
-						{% include 'pages/work/pr4/part22.twig' %}
-						{% include 'pages/work/pr4/part23.twig' %}
-						{% include 'pages/work/pr4/part24.twig' %}
-						{% include 'pages/work/pr4/part25.twig' %}
-						{% include 'pages/work/pr4/part26.twig' %}
-						{% include 'pages/work/pr4/part27.twig' %}
+						<h2>Практическая работа № 4</h2>
+						<h3>Настройка Apache, Redis и подключение Redis к PHP-приложению</h3>
+
+						<h3>Цель работы</h3>
+						<p>
+							Установить Apache и Redis, настроить Apache как внутренний backend-сервер на <code>
+								127.0.0.1:8080
+							</code>, подключить Redis к PHP-приложению и проверить работу цепочки <code>
+								Nginx → Apache → PHP → Redis
+							</code>.
+						</p>
+
+						<h3>Исходные данные</h3>
+						<table>
+							<tbody>
+								<tr>
+									<th>Операционная система</th>
+									<td>Debian 12</td>
+								</tr>
+								<tr>
+									<th>Hostname</th>
+									<td><code>saas-node-01</code></td>
+								</tr>
+								<tr>
+									<th>IP-адрес</th>
+									<td><code>192.168.89.129</code></td>
+								</tr>
+								<tr>
+									<th>Server name</th>
+									<td><code>saas-node-01.local</code></td>
+								</tr>
+								<tr>
+									<th>Nginx</th>
+									<td>установлен и работает после ПР №3</td>
+								</tr>
+								<tr>
+									<th>PHP / PHP-FPM</th>
+									<td>установлен после ПР №3</td>
+								</tr>
+								<tr>
+									<th>Apache backend</th>
+									<td><code>127.0.0.1:8080</code></td>
+								</tr>
+								<tr>
+									<th>Redis</th>
+									<td><code>127.0.0.1:6379</code></td>
+								</tr>
+								<tr>
+									<th>Каталог приложения</th>
+									<td><code>/var/www/saas-app/public</code></td>
+								</tr>
+							</tbody>
+						</table>
+
+						<h3>Задание 1. Проверить состояние после ПР №3</h3>
+
+<pre class="language-bash code-small"><code>sudo systemctl status nginx
+sudo systemctl status php*-fpm
+php -v
+curl -k https://localhost</code></pre>
+
+						<p>
+							Ожидаемый результат:
+						</p>
+
+<pre class="language-text code-small"><code>Nginx active (running)
+PHP-FPM active (running)
+PHP version отображается
+HTTPS-страница открывается</code></pre>
+
+						<div class="screenshot-place">
+							<br>
+							<img src="/images/practice-4/Screenshot-1.png" alt="Скриншот 1">
+							<div class="screenshot-text"><strong>Скриншот 1:</strong> статус Nginx, PHP-FPM и открытие PHP-страницы через HTTPS.</div>
+						</div>
+
+						<h3>Задание 2. Установить Apache</h3>
+
+<pre class="language-bash code-small"><code>sudo apt update
+sudo apt install -y apache2
+sudo systemctl enable apache2
+sudo systemctl status apache2</code></pre>
+
+						<p>
+							Ожидаемый результат:
+						</p>
+
+<pre class="language-text code-small"><code>active (running)</code></pre>
+
+						<div class="screenshot-place">
+							<br>
+							<img src="/images/practice-4/Screenshot-2.png" alt="Скриншот 2">
+							<div class="screenshot-text"><strong>Скриншот 2:</strong> статус службы <code>apache2.service</code>.</div>
+						</div>
+
+						<h3>Задание 3. Перенести Apache на локальный порт 8080</h3>
+
+						<p>
+							Открыть файл портов Apache:
+						</p>
+
+<pre class="language-bash code-small"><code>sudo nano /etc/apache2/ports.conf</code></pre>
+
+						<p>
+							Заменить строку:
+						</p>
+
+<pre class="language-apache code-small"><code>Listen 80</code></pre>
+
+						<p>
+							на строку:
+						</p>
+
+<pre class="language-apache code-small"><code>Listen 127.0.0.1:8080</code></pre>
+
+						<p>
+							Проверить содержимое файла:
+						</p>
+
+<pre class="language-bash code-small"><code>cat /etc/apache2/ports.conf</code></pre>
+
+						<div class="screenshot-place">
+							<br>
+							<img src="/images/practice-4/Screenshot-3.png" alt="Скриншот 3">
+							<div class="screenshot-text"><strong>Скриншот 3:</strong> файл <code>/etc/apache2/ports.conf</code> со строкой <code>
+								Listen 127.0.0.1:8080
+							</code>.</div>
+						</div>
+
+						<h3>Задание 4. Создать Apache VirtualHost</h3>
+
+<pre class="language-bash code-small"><code>sudo nano /etc/apache2/sites-available/saas-app.conf</code></pre>
+
+						<p>
+							Содержимое файла:
+						</p>
+
+<pre class="language-apache code-small"><code>&lt;VirtualHost 127.0.0.1:8080&gt;
+    ServerName saas-node-01.local
+    ServerAdmin admin@example.local
+
+    DocumentRoot /var/www/saas-app/public
+
+    &lt;Directory /var/www/saas-app/public&gt;
+        Options -Indexes +FollowSymLinks
+        AllowOverride All
+        Require all granted
+    &lt;/Directory&gt;
+
+    ErrorLog ${APACHE_LOG_DIR}/saas-app.error.log
+    CustomLog ${APACHE_LOG_DIR}/saas-app.access.log combined
+&lt;/VirtualHost&gt;</code></pre>
+
+						<p>
+							Активировать сайт и модуль rewrite:
+						</p>
+
+<pre class="language-bash code-small"><code>sudo a2dissite 000-default.conf
+sudo a2ensite saas-app.conf
+sudo a2enmod rewrite
+sudo apache2ctl configtest
+sudo systemctl restart apache2</code></pre>
+
+						<p>
+							Ожидаемый результат проверки:
+						</p>
+
+<pre class="language-text code-small"><code>Syntax OK</code></pre>
+
+						<div class="screenshot-place">
+							<br>
+							<img src="/images/practice-4/Screenshot-4.png" alt="Скриншот 4">
+							<div class="screenshot-text"><strong>Скриншот 4:</strong> результат <code>apache2ctl configtest</code> и перезапуск Apache.</div>
+						</div>
+
+						<h3>Задание 5. Проверить Apache на локальном порту</h3>
+
+<pre class="language-bash code-small"><code>sudo ss -tulpn | grep 8080
+curl http://127.0.0.1:8080</code></pre>
+
+						<p>
+							Ожидаемый результат:
+						</p>
+
+						<ul class="ul-self">
+							<li>Apache слушает <code>127.0.0.1:8080</code>;</li>
+							<li>страница приложения возвращается через локальный backend;</li>
+							<li>порт <code>8080</code> не открыт во внешнюю сеть.</li>
+						</ul>
+
+						<div class="screenshot-place">
+							<br>
+							<img src="/images/practice-4/Screenshot-5.png" alt="Скриншот 5">
+							<div class="screenshot-text"><strong>Скриншот 5:</strong> вывод <code>ss</code> и ответ Apache на <code>
+								127.0.0.1:8080
+							</code>.</div>
+						</div>
+
+						<h3>Задание 6. Установить Redis и PHP-модуль Redis</h3>
+
+<pre class="language-bash code-small"><code>sudo apt install -y redis-server redis-tools php-redis php8.2-redis
+sudo systemctl enable redis-server
+sudo systemctl start redis-server
+sudo systemctl status redis-server</code></pre>
+
+						<p>
+							Проверить наличие PHP-модуля Redis:
+						</p>
+
+<pre class="language-bash code-small"><code>php -m | grep redis</code></pre>
+
+						<p>
+							Если модуль не отображается, перезапустить PHP-FPM:
+						</p>
+
+<pre class="language-bash code-small"><code>sudo systemctl restart php*-fpm</code></pre>
+
+						<div class="screenshot-place">
+							<br>
+							<img src="/images/practice-4/Screenshot-6.png" alt="Скриншот 6">
+							<div class="screenshot-text"><strong>Скриншот 6:</strong> статус Redis и наличие модуля <code>redis</code> в PHP.</div>
+						</div>
+
+						<h3>Задание 7. Ограничить Redis локальным доступом</h3>
+
+						<p>
+							Открыть конфигурацию Redis:
+						</p>
+
+<pre class="language-bash code-small"><code>sudo nano /etc/redis/redis.conf</code></pre>
+
+						<p>
+							Проверить или установить параметры:
+						</p>
+
+<pre class="language-text code-small"><code>bind 127.0.0.1 ::1
+protected-mode yes</code></pre>
+
+						<p>
+							Перезапустить Redis:
+						</p>
+
+<pre class="language-bash code-small"><code>sudo systemctl restart redis-server
+sudo systemctl status redis-server
+sudo ss -tulpn | grep 6379</code></pre>
+
+						<p>
+							Ожидаемый результат:
+						</p>
+
+<pre class="language-text code-small"><code>127.0.0.1:6379</code></pre>
+
+						<div class="screenshot-place">
+							<br>
+							<img src="/images/practice-4/Screenshot-7.png" alt="Скриншот 7">
+							<div class="screenshot-text"><strong>Скриншот 7:</strong> Redis слушает только локальный адрес <code>
+								127.0.0.1:6379
+							</code>.</div>
+						</div>
+
+						<h3>Задание 8. Проверить Redis через redis-cli</h3>
+
+<pre class="language-bash code-small"><code>redis-cli ping
+redis-cli set test_key "Redis works"
+redis-cli get test_key
+redis-cli del test_key</code></pre>
+
+						<p>
+							Ожидаемый результат:
+						</p>
+
+<pre class="language-text code-small"><code>PONG
+"Redis works"</code></pre>
+
+						<div class="screenshot-place">
+							<br>
+							<img src="/images/practice-4/Screenshot-8.png" alt="Скриншот 8">
+							<div class="screenshot-text"><strong>Скриншот 8:</strong> проверка Redis через <code>redis-cli</code>.</div>
+						</div>
+
+						<h3>Задание 9. Обновить PHP-приложение для работы с Redis</h3>
+
+						<p>
+							Открыть файл приложения:
+						</p>
+
+<pre class="language-bash code-small"><code>nano /var/www/saas-app/public/index.php</code></pre>
+
+						<p>
+							Заменить содержимое файла:
+						</p>
+
+<pre class="language-php code-small"><code>&lt;?php
+
+$redisStatus = 'not checked';
+$counter = null;
+$error = null;
+
+try {
+    $redis = new Redis();
+    $redis-&gt;connect('127.0.0.1', 6379, 2.5);
+
+    $redisStatus = $redis-&gt;ping();
+    $counter = $redis-&gt;incr('saas_app_visits');
+} catch (Throwable $e) {
+    $error = $e-&gt;getMessage();
+}
+
+?&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html lang="ru"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;SaaS App Runtime&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;SaaS application runtime is ready&lt;/h1&gt;
+
+    &lt;p&gt;&lt;strong&gt;Web server:&lt;/strong&gt; Nginx → Apache → PHP&lt;/p&gt;
+    &lt;p&gt;&lt;strong&gt;PHP version:&lt;/strong&gt; &lt;?php echo PHP_VERSION; ?&gt;&lt;/p&gt;
+
+    &lt;?php if ($error === null): ?&gt;
+        &lt;p&gt;&lt;strong&gt;Redis status:&lt;/strong&gt; &lt;?php echo htmlspecialchars($redisStatus); ?&gt;&lt;/p&gt;
+        &lt;p&gt;&lt;strong&gt;Redis visit counter:&lt;/strong&gt; &lt;?php echo (int)$counter; ?&gt;&lt;/p&gt;
+    &lt;?php else: ?&gt;
+        &lt;p&gt;&lt;strong&gt;Redis status:&lt;/strong&gt; connection error&lt;/p&gt;
+        &lt;p&gt;&lt;code&gt;&lt;?php echo htmlspecialchars($error); ?&gt;&lt;/code&gt;&lt;/p&gt;
+    &lt;?php endif; ?&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+						<p>
+							Проверить файл:
+						</p>
+
+<pre class="language-bash code-small"><code>php -l /var/www/saas-app/public/index.php</code></pre>
+
+						<p>
+							Ожидаемый результат:
+						</p>
+
+<pre class="language-text code-small"><code>No syntax errors detected</code></pre>
+
+						<div class="screenshot-place">
+							<br>
+							<img src="/images/practice-4/Screenshot-9.png" alt="Скриншот 9">
+							<div class="screenshot-text"><strong>Скриншот 9:</strong> PHP-файл с подключением Redis и проверка синтаксиса.</div>
+						</div>
+
+						<h3>Задание 10. Перенастроить Nginx на Apache backend</h3>
+
+						<p>
+							Открыть конфигурацию Nginx:
+						</p>
+
+<pre class="language-bash code-small"><code>sudo nano /etc/nginx/sites-available/saas-app</code></pre>
+
+						<p>
+							Заменить содержимое файла:
+						</p>
+
+<pre class="language-nginx code-small"><code>server {
+    listen 80;
+    server_name saas-node-01.local 192.168.89.129;
+
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen 443 ssl;
+    server_name saas-node-01.local 192.168.89.129;
+
+    ssl_certificate /etc/nginx/ssl/saas-app.crt;
+    ssl_certificate_key /etc/nginx/ssl/saas-app.key;
+
+    access_log /var/log/nginx/saas-app.access.log;
+    error_log /var/log/nginx/saas-app.error.log;
+
+    location / {
+        proxy_pass http://127.0.0.1:8080;
+
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}</code></pre>
+
+						<p>
+							Проверить и применить конфигурацию:
+						</p>
+
+<pre class="language-bash code-small"><code>sudo nginx -t
+sudo systemctl reload nginx</code></pre>
+
+						<p>
+							Ожидаемый результат:
+						</p>
+
+<pre class="language-text code-small"><code>syntax is ok
+test is successful</code></pre>
+
+						<div class="screenshot-place">
+							<br>
+							<img src="/images/practice-4/Screenshot-10.png" alt="Скриншот 10">
+							<div class="screenshot-text"><strong>Скриншот 10:</strong> конфигурация Nginx с <code>
+								proxy_pass http://127.0.0.1:8080
+							</code> и успешная проверка.</div>
+						</div>
+
+						<h3>Задание 11. Проверить цепочку Nginx → Apache → PHP → Redis</h3>
+
+<pre class="language-bash code-small"><code>curl http://127.0.0.1:8080
+curl -k https://localhost
+curl -k https://192.168.89.129</code></pre>
+
+						<p>
+							Ожидаемый результат должен содержать:
+						</p>
+
+<pre class="language-text code-small"><code>SaaS application runtime is ready
+Redis status:
+Redis visit counter:</code></pre>
+
+						<p>
+							Проверить увеличение счётчика:
+						</p>
+
+<pre class="language-bash code-small"><code>curl -k https://localhost | grep "Redis visit counter"
+curl -k https://localhost | grep "Redis visit counter"
+curl -k https://localhost | grep "Redis visit counter"</code></pre>
+
+						<div class="screenshot-place">
+							<br>
+							<img src="/images/practice-4/Screenshot-11.png" alt="Скриншот 11">
+							<div class="screenshot-text"><strong>Скриншот 11:</strong> страница открывается через HTTPS, счётчик Redis увеличивается.</div>
+						</div>
+
+						<h3>Задание 12. Проверить состояние служб</h3>
+
+<pre class="language-bash code-small"><code>sudo systemctl status nginx
+sudo systemctl status apache2
+sudo systemctl status php*-fpm
+sudo systemctl status redis-server</code></pre>
+
+						<p>
+							Ожидаемый результат для служб:
+						</p>
+
+<pre class="language-text code-small"><code>active (running)</code></pre>
+
+						<div class="screenshot-place">
+							<br>
+							<img src="/images/practice-4/Screenshot-12.1.png" alt="Скриншот 12.1">
+							<br>
+							<img src="/images/practice-4/Screenshot-12.2.png" alt="Скриншот 12.2">
+							<div class="screenshot-text"><strong>Скриншот 12:</strong> статусы Nginx, Apache, PHP-FPM и Redis.</div>
+						</div>
+
+						<h3>Задание 13. Проверить порты</h3>
+
+<pre class="language-bash code-small"><code>sudo ss -tulpn | grep -E '80|443|8080|6379'</code></pre>
+
+						<table>
+							<thead>
+								<tr>
+									<th>Порт</th>
+									<th>Сервис</th>
+									<th>Ожидаемое состояние</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td><code>80/tcp</code></td>
+									<td>Nginx</td>
+									<td>внешний HTTP, редирект на HTTPS</td>
+								</tr>
+								<tr>
+									<td><code>443/tcp</code></td>
+									<td>Nginx</td>
+									<td>внешний HTTPS</td>
+								</tr>
+								<tr>
+									<td><code>127.0.0.1:8080</code></td>
+									<td>Apache</td>
+									<td>только локальный backend</td>
+								</tr>
+								<tr>
+									<td><code>127.0.0.1:6379</code></td>
+									<td>Redis</td>
+									<td>только локальный доступ</td>
+								</tr>
+							</tbody>
+						</table>
+
+						<div class="screenshot-place">
+							<br>
+							<img src="/images/practice-4/Screenshot-13.png" alt="Скриншот 13">
+							<div class="screenshot-text"><strong>Скриншот 13:</strong> вывод портов <code>80</code>, <code>443</code>, <code>
+								8080
+							</code>, <code>6379</code>.</div>
+						</div>
+
+						<h3>Задание 14. Проверить журналы</h3>
+
+<pre class="language-bash code-small"><code>sudo tail -n 30 /var/log/nginx/saas-app.access.log
+sudo tail -n 30 /var/log/nginx/saas-app.error.log
+sudo tail -n 30 /var/log/apache2/saas-app.access.log
+sudo tail -n 30 /var/log/apache2/saas-app.error.log
+sudo journalctl -u redis-server -n 30</code></pre>
+
+						<div class="screenshot-place">
+							<br>
+							<img src="/images/practice-4/Screenshot-14.1.png" alt="Скриншот 14.1">
+							<br>
+							<img src="/images/practice-4/Screenshot-14.2.png" alt="Скриншот 14.2">
+							<div class="screenshot-text"><strong>Скриншот 14:</strong> журналы Nginx, Apache и Redis без критических ошибок.</div>
+						</div>
+
+						<h3>Задание 15. Зафиксировать результат</h3>
+
+						<table>
+							<tbody>
+								<tr>
+									<th>Hostname</th>
+									<td></td>
+								</tr>
+								<tr>
+									<th>IP-адрес</th>
+									<td></td>
+								</tr>
+								<tr>
+									<th>Версия Apache</th>
+									<td></td>
+								</tr>
+								<tr>
+									<th>Версия PHP</th>
+									<td></td>
+								</tr>
+								<tr>
+									<th>Redis status</th>
+									<td><code>PONG</code> / ошибка</td>
+								</tr>
+								<tr>
+									<th>Nginx HTTPS</th>
+									<td>работает / не работает</td>
+								</tr>
+								<tr>
+									<th>Apache backend</th>
+									<td><code>127.0.0.1:8080</code></td>
+								</tr>
+								<tr>
+									<th>Redis address</th>
+									<td><code>127.0.0.1:6379</code></td>
+								</tr>
+								<tr>
+									<th>PHP подключается к Redis</th>
+									<td>да / нет</td>
+								</tr>
+								<tr>
+									<th>Счётчик Redis работает</th>
+									<td>да / нет</td>
+								</tr>
+							</tbody>
+						</table>
+
+						<div class="screenshot-place">
+							<br>
+							<img src="/images/practice-4/Screenshot-15.png" alt="Скриншот 15">
+							<div class="screenshot-text"><strong>Скриншот 15:</strong> заполненная таблица результата.</div>
+						</div>
+
+						<h3>Контрольные вопросы</h3>
+						<ol class="ol-self">
+							<li>Почему Apache настроен на <code>127.0.0.1:8080</code>?</li>
+							<li>Для чего используется связка <code>Nginx → Apache</code>?</li>
+							<li>Что делает директива <code>proxy_pass</code>?</li>
+							<li>Для чего используется Redis в SaaS-приложении?</li>
+							<li>Почему Redis не должен быть доступен из внешней сети?</li>
+							<li>Как проверить, что PHP подключается к Redis?</li>
+							<li>Какие журналы нужно проверить при ошибке <code>502 Bad Gateway</code>?</li>
+						</ol>
+
+						<h3>Результат работы</h3>
+						<ul class="ul-self">
+							<li>Apache установлен и настроен как внутренний backend.</li>
+							<li>Apache слушает <code>127.0.0.1:8080</code>.</li>
+							<li>Redis установлен и доступен только локально.</li>
+							<li>PHP-модуль Redis установлен.</li>
+							<li>PHP-приложение подключается к Redis.</li>
+							<li>Nginx проксирует HTTPS-запросы на Apache.</li>
+							<li>Цепочка <code>Nginx → Apache → PHP → Redis</code> работает.</li>
+							<li>Счётчик посещений в Redis увеличивается.</li>
+						</ul>
 					</section>
 				</div>
 				<div class="col-3 col-12-medium">

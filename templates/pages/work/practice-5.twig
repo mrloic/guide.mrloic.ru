@@ -1,0 +1,791 @@
+{% extends 'layouts/base.twig' %}
+
+{% set page_title = 'Практическая работа № 5' %}
+{% set body_class = 'subpage' %}
+
+{% block head %}
+	<link rel="stylesheet" href="/assets/css/works/pr4.css" />
+	<style>
+		.screenshot-place { display: flex; flex-direction: column; flex-wrap: nowrap; justify-content: center;
+		align-items: center; }
+
+		.screenshot-place img { width: 800px; border: 1px solid #000; }
+		code.cron, kbd.cron, pre.cron {
+			font-family: "Roboto Mono", "Courier New", Courier, monospace;
+			background-color: #f5f5f5;
+			white-space: normal;
+		}
+	</style>
+{% endblock %}
+
+{% block content %}
+	<section id="content">
+		<div class="container">
+			<div class="row">
+				<div class="col-9 col-12-medium">
+					<section>
+						<h2>Практическая работа № 5</h2>
+						<h3>Резервное копирование и восстановление SaaS-инфраструктуры</h3>
+
+						<h3>Цель работы</h3>
+						<p>
+							Настроить резервное копирование файлов приложения, конфигураций Nginx и Apache,
+							TLS-сертификатов, служебных данных и Redis dump. Проверить восстановление файлов и данных
+							Redis из резервной копии.
+						</p>
+
+						<h3>Исходные данные</h3>
+						<table>
+							<tbody>
+								<tr>
+									<th>Операционная система</th>
+									<td>Debian 12</td>
+								</tr>
+								<tr>
+									<th>Hostname</th>
+									<td><code>saas-node-01</code></td>
+								</tr>
+								<tr>
+									<th>Каталог приложения</th>
+									<td><code>/var/www/saas-app</code></td>
+								</tr>
+								<tr>
+									<th>Конфигурация Nginx</th>
+									<td><code>/etc/nginx/sites-available/saas-app</code></td>
+								</tr>
+								<tr>
+									<th>Конфигурация Apache</th>
+									<td><code>/etc/apache2/sites-available/saas-app.conf</code></td>
+								</tr>
+								<tr>
+									<th>TLS-сертификаты</th>
+									<td><code>/etc/nginx/ssl</code></td>
+								</tr>
+								<tr>
+									<th>Redis dump</th>
+									<td><code>/var/lib/redis/dump.rdb</code></td>
+								</tr>
+								<tr>
+									<th>Каталог backup</th>
+									<td><code>/opt/saas/backups</code></td>
+								</tr>
+								<tr>
+									<th>Каталог скриптов</th>
+									<td><code>/opt/saas/scripts</code></td>
+								</tr>
+								<tr>
+									<th>Каталог логов</th>
+									<td><code>/opt/saas/logs</code></td>
+								</tr>
+								<tr>
+									<th>Каталог восстановления</th>
+									<td><code>/opt/saas/restore-test</code></td>
+								</tr>
+							</tbody>
+						</table>
+
+						<h3>Задание 1. Проверить готовность сервисов</h3>
+
+<pre class="language-bash code-small"><code>sudo systemctl status nginx
+sudo systemctl status apache2
+sudo systemctl status php*-fpm
+sudo systemctl status redis-server
+
+redis-cli ping
+curl -k https://localhost</code></pre>
+
+						<p>
+							Ожидаемый результат:
+						</p>
+
+<pre class="language-text code-small"><code>nginx active (running)
+apache2 active (running)
+php-fpm active (running)
+redis-server active (running)
+redis-cli ping возвращает PONG
+HTTPS-страница открывается</code></pre>
+
+						<div class="screenshot-place">
+							<br>
+							<img src="/images/practice-5/Screenshot-1.1.png" alt="Скриншот 1.1">
+							<br>
+							<img src="/images/practice-5/Screenshot-1.2.png" alt="Скриншот 1.2">
+							<div class="screenshot-text"><strong>Скриншот 1:</strong> статусы служб, ответ <code>PONG</code> от Redis и открытие приложения
+							через HTTPS.</div>
+						</div>
+
+						<h3>Задание 2. Подготовить каталоги для резервного копирования</h3>
+
+<pre class="language-bash code-small"><code>mkdir -p /opt/saas/backups
+mkdir -p /opt/saas/backups/redis
+mkdir -p /opt/saas/scripts
+mkdir -p /opt/saas/logs
+mkdir -p /opt/saas/restore-test
+mkdir -p /opt/saas/data
+
+ls -la /opt/saas</code></pre>
+
+						<div class="screenshot-place">
+							<br>
+							<img src="/images/practice-5/Screenshot-2.png" alt="Скриншот 2">
+							<div class="screenshot-text"><strong>Скриншот 2:</strong> структура каталога <code>/opt/saas</code>.</div>
+						</div>
+
+						<h3>Задание 3. Проверить свободное место на диске</h3>
+
+<pre class="language-bash code-small"><code>df -h
+du -sh /var/www/saas-app
+du -sh /opt/saas</code></pre>
+
+						<p>
+							Ожидаемый результат:
+						</p>
+
+						<ul class="ul-self">
+							<li>на диске есть свободное место для создания архива;</li>
+							<li>каталоги приложения и <code>/opt/saas</code> доступны для чтения.</li>
+						</ul>
+
+						<div class="screenshot-place">
+							<br>
+							<img src="/images/practice-5/Screenshot-3.png" alt="Скриншот 3">
+							<div class="screenshot-text"><strong>Скриншот 3:</strong> вывод <code>df -h</code> и размер каталогов.</div>
+						</div>
+
+						<h3>Задание 4. Создать тестовые данные для восстановления</h3>
+
+<pre class="language-bash code-small"><code>echo "backup test file" &gt; /var/www/saas-app/public/backup-test.txt
+echo "SaaS backup data test" &gt; /opt/saas/data/backup-data.txt
+
+redis-cli set backup_test_key "Redis backup test value"
+redis-cli get backup_test_key</code></pre>
+
+						<p>
+							Ожидаемый результат:
+						</p>
+
+<pre class="language-text code-small"><code>"Redis backup test value"</code></pre>
+
+						<div class="screenshot-place">
+							<br>
+							<img src="/images/practice-5/Screenshot-4.png" alt="Скриншот 4">
+							<div class="screenshot-text"><strong>Скриншот 4:</strong> созданные тестовые файлы и тестовый ключ Redis.</div>
+						</div>
+
+						<h3>Задание 5. Создать Redis snapshot</h3>
+
+<pre class="language-bash code-small"><code>redis-cli BGSAVE
+redis-cli LASTSAVE
+redis-cli CONFIG GET dir
+redis-cli CONFIG GET dbfilename
+sudo ls -lh /var/lib/redis/dump.rdb</code></pre>
+
+						<p>
+							Скопировать Redis dump в каталог backup:
+						</p>
+
+<pre class="language-bash code-small"><code>sudo cp /var/lib/redis/dump.rdb /opt/saas/backups/redis/dump.rdb
+sudo chown $(whoami):$(whoami) /opt/saas/backups/redis/dump.rdb
+ls -lh /opt/saas/backups/redis/dump.rdb</code></pre>
+
+						<div class="screenshot-place">
+							<br>
+							<img src="/images/practice-5/Screenshot-5.png" alt="Скриншот 5">
+							<div class="screenshot-text"><strong>Скриншот 5:</strong> выполнение <code>BGSAVE</code>, <code>LASTSAVE</code> и наличие файла
+							<code>dump.rdb</code>.</div>
+						</div>
+
+						<h3>Задание 6. Создать ручной backup-архив</h3>
+
+<pre class="language-bash code-small"><code>BACKUP_DATE=$(date +%Y-%m-%d_%H-%M-%S)
+
+tar -czf /opt/saas/backups/saas-backup-$BACKUP_DATE.tar.gz \
+  /var/www/saas-app \
+  /etc/nginx/sites-available/saas-app \
+  /etc/apache2/sites-available/saas-app.conf \
+  /etc/nginx/ssl \
+  /opt/saas/data \
+  /opt/saas/backups/redis/dump.rdb
+
+ls -lh /opt/saas/backups</code></pre>
+
+						<p>
+							Предупреждение <code>Removing leading '/' from member names</code> является нормальным:
+							<code>tar</code> сохраняет пути без начального символа <code>/</code>.
+						</p>
+
+						<div class="screenshot-place">
+							<br>
+							<img src="/images/practice-5/Screenshot-6.png" alt="Скриншот 6">
+							<div class="screenshot-text"><strong>Скриншот 6:</strong> созданный архив <code>saas-backup-*.tar.gz</code>.</div>
+						</div>
+
+						<h3>Задание 7. Проверить содержимое архива</h3>
+
+<pre class="language-bash code-small"><code>LATEST_BACKUP=$(ls -t /opt/saas/backups/saas-backup-*.tar.gz | head -n 1)
+echo $LATEST_BACKUP
+
+tar -tzf "$LATEST_BACKUP" | grep "var/www/saas-app/public/backup-test.txt"
+tar -tzf "$LATEST_BACKUP" | grep "etc/nginx/sites-available/saas-app"
+tar -tzf "$LATEST_BACKUP" | grep "etc/apache2/sites-available/saas-app.conf"
+tar -tzf "$LATEST_BACKUP" | grep "etc/nginx/ssl"
+tar -tzf "$LATEST_BACKUP" | grep "opt/saas/data/backup-data.txt"
+tar -tzf "$LATEST_BACKUP" | grep "dump.rdb"</code></pre>
+
+						<div class="screenshot-place">
+							<br>
+							<img src="/images/practice-5/Screenshot-7.png" alt="Скриншот 7">
+							<div class="screenshot-text"><strong>Скриншот 7:</strong> проверка наличия файлов приложения, конфигураций и Redis dump внутри
+							архива.</div>
+						</div>
+
+						<h3>Задание 8. Создать backup-скрипт</h3>
+
+<pre class="language-bash code-small"><code>nano /opt/saas/scripts/backup-saas.sh</code></pre>
+
+						<p>
+							Содержимое файла:
+						</p>
+
+<pre class="language-bash code-small"><code>#!/bin/bash
+
+set -e
+
+BACKUP_ROOT="/opt/saas/backups"
+REDIS_BACKUP_DIR="$BACKUP_ROOT/redis"
+LOG_FILE="/opt/saas/logs/backup.log"
+DATE=$(date +%Y-%m-%d_%H-%M-%S)
+ARCHIVE_PATH="$BACKUP_ROOT/saas-backup-$DATE.tar.gz"
+
+APP_DIR="/var/www/saas-app"
+NGINX_CONF="/etc/nginx/sites-available/saas-app"
+APACHE_CONF="/etc/apache2/sites-available/saas-app.conf"
+NGINX_SSL="/etc/nginx/ssl"
+SAAS_DATA="/opt/saas/data"
+
+mkdir -p "$BACKUP_ROOT"
+mkdir -p "$REDIS_BACKUP_DIR"
+mkdir -p "$(dirname "$LOG_FILE")"
+
+echo "[$(date)] Backup started" &gt;&gt; "$LOG_FILE"
+
+REDIS_RDB_COPY=""
+
+if systemctl is-active --quiet redis-server; then
+    REDIS_DIR=$(redis-cli CONFIG GET dir | tail -n 1)
+    REDIS_DBFILENAME=$(redis-cli CONFIG GET dbfilename | tail -n 1)
+
+    REDIS_RDB_SOURCE="$REDIS_DIR/$REDIS_DBFILENAME"
+    REDIS_RDB_COPY="$REDIS_BACKUP_DIR/$REDIS_DBFILENAME"
+
+    echo "[$(date)] Redis dir: $REDIS_DIR" &gt;&gt; "$LOG_FILE"
+    echo "[$(date)] Redis dbfilename: $REDIS_DBFILENAME" &gt;&gt; "$LOG_FILE"
+    echo "[$(date)] Creating Redis snapshot" &gt;&gt; "$LOG_FILE"
+
+    BEFORE_SAVE=$(redis-cli LASTSAVE)
+
+    redis-cli BGSAVE &gt;&gt; "$LOG_FILE" 2&gt;&amp;1 || true
+
+    for i in {1..30}; do
+        AFTER_SAVE=$(redis-cli LASTSAVE)
+
+        if [ "$AFTER_SAVE" != "$BEFORE_SAVE" ]; then
+            echo "[$(date)] Redis snapshot completed" &gt;&gt; "$LOG_FILE"
+            break
+        fi
+
+        sleep 1
+    done
+
+    if [ -f "$REDIS_RDB_SOURCE" ]; then
+        sudo cp "$REDIS_RDB_SOURCE" "$REDIS_RDB_COPY"
+        sudo chown "$(whoami)":"$(whoami)" "$REDIS_RDB_COPY"
+        echo "[$(date)] Redis dump copied from $REDIS_RDB_SOURCE" \
+		&gt;&gt; "$LOG_FILE"
+    else
+        echo "[$(date)] WARNING: Redis dump not found: $REDIS_RDB_SOURCE" \
+		&gt;&gt; "$LOG_FILE"
+        REDIS_RDB_COPY=""
+    fi
+else
+    echo "[$(date)] WARNING: redis-server is not active" &gt;&gt; "$LOG_FILE"
+fi
+
+echo "[$(date)] Creating archive: $ARCHIVE_PATH" &gt;&gt; "$LOG_FILE"
+
+if [ -n "$REDIS_RDB_COPY" ] &amp;&amp; [ -f "$REDIS_RDB_COPY" ]; then
+    tar -czf "$ARCHIVE_PATH" \
+        "$APP_DIR" \
+        "$NGINX_CONF" \
+        "$APACHE_CONF" \
+        "$NGINX_SSL" \
+        "$SAAS_DATA" \
+        "$REDIS_RDB_COPY"
+else
+    tar -czf "$ARCHIVE_PATH" \
+        "$APP_DIR" \
+        "$NGINX_CONF" \
+        "$APACHE_CONF" \
+        "$NGINX_SSL" \
+        "$SAAS_DATA"
+fi
+
+find "$BACKUP_ROOT" -maxdepth 1 -name "saas-backup-*.tar.gz" -type f \
+-mtime +7 -delete
+
+echo "[$(date)] Backup created: $ARCHIVE_PATH" &gt;&gt; "$LOG_FILE"
+echo "[$(date)] Old backups rotation completed" &gt;&gt; "$LOG_FILE"
+echo "[$(date)] Backup finished successfully" &gt;&gt; "$LOG_FILE"
+
+echo "Backup created: $ARCHIVE_PATH"</code></pre>
+
+						<p>
+							Сделать скрипт исполняемым:
+						</p>
+
+<pre class="language-bash code-small"><code>chmod +x /opt/saas/scripts/backup-saas.sh
+ls -l /opt/saas/scripts/backup-saas.sh</code></pre>
+
+						<div class="screenshot-place">
+							<br>
+							<img src="/images/practice-5/Screenshot-8.png" alt="Скриншот 8">
+							<div class="screenshot-text"><strong>Скриншот 8:</strong> файл <code>backup-saas.sh</code> и права на выполнение.</div>
+						</div>
+
+						<h3>Задание 9. Запустить backup-скрипт вручную</h3>
+
+<pre class="language-bash code-small"><code>sudo bash /opt/saas/scripts/backup-saas.sh
+
+tail -n 50 /opt/saas/logs/backup.log
+ls -lh /opt/saas/backups
+ls -lh /opt/saas/backups/redis</code></pre>
+
+						<p>
+							Ожидаемый результат в журнале:
+						</p>
+
+<pre class="language-text code-small"><code>Redis dir: ...
+Redis dbfilename: dump.rdb
+Creating Redis snapshot
+Redis snapshot completed
+Redis dump copied from ...
+Backup finished successfully</code></pre>
+
+						<div class="screenshot-place">
+							<br>
+							<img src="/images/practice-5/Screenshot-9.png" alt="Скриншот 9">
+							<div class="screenshot-text"><strong>Скриншот 9:</strong> ручной запуск скрипта, созданный архив и журнал backup.</div>
+						</div>
+
+						<h3>Задание 10. Проверить Redis dump внутри архива</h3>
+
+<pre class="language-bash code-small"><code>LATEST_BACKUP=$(ls -t /opt/saas/backups/saas-backup-*.tar.gz | head -n 1)
+echo $LATEST_BACKUP
+
+tar -tzf "$LATEST_BACKUP" | grep "dump.rdb"</code></pre>
+
+						<p>
+							Ожидаемый результат:
+						</p>
+
+<pre class="language-text code-small"><code>opt/saas/backups/redis/dump.rdb</code></pre>
+
+						<div class="screenshot-place">
+							<br>
+							<img src="/images/practice-5/Screenshot-10.png" alt="Скриншот 10">
+							<div class="screenshot-text"><strong>Скриншот 10:</strong> проверка наличия <code>dump.rdb</code> внутри backup-архива.</div>
+						</div>
+
+						<h3>Задание 11. Настроить автоматический запуск через cron</h3>
+
+						<p>
+							Настроить ежедневный автоматический запуск backup-скрипта через cron.
+							Скрипт должен запускаться каждый день в <code>02:30</code>.
+						</p>
+
+<pre class="language-bash code-small"><code>sudo crontab -e</code></pre>
+
+						<p>
+						Добавить строку:
+						</p>
+
+<pre class="language-cron code-small"><code class="cron">30 2 * * * /opt/saas/scripts/backup-saas.sh &gt;&gt; /opt/saas/logs/backup-cron.log 2&gt;&amp;1</code></pre>
+
+						<p>
+						Проверить, что задача добавлена:
+						</p>
+
+<pre class="language-bash code-small"><code>sudo crontab -l</code></pre>
+
+						<p>
+							Ожидаемый результат:
+						</p>
+
+<pre class="language-cron code-small"><code class="cron">30 2 * * * /opt/saas/scripts/backup-saas.sh &gt;&gt; /opt/saas/logs/backup-cron.log 2&gt;&amp;1</code></pre>
+
+						<div class="screenshot-place">
+							<br>
+							<img src="/images/practice-5/Screenshot-11.png" alt="Скриншот 11">
+							<div class="screenshot-text"><strong>Скриншот 11:</strong> строка cron-задачи в выводе <code>sudo crontab -l</code>.</div>
+						</div>
+
+						<h3>Задание 12. Проверить cron в тестовом режиме</h3>
+
+						<p>
+							Для проверки можно временно настроить запуск каждую минуту.
+							После проверки необходимо вернуть ежедневное расписание.
+						</p>
+
+<pre class="language-bash code-small"><code>sudo crontab -e</code></pre>
+
+						<p>
+							Временно заменить строку на:
+						</p>
+
+<pre class="language-cron code-small"><code class="cron">* * * * * /opt/saas/scripts/backup-saas.sh &gt;&gt; /opt/saas/logs/backup-cron.log 2&gt;&amp;1</code></pre>
+
+						<p>
+							Через 1–2 минуты проверить появление нового архива и журнал cron:
+						</p>
+
+<pre class="language-bash code-small"><code>ls -lh /opt/saas/backups
+tail -n 50 /opt/saas/logs/backup-cron.log
+tail -n 50 /opt/saas/logs/backup.log</code></pre>
+
+						<div class="screenshot-place">
+							<br>
+							<img src="/images/practice-5/Screenshot-12.png" alt="Скриншот 12">
+							<div class="screenshot-text"><strong>Скриншот 12:</strong> новый backup-архив и записи в журналах после запуска cron.</div>
+						</div>
+
+						<p>
+							После проверки вернуть рабочее расписание:
+						</p>
+
+<pre class="language-bash code-small"><code>sudo crontab -e</code></pre>
+
+<pre class="language-cron code-small"><code class="cron">30 2 * * * /opt/saas/scripts/backup-saas.sh &gt;&gt; /opt/saas/logs/backup-cron.log 2&gt;&amp;1</code></pre>
+
+						<h3>Задание 13. Проверить восстановление файлов во временный каталог</h3>
+
+<pre class="language-bash code-small"><code>LATEST_BACKUP=$(ls -t /opt/saas/backups/saas-backup-*.tar.gz | head -n 1)
+echo $LATEST_BACKUP
+
+rm -rf /opt/saas/restore-test/*
+tar -xzf "$LATEST_BACKUP" -C /opt/saas/restore-test
+
+ls -la /opt/saas/restore-test
+ls -la /opt/saas/restore-test/var/www/saas-app/public
+ls -la /opt/saas/restore-test/etc/nginx/sites-available
+ls -la /opt/saas/restore-test/etc/apache2/sites-available
+ls -la /opt/saas/restore-test/etc/nginx/ssl</code></pre>
+
+						<div class="screenshot-place">
+							<br>
+							<img src="/images/practice-5/Screenshot-13.png" alt="Скриншот 13">
+							<div class="screenshot-text"><strong>Скриншот 13:</strong> восстановленная структура файлов в <code>
+								/opt/saas/restore-test
+							</code>.</div>
+						</div>
+
+						<h3>Задание 14. Проверить восстановленные тестовые файлы</h3>
+
+<pre class="language-bash code-small"><code>cat /opt/saas/restore-test/var/www/saas-app/public/backup-test.txt
+cat /opt/saas/restore-test/opt/saas/data/backup-data.txt</code></pre>
+
+						<p>
+							Ожидаемый результат:
+						</p>
+
+<pre class="language-text code-small"><code>backup test file
+SaaS backup data test</code></pre>
+
+						<div class="screenshot-place">
+							<br>
+							<img src="/images/practice-5/Screenshot-14.png" alt="Скриншот 14">
+							<div class="screenshot-text"><strong>Скриншот 14:</strong> содержимое восстановленных файлов.</div>
+						</div>
+
+						<h3>Задание 15. Проверить восстановление рабочего файла</h3>
+
+						<p>
+							Удалить тестовый файл из рабочего каталога:
+						</p>
+
+<pre class="language-bash code-small"><code>rm /var/www/saas-app/public/backup-test.txt
+ls /var/www/saas-app/public/backup-test.txt</code></pre>
+
+						<p>
+							Восстановить файл из распакованной резервной копии:
+						</p>
+
+<pre class="language-bash code-small"><code class="cron">cp /opt/saas/restore-test/var/www/saas-app/public/backup-test.txt /var/www/saas-app/public/backup-test.txt
+<br>
+cat /var/www/saas-app/public/backup-test.txt</code></pre>
+
+						<div class="screenshot-place">
+							<br>
+							<img src="/images/practice-5/Screenshot-15.png" alt="Скриншот 15">
+							<div class="screenshot-text"><strong>Скриншот 15:</strong> удаление и восстановление файла <code>backup-test.txt</code>.</div>
+						</div>
+
+						<h3>Задание 16. Проверить восстановление Redis</h3>
+
+						<p>
+							Проверить текущий тестовый ключ:
+						</p>
+
+<pre class="language-bash code-small"><code>redis-cli get backup_test_key</code></pre>
+
+						<p>
+							Удалить ключ:
+						</p>
+
+<pre class="language-bash code-small"><code>redis-cli del backup_test_key
+redis-cli get backup_test_key</code></pre>
+
+						<p>
+							Ожидаемый результат после удаления:
+						</p>
+
+<pre class="language-text code-small"><code>(nil)</code></pre>
+
+						<p>
+							Остановить Redis и заменить <code>dump.rdb</code> восстановленным файлом:
+						</p>
+
+<pre class="language-bash code-small"><code  class="cron">sudo systemctl stop redis-server
+<br><br>
+sudo cp /var/lib/redis/dump.rdb /var/lib/redis/dump.rdb.before-restore<br>
+sudo cp /opt/saas/restore-test/opt/saas/backups/redis/dump.rdb /var/lib/redis/dump.rdb<br>
+sudo chown redis:redis /var/lib/redis/dump.rdb
+<br><br>
+sudo systemctl start redis-server<br>
+sudo systemctl status redis-server</code></pre>
+
+						<p>
+							Проверить восстановленный ключ:
+						</p>
+
+<pre class="language-bash code-small"><code>redis-cli get backup_test_key</code></pre>
+
+						<p>
+							Ожидаемый результат:
+						</p>
+
+<pre class="language-text code-small"><code>"Redis backup test value"</code></pre>
+
+						<div class="screenshot-place">
+							<br>
+							<img src="/images/practice-5/Screenshot-16.png" alt="Скриншот 16">
+							<div class="screenshot-text"><strong>Скриншот 16:</strong> восстановление Redis dump и восстановленный ключ <code>
+								backup_test_key
+							</code>.</div>
+						</div>
+
+						<h3>Задание 17. Проверить приложение после восстановления</h3>
+
+<pre class="language-bash code-small"><code>sudo systemctl status nginx
+sudo systemctl status apache2
+sudo systemctl status php*-fpm
+sudo systemctl status redis-server
+
+curl -k https://localhost
+curl -k https://localhost | grep "Redis visit counter"</code></pre>
+
+						<p>
+							Ожидаемый результат:
+						</p>
+
+						<ul class="ul-self">
+							<li>службы находятся в состоянии <code>active (running)</code>;</li>
+							<li>приложение открывается через HTTPS;</li>
+							<li>счётчик Redis отображается и увеличивается.</li>
+						</ul>
+
+						<div class="screenshot-place">
+							<br>
+							<img src="/images/practice-5/Screenshot-17.1.png" alt="Скриншот 17.1">
+							<br>
+							<img src="/images/practice-5/Screenshot-17.2.png" alt="Скриншот 17.2">
+							<div class="screenshot-text"><strong>Скриншот 17:</strong> работа приложения после восстановления.</div>
+						</div>
+
+						<h3>Задание 18. Проверить журналы backup и служб</h3>
+
+<pre class="language-bash code-small"><code>tail -n 50 /opt/saas/logs/backup.log
+tail -n 50 /opt/saas/logs/backup-cron.log
+
+sudo tail -n 30 /var/log/nginx/saas-app.error.log
+sudo tail -n 30 /var/log/apache2/saas-app.error.log
+sudo journalctl -u redis-server -n 30</code></pre>
+
+						<div class="screenshot-place">
+							<br>
+							<img src="/images/practice-5/Screenshot-18.1.png" alt="Скриншот 18.1">
+							<br>
+							<img src="/images/practice-5/Screenshot-18.2.png" alt="Скриншот 18.2">
+							<div class="screenshot-text"><strong>Скриншот 18:</strong> журналы backup, Nginx, Apache и Redis без критических ошибок.</div>
+						</div>
+
+						<h3>Задание 19. Создать краткую инструкцию восстановления</h3>
+
+<pre class="language-bash code-small"><code>nano /opt/saas/data/restore-instruction.txt</code></pre>
+
+						<p>
+							Содержимое файла:
+						</p>
+
+<pre class="language-text code-small"><code>Порядок восстановления SaaS-инфраструктуры:
+
+1. Найти актуальный архив в /opt/saas/backups.
+2. Распаковать архив во временный каталог /opt/saas/restore-test.
+3. Проверить наличие файлов приложения и конфигураций.
+4. При необходимости восстановить /var/www/saas-app.
+5. При необходимости восстановить /etc/nginx/sites-available/saas-app.
+6. При необходимости восстановить /etc/apache2/sites-available/saas-app.conf.
+7. Проверить конфигурации:
+	- sudo nginx -t
+	- sudo apache2ctl configtest
+8. Перезапустить службы:
+	- sudo systemctl reload nginx
+	- sudo systemctl restart apache2
+9. Для восстановления Redis:
+	- sudo systemctl stop redis-server
+	- заменить /var/lib/redis/dump.rdb
+	- sudo chown redis:redis /var/lib/redis/dump.rdb
+	- sudo systemctl start redis-server
+10. Проверить приложение:
+	- curl -k https://localhost
+	- redis-cli ping</code></pre>
+
+						<p>
+							Проверить файл:
+						</p>
+
+<pre class="language-bash code-small"><code>cat /opt/saas/data/restore-instruction.txt</code></pre>
+
+						<div class="screenshot-place">
+							<br>
+							<img src="/images/practice-5/Screenshot-19.png" alt="Скриншот 19">
+							<div class="screenshot-text"><strong>Скриншот 19:</strong> файл <code>restore-instruction.txt</code>.</div>
+						</div>
+
+						<h3>Задание 20. Зафиксировать результат</h3>
+
+						<table>
+							<tbody>
+								<tr>
+									<th>Hostname</th>
+									<td>saas-node-01</td>
+								</tr>
+								<tr>
+									<th>IP-адрес</th>
+									<td>192.168.89.129</td>
+								</tr>
+								<tr>
+									<th>Каталог backup</th>
+									<td><code>/opt/saas/backups</code></td>
+								</tr>
+								<tr>
+									<th>Backup-скрипт</th>
+									<td><code>/opt/saas/scripts/backup-saas.sh</code></td>
+								</tr>
+								<tr>
+									<th>Журнал backup</th>
+									<td><code>/opt/saas/logs/backup.log</code></td>
+								</tr>
+								<tr>
+									<th>Cron-задача</th>
+									<td><code>30 2 * * *</code></td>
+								</tr>
+								<tr>
+									<th>Последний архив</th>
+									<td>saas-backup-2026-05-18_04-32-02.tar.gz</td>
+								</tr>
+								<tr>
+									<th>Размер последнего архива</th>
+									<td>3.8K</td>
+								</tr>
+								<tr>
+									<th>Файлы приложения включены в backup</th>
+									<td>да</td>
+								</tr>
+								<tr>
+									<th>Конфигурация Nginx включена в backup</th>
+									<td>да</td>
+								</tr>
+								<tr>
+									<th>Конфигурация Apache включена в backup</th>
+									<td>да</td>
+								</tr>
+								<tr>
+									<th>Redis dump включён в backup</th>
+									<td>да</td>
+								</tr>
+								<tr>
+									<th>Восстановление файлов проверено</th>
+									<td>да</td>
+								</tr>
+								<tr>
+									<th>Восстановление Redis проверено</th>
+									<td>да</td>
+								</tr>
+								<tr>
+									<th>Приложение работает после восстановления</th>
+									<td>да</td>
+								</tr>
+							</tbody>
+						</table>
+
+						<div class="screenshot-place">
+							<br>
+							<img src="/images/practice-5/Screenshot-20.png" alt="Скриншот 20">
+							<div class="screenshot-text"><strong>Скриншот 20:</strong> заполненная таблица результата.</div>
+						</div>
+
+						<h3>Контрольные вопросы</h3>
+						<ol class="ol-self">
+							<li>Какие файлы входят в резервную копию SaaS-инфраструктуры?</li>
+							<li>Для чего используется команда <code>tar -czf</code>?</li>
+							<li>Для чего Redis создаёт файл <code>dump.rdb</code>?</li>
+							<li>Что делает команда <code>BGSAVE</code>?</li>
+							<li>Как проверить успешность сохранения Redis через <code>LASTSAVE</code>?</li>
+							<li>Почему резервную копию необходимо проверять восстановлением?</li>
+							<li>Почему backup не рекомендуется хранить только на основном сервере?</li>
+							<li>Для чего используется cron?</li>
+							<li>Почему перед восстановлением Redis необходимо остановить службу?</li>
+						</ol>
+
+						<h3>Результат работы</h3>
+						<ul class="ul-self">
+							<li>Созданы каталоги для резервных копий, логов, скриптов и восстановления.</li>
+							<li>Созданы тестовые данные для проверки восстановления.</li>
+							<li>Создан Redis snapshot.</li>
+							<li>Создан ручной backup-архив.</li>
+							<li>Создан backup-скрипт <code>/opt/saas/scripts/backup-saas.sh</code>.</li>
+							<li>Backup-скрипт успешно запускается вручную.</li>
+							<li>Настроен автоматический запуск через cron.</li>
+							<li>Проверено содержимое backup-архива.</li>
+							<li>Проверено восстановление файлов приложения.</li>
+							<li>Проверено восстановление Redis dump.</li>
+							<li>Проверена работа приложения после восстановления.</li>
+							<li>Создана краткая инструкция восстановления.</li>
+						</ul>
+					</section>
+				</div>
+				<div class="col-3 col-12-medium">
+					<section>
+						<header>
+							<h2>Навигация</h2>
+						</header>
+						<ul class="link-list">
+							<li><a href="/installation">Назад к установке</a></li>
+							{# <li><a href="/verification">Перейти к проверке</a></li> #}
+						</ul>
+					</section>
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}
