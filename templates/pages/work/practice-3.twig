@@ -18,6 +18,11 @@
 			width: 800px;
 			border: 1px solid #000;
 		}
+		code.cron, kbd.cron, pre.cron {
+			font-family: "Roboto Mono", "Courier New", Courier, monospace;
+			background-color: #f5f5f5;
+			white-space: normal;
+		}
 	</style>
 {% endblock %}
 
@@ -131,7 +136,7 @@ sudo ufw status verbose</code></pre>
 
 						<h3>Задание 4. Установить PHP и PHP-FPM</h3>
 
-<pre class="language-bash code-small"><code>sudo apt install -y php php-cli php-fpm php-curl php-mbstring php-xml php-zip</code></pre>
+<pre class="language-bash code-small"><code class="cron">sudo apt install -y php php-cli php-fpm php-curl php-mbstring php-xml php-zip</code></pre>
 
 						<p>
 							Проверить версию PHP и состояние PHP-FPM:
@@ -281,9 +286,9 @@ cat /var/www/saas-app/public/index.php</code></pre>
 
 						<h3>Задание 9. Активировать сайт Nginx</h3>
 
-<pre class="language-bash code-small"><code>sudo ln -s /etc/nginx/sites-available/saas-app /etc/nginx/sites-enabled/saas-app
-sudo rm -f /etc/nginx/sites-enabled/default
-sudo nginx -t
+<pre class="language-bash code-small"><code class="cron">sudo ln -s /etc/nginx/sites-available/saas-app /etc/nginx/sites-enabled/saas-app <br><br>
+sudo rm -f /etc/nginx/sites-enabled/default<br>
+sudo nginx -t<br>
 sudo systemctl reload nginx</code></pre>
 
 						<p>

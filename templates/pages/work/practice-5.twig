@@ -554,7 +554,7 @@ redis-cli get backup_test_key</code></pre>
 							Остановить Redis и заменить <code>dump.rdb</code> восстановленным файлом:
 						</p>
 
-<pre class="language-bash code-small"><code  class="cron">sudo systemctl stop redis-server
+<pre class="language-bash code-small"><code class="cron">sudo systemctl stop redis-server
 <br><br>
 sudo cp /var/lib/redis/dump.rdb /var/lib/redis/dump.rdb.before-restore<br>
 sudo cp /opt/saas/restore-test/opt/saas/backups/redis/dump.rdb /var/lib/redis/dump.rdb<br>

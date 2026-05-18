@@ -1,35 +1,3 @@
-:root {
-	--default-font:
-		ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-		Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
-		"Segoe UI Symbol", "Microsoft YaHei Light", sans-serif;
-	--font-monospace: "Source Code Pro", monospace;
-	--background-primary: #ffffff;
-	--background-modifier-border: #ddd;
-	--text-accent: #705dcf;
-	--text-accent-hover: #7a6ae6;
-	--text-normal: #2e3338;
-	--background-secondary: #f2f3f5;
-	--background-secondary-alt: #fcfcfc;
-	--text-muted: #888888;
-	--font-mermaid:
-		ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-		"Inter", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
-		"Microsoft YaHei Light", sans-serif;
-	--text-error: #e4374b;
-	--background-primary-alt: "#fafafa";
-	--background-accent: "";
-	--interactive-accent: hsl(254, 80%, calc(68% + 2.5%));
-	--background-modifier-error: #e4374b;
-	--background-primary-alt: #fafafa;
-	--background-modifier-border: #e0e0e0;
-}
-
-body,
-input {
-	font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
-}
-
 code,
 kbd,
 pre {

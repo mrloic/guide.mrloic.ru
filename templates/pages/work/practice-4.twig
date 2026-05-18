@@ -341,8 +341,12 @@ try {
     &lt;p&gt;&lt;strong&gt;PHP version:&lt;/strong&gt; &lt;?php echo PHP_VERSION; ?&gt;&lt;/p&gt;
 
     &lt;?php if ($error === null): ?&gt;
-        &lt;p&gt;&lt;strong&gt;Redis status:&lt;/strong&gt; &lt;?php echo htmlspecialchars($redisStatus); ?&gt;&lt;/p&gt;
-        &lt;p&gt;&lt;strong&gt;Redis visit counter:&lt;/strong&gt; &lt;?php echo (int)$counter; ?&gt;&lt;/p&gt;
+        &lt;p&gt;&lt;strong&gt;Redis status:&lt;/strong&gt;
+	    &lt;?php echo htmlspecialchars($redisStatus); ?&gt;
+        &lt;/p&gt;
+        &lt;p&gt;&lt;strong&gt;Redis visit counter:&lt;/strong&gt;
+	    &lt;?php echo (int)$counter; ?&gt;
+        &lt;/p&gt;
     &lt;?php else: ?&gt;
         &lt;p&gt;&lt;strong&gt;Redis status:&lt;/strong&gt; connection error&lt;/p&gt;
         &lt;p&gt;&lt;code&gt;&lt;?php echo htmlspecialchars($error); ?&gt;&lt;/code&gt;&lt;/p&gt;

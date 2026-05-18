@@ -5,6 +5,13 @@
 
 {% block head %}
 	<link rel="stylesheet" href="/assets/css/works/pr2.css" />
+	<style>
+		code.cron, kbd.cron, pre.cron {
+			font-family: "Roboto Mono", "Courier New", Courier, monospace;
+			background-color: #f5f5f5;
+			white-space: normal;
+		}
+	</style>
 {% endblock %}
 
 {% block content %}
@@ -374,7 +381,7 @@ htop</code></pre>
 							Проверка времени ответа:
 						</p>
 
-<pre class="language-bash code-small"><code>curl -k -o /dev/null -s -w "time_total: %{time_total}\nhttp_code: %{http_code}\n" https://localhost</code></pre>
+<pre class="language-bash code-small"><code class="cron">curl -k -o /dev/null -s -w "time_total: %{time_total}\nhttp_code: %{http_code}\n" https://localhost</code></pre>
 
 						<p>
 							Ожидаемый результат:
