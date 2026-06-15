@@ -65,6 +65,21 @@ final class PageController
 		echo $twig->render('pages/distributions.twig', $this->baseData('/distributions'));
 	}
 
+	public function company(Environment $twig): void
+	{
+		echo $twig->render('pages/company.twig', $this->baseData('/company'));
+	}
+
+	public function networkScheme(Environment $twig): void
+	{
+		echo $twig->render('pages/network-scheme.twig', $this->baseData('/network-scheme'));
+	}
+
+	public function companySaaS(Environment $twig): void
+	{
+		echo $twig->render('pages/company-saas.twig', $this->baseData('/company-saas'));
+	}
+
 	public function renderDynamic(Environment $twig, string $template, string $active): void
 	{
 		echo $twig->render($template, $this->baseData($active));

@@ -13,6 +13,9 @@ $routes = [
 	'/configuration' => [PageController::class, 'configuration'],
 	'/additional' => [PageController::class, 'additional'],
 	'/distributions' => [PageController::class, 'distributions'],
+	'/company' => [PageController::class, 'company'],
+	'/network-scheme' => [PageController::class, 'networkScheme'],
+	'/company-saas' => [PageController::class, 'companySaaS'],
 ];
 
 // Автоматическая генерация роутов только для файлов внутри папки work (без подпапок)
