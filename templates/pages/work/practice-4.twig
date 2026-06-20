@@ -9,7 +9,14 @@
 		.screenshot-place { display: flex; flex-direction: column; flex-wrap: nowrap; justify-content: center;
 		align-items: center; }
 
-		.screenshot-place img { width: 800px; border: 1px solid #000; }
+		.screenshot-place img {
+			width: 600px;
+			border: 1px solid #000;
+		}
+
+		.screenshot-place .screenshot-table {
+			width: 450px;
+		}
 	</style>
 {% endblock %}
 
@@ -591,7 +598,7 @@ sudo journalctl -u redis-server -n 30</code></pre>
 
 						<div class="screenshot-place">
 							<br>
-							<img src="/images/practice-4/Screenshot-15.png" alt="Скриншот 15">
+							<img class="screenshot-table" src="/images/practice-4/Screenshot-15.png" alt="Скриншот 15">
 							<div class="screenshot-text"><strong>Скриншот 15:</strong> заполненная таблица результата.</div>
 						</div>
 
